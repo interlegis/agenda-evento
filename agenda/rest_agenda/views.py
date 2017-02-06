@@ -1,53 +1,69 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .serializers import *
-from rest_framework import viewsets, status, response, permissions
+from .serializers import UsuarioSerializer
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework import generics
+from .permissions import IsAuthenticatedListCreateUser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
-def index(request):
-    return HttpResponse("Hello World")
-
-class UsuarioViewSet(viewsets.ModelViewSet):
+class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
+    permission_classes = (IsAuthenticatedListCreateUser,)
 
     def create(self, request):
-        serializer =  self.get_serializer(data=request.DATA)
+        serializer = UsuarioSerializer(data=request.DATA)
         if serializer.is_valid():
             try:
                 serializer.save()
                 user = User.objects.filter(username=serializer.data['username'])[0]
                 user.set_password(request.DATA['password'])
                 user.save()
-                return response.Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
             except:
-                return response.Response("Created Error",status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response("Created Error",status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class DadosUsuarioViewVSet(viewsets.ModelViewSet):
+    def get(sefl, request):
+        try:
+            queryset = User.objects.all()
+            serializer = UsuarioSerializer(queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
-    def retrieve(self, request, pk=None):
-        if pk == 'i':
-            return response.Response(UserSerializer(request.user,
-                context={'request':request}).data)
-        return super(UserViewSet, self).retrieve(request, pk)
+    def get(self, request, pk=None):
+        try:
+            if pk == 'i':
+                return Response(UsuarioSerializer(request.user,
+                    context={'request':request}).data)
+            return super(UsuarioDetail, self).retrieve(request, pk)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def list(self, request):
-        return response.Response({"erro": "Metodo nao disponivel para essa url"}, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, pk=None):
+        try:
+            user = User.objects.get(pk=request.user.pk)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def create(self, request):
-        return response.Response({"erro": "Metodo nao disponivel para essa url"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, pk=None):
-        return response.Response({"erro": "Metodo nao disponivel para essa url"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def partial_update(self, request, pk=None):
-        return response.Response({"erro": "Metodo nao disponivel para essa url"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, pk=None):
-        return response.Response({"erro": "Metodo nao disponivel para essa url"}, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, pk=None):
+        try:
+            user = User.objects.get(pk=request.user.pk)
+            serializer = UsuarioSerializer(user, data=request.DATA)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
