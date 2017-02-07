@@ -5,8 +5,6 @@ from rest_framework.response import Response
 from rest_framework import generics
 from .permissions import IsAuthenticatedListCreateUser
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
-from django.shortcuts import get_object_or_404
 
 class UsuarioListCreate(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -18,7 +16,7 @@ class UsuarioListCreate(generics.ListCreateAPIView):
         if serializer.is_valid():
             try:
                 serializer.save()
-                user = User.objects.filter(username=serializer.data['username'])[0]
+                user = User.objects.get(username=serializer.data['username'])
                 user.set_password(request.DATA['password'])
                 user.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -27,7 +25,7 @@ class UsuarioListCreate(generics.ListCreateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(sefl, request):
+    def get(self, request):
         try:
             queryset = User.objects.all()
             serializer = UsuarioSerializer(queryset, many=True)
@@ -42,10 +40,7 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, pk=None):
         try:
-            if pk == 'i':
-                return Response(UsuarioSerializer(request.user,
-                    context={'request':request}).data)
-            return super(UsuarioDetail, self).retrieve(request, pk)
+            return Response(UsuarioSerializer(request.user, context={'request':request}).data)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -63,6 +58,9 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
             serializer = UsuarioSerializer(user, data=request.DATA)
             if serializer.is_valid():
                 serializer.save()
+                user = User.objects.get(username=serializer.data['username'])
+                user.set_password(request.DATA['password'])
+                user.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
