@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     url(r'^api/users/$', views.UsuarioListCreate.as_view()),
     url(r'^api/users/([i-i])/$', views.UsuarioDetail.as_view()),
-    url(r'^api/auth/', obtain_auth_token)
+    url(r'^api/auth/', obtain_auth_token),
+    url(r'^api/evento', views.EventoViewSet.as_view())
 ]
