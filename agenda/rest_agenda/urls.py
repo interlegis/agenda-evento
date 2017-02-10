@@ -7,5 +7,7 @@ urlpatterns = [
     url(r'^api/users/$', views.UsuarioListCreate.as_view()),
     url(r'^api/users/([i-i])/$', views.UsuarioDetail.as_view()),
     url(r'^api/auth/', obtain_auth_token),
-    url(r'^api/evento', views.EventoViewSet.as_view())
+    url(r'^api/pedido/$', views.PedidoViewSet.as_view()),
+    url(r'^api/pedido/(?P<pk>\d+)/$', views.PedidoDetail.as_view()),
+    url(r'^api/pedido/(?P<pk>\d+)/(?P<nome>\w+)/$', views.EventoDetail.as_view())
 ]

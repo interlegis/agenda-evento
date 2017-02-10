@@ -43,4 +43,4 @@ class Pedido(models.Model):
 
     def __unicode__(self):
         return "Pedido %s %s" % (self.id, u"reservado"
-         if is_reserved else u"pre-reserva")
+         if self.is_reserved else u"pre-reserva")
