@@ -4,9 +4,8 @@ from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
 from .permissions import IsAuthenticatedListCreateUser
 from rest_framework.permissions import IsAuthenticated
-from .models import Pedido, Evento
-from .serializers import PedidoEventoSerializer, PedidoSerializer, EventoSerializer
-from django.views.decorators.csrf import csrf_exempt
+from .models import Reserva, Evento
+from .serializers import ReservaEventoSerializer, ReservaSerializer, EventoSerializer
 
 
 class UsuarioListCreate(generics.ListCreateAPIView):
@@ -71,13 +70,13 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class PedidoViewSet(generics.ListCreateAPIView):
-    queryset = Pedido.objects.all()
-    serializer_class = PedidoEventoSerializer
+class ReservaViewSet(generics.ListCreateAPIView):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaEventoSerializer
     permission_classes = (IsAuthenticated,)
 
     def create(self, request):
-        serializer = PedidoEventoSerializer(data=request.data)
+        serializer = ReservaEventoSerializer(data=request.data)
         if serializer.is_valid():
             try:
                 serializer.save(request)
@@ -89,65 +88,86 @@ class PedidoViewSet(generics.ListCreateAPIView):
 
     def get(self, request):
         try:
-            queryset = Pedido.objects.all()
-            serializer = PedidoEventoSerializer(queryset, many=True)
-            return Response(serializer.data)
+            queryset = Reserva.objects.all()
+            serializer = ReservaEventoSerializer(queryset, many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class PedidoDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Pedido.objects.all()
-    serializer_class = PedidoSerializer
+class ReservaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaSerializer
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk):
         try:
-            pedido = Pedido.objects.get(pk=pk)
-            serializer = PedidoSerializer(pedido)
-            return Response(serializer.data)
+            reserva = Reserva.objects.get(pk=pk)
+            serializer = ReservaSerializer(reserva)
+            return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk):
         try:
-            pedido = Pedido.objects.get(pk=pk)
-            pedido.delete()
+            reserva = Reserva.objects.get(pk=pk)
+            reserva.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class ReservaEdit(generics.ListCreateAPIView):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, pk, comando):
         try:
-            pedido = Pedido.objects.get(pk=pk)
-            serializer = PedidoSerializer(pedido, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            reserva = Reserva.objects.get(pk=pk)
+            if comando == 'reservado':
+                reserva.status = u'R'
+                reserva.save()
+            elif comando == 'cancelado':
+                reservado.cancelado = True
+                reserva.save()
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(ReservaSerializer(reserva).data,status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Evento.objects.all()
     serializer_class = EventoSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, pk, nome):
+    def get(self, request, pk):
         try:
-            pedido = Pedido.objects.get(pk=pk)
-            if pedido.evento_fk.nome == nome:
-                serializer = EventoSerializer(pedido.evento_fk)
-                return Response(serializer.data)
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            reserva = Reserva.objects.get(pk=pk)
+            serializer = EventoSerializer(reserva.evento_fk)
+            return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request, pk, nome):
+    def delete(self, request, pk):
         try:
-            pedido = Pedido.objects.get(pk=pk)
-            if pedido.evento_fk.nome == nome:
-                pedido.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
+            reserva = Reserva.objects.get(pk=pk)
+            reserva.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk):
+        try:
+            reserva = Reserva.objects.get(pk=pk)
+            serializer = EventoSerializer(reserva.evento_fk, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
