@@ -116,8 +116,14 @@ class ReservaDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
+        try:
+            reserva = Reserva.objects.get(pk=pk)
+            serializer = ReservaSerializer(reserva, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 class ReservaEdit(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
@@ -131,7 +137,12 @@ class ReservaEdit(generics.ListCreateAPIView):
                 reserva.status = u'R'
                 reserva.save()
             elif comando == 'cancelado':
-                reservado.cancelado = True
+                reserva.status = u'C'
+                reserva.cancelado = True
+                reserva.save()
+            elif comando == 'pre-reserva':
+                reserva.status = u'P'
+                reserva.cancelado = False
                 reserva.save()
             else:
                 return Response(status=status.HTTP_404_NOT_FOUND)
