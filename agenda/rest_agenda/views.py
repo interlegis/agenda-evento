@@ -132,21 +132,20 @@ class ReservaEdit(generics.ListCreateAPIView):
 
     def post(self, request, pk, comando):
         try:
-            reserva = Reserva.objects.get(pk=pk)
-            if comando == 'reservado':
-                reserva.status = u'R'
-                reserva.save()
-            elif comando == 'cancelado':
-                reserva.status = u'C'
-                reserva.cancelado = True
-                reserva.save()
-            elif comando == 'pre-reserva':
-                reserva.status = u'P'
-                reserva.cancelado = False
-                reserva.save()
+            if comando == "prereservado":
+                stats = u'P'
+            elif comando == "reservado":
+                stats = u'R'
             else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-            return Response(ReservaSerializer(reserva).data,status=status.HTTP_200_OK)
+                stats = u'C'
+
+            reserva = Reserva.objects.get(pk=pk)
+            request.data['status'] = stats
+            serializer = ReservaSerializer(reserva,
+                                           data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
