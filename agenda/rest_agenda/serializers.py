@@ -25,6 +25,36 @@ class EventoSerializer(serializers.ModelSerializer):
         fields = ('nome', 'descricao', 'local', 'data_inicio', 'data_fim',
                   'legislativo','observacao','cancelado','responsavel_fk',)
 
+    def update(self, instance, validated_data):
+        responsavel_data = validated_data.pop('responsavel_fk')
+        responsavel = instance.responsavel_fk
+
+        instance.nome = validated_data.get('nome', instance.nome)
+        instance.descricao = validated_data.get('descricao',
+                                                instance.descricao)
+        instance.local = validated_data.get('local', instance.local)
+        instance.data_inicio = validated_data.get('data_inicio',
+                                                  instance.data_inicio)
+        instance.data_fim = validated_data.get('data_fim',
+                                               instance.data_fim)
+        instance.legislativo = validated_data.get('legislativo',
+                                                  instance.legislativo)
+        instance.observacao = validated_data.get('observacao',
+                                                  instance.observacao)
+        instance.cancelado = validated_data.get('cancelado',
+                                                  instance.cancelado)
+        instance.save()
+
+        responsavel.nome = responsavel_data.get('nome', responsavel.nome)
+        responsavel.email = responsavel_data.get('email', responsavel.email)
+        responsavel.telefone = responsavel_data.get('telefone',
+                                                    responsavel.telefone)
+        responsavel.lotacao = responsavel_data.get('lotacao',
+                                                   responsavel.lotacao)
+        responsavel.save()
+
+        return instance
+
 class ReservaEventoSerializer(serializers.ModelSerializer):
     evento_fk = EventoSerializer()
     class Meta:

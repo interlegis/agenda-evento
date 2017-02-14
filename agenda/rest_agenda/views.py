@@ -171,14 +171,3 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-    def put(self, request, pk):
-        try:
-            reserva = Reserva.objects.get(pk=pk)
-            serializer = EventoSerializer(reserva.evento_fk, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data,status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)

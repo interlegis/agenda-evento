@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^api/auth/', obtain_auth_token),
     url(r'^api/pedido/$', views.ReservaViewSet.as_view()),
     url(r'^api/pedido/(?P<pk>\d+)/$', views.ReservaDetail.as_view()),
-    url(r'^api/pedido/(?P<pk>\d+)/$', views.ReservaDetail.as_view()),
-    url(r'^api/pedido/(?P<pk>\d+)/(?P<comando>\w+)/$', views.ReservaEdit.as_view()),
-    url(r'^api/pedido/(?P<pk>\d+)/evento/$', views.EventoDetail.as_view())
+    url(r'^api/pedido/(?P<pk>\d+)/evento/$', views.EventoDetail.as_view()),
+    url(r'^api/pedido/(?P<pk>\d+)/(?P<comando>\w+)/$',
+        views.ReservaEdit.as_view())
 ]
