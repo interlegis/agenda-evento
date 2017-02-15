@@ -6,6 +6,7 @@ from .permissions import IsAuthenticatedListCreateUser
 from rest_framework.permissions import IsAuthenticated
 from .models import Reserva, Evento
 from .serializers import ReservaEventoSerializer, ReservaSerializer, EventoSerializer
+import datetime
 
 
 class UsuarioListCreate(generics.ListCreateAPIView):
@@ -132,17 +133,15 @@ class ReservaEdit(generics.ListCreateAPIView):
 
     def post(self, request, pk, comando):
         try:
-            if comando == "prereservado":
-                stats = u'P'
-            elif comando == "reservado":
-                stats = u'R'
-            else:
-                stats = u'C'
-
             reserva = Reserva.objects.get(pk=pk)
-            request.data['status'] = stats
-            serializer = ReservaSerializer(reserva,
-                                           data=request.data)
+            if comando == "prereservado":
+                request.data['status'] = u'P'
+            elif comando == "reservado":
+                request.data['status'] = u'R'
+            elif comenado == "cancelado":
+                request.data['status'] = u'C'
+            request.data['data_modificacao'] = datetime.datetime.now()
+            serializer = ReservaSerializer(reserva, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
@@ -158,7 +157,7 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
-            serializer = EventoSerializer(reserva.evento_fk)
+            serializer = EventoSerializer(reserva.evento)
             return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)

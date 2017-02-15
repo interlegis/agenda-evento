@@ -10,6 +10,6 @@ urlpatterns = [
     url(r'^api/pedido/$', views.ReservaViewSet.as_view()),
     url(r'^api/pedido/(?P<pk>\d+)/$', views.ReservaDetail.as_view()),
     url(r'^api/pedido/(?P<pk>\d+)/evento/$', views.EventoDetail.as_view()),
-    url(r'^api/pedido/(?P<pk>\d+)/(?P<comando>\w+)/$',
+    url(r'^api/pedido/(?P<pk>\d+)/edit/(?P<comando>\w+)/$',
         views.ReservaEdit.as_view())
 ]
