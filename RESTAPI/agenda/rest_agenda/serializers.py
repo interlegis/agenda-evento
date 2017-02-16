@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
+from .utils import add_dias_uteis
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,7 +27,7 @@ class EventoSerializer(serializers.ModelSerializer):
         model = Evento
         fields = ('nome', 'descricao', 'local', 'data_inicio','hora_inicio',
                   'data_fim', 'hora_fim', 'legislativo','observacao',
-                  'cancelado','publicado_agenda','video_conferencia','responsavel',)
+                  'cancelado','causa_cancelamento','publicado_agenda','video_conferencia','responsavel',)
         read_only_fields = ('publicado_agenda',)
 
     def update(self, instance, validated_data):
@@ -89,6 +90,7 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
         evento =  Evento.objects.create(responsavel=responsavel,**evento_data)
         ano = str(datetime.datetime.now().year)
         nr_referencia = str(random.randrange(0, 1000000,5)) + '/' + ano
+        validade = add_dias_uteis(datetime.datetime.now().date(),5)
         if evento_data['local'] == u'SR' and request.user.groups.filter(name='primeira_secretaria').exists():
             if evento_data['video_conferencia'] is True:
                 pass
@@ -97,8 +99,10 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
             status = u'P'
         reserva = Reserva.objects.create(evento=evento,usario=request.user,
                                          nr_referencia=nr_referencia, ano=ano,
-                                         status=status)
+                                         status=status,validade_pre_reserva=validade)
         return evento
+
+
 
 class ReservaSerializer(serializers.ModelSerializer):
     class Meta:

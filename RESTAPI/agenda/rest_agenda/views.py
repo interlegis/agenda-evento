@@ -136,10 +136,15 @@ class ReservaEdit(generics.ListCreateAPIView):
             reserva = Reserva.objects.get(pk=pk)
             if comando == "prereservado":
                 request.data['status'] = u'P'
-            elif comando == "reservado":
-                request.data['status'] = u'R'
             elif comenado == "cancelado":
                 request.data['status'] = u'C'
+            elif comenado == "impedido":
+                request.data['status'] = u'I'
+                #send email
+            elif comando == "reservado" and datetime.datetime.now().date() < reserva.validade_pre_reserva:
+                request.data['status'] = u'R'
+            else:
+                return Response({"message": "Reserva fora do prazo de validade"},status=status.HTTP_404_NOT_FOUND)
             request.data['data_modificacao'] = datetime.datetime.now()
             serializer = ReservaSerializer(reserva, data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -165,6 +170,10 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
+            if reserva.evento.publicado_agenda:
+                pass
+                #nova agenda
+            #email
             reserva.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:

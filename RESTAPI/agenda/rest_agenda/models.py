@@ -49,6 +49,7 @@ class Reserva(models.Model):
         (u'P', u"Pre-reserva"),
         (u'R', u"Reservado"),
         (u'C', u"Cancelado"),
+        (u'I', u"Impedido"),
     )
     data_criacao = models.DateTimeField(
         blank=False,
@@ -64,6 +65,7 @@ class Reserva(models.Model):
                                             null=False)
     nr_referencia = models.CharField(blank=True, max_length=50)
     ano = models.CharField(blank=True, max_length=4)
+    validade_pre_reserva = models.DateField(blank=True, null=False)
     recebido = models.BooleanField(default=False)
 
     class Meta:
