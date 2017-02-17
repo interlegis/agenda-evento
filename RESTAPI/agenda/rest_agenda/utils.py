@@ -2,13 +2,13 @@ import datetime
 from .models import Reserva
 
 
-def add_dias_uteis(data_atual, add_dias):
-    while add_dias > 0:
-        data_atual += datetime.timedelta(days=1)
+def dias_uteis(data_atual, dias, plus_minus):
+    while dias > 0:
+        data_atual += datetime.timedelta(days=plus_minus)
         dia_semana = data_atual.weekday()
         if dia_semana >= 5:
             continue
-        add_dias -= 1
+        dias -= 1
     return data_atual
 
 

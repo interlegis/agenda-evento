@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^api/pedido/(?P<pk>\d+)/$', views.ReservaDetail.as_view()),
     url(r'^api/pedido/(?P<pk>\d+)/evento/$', views.EventoDetail.as_view()),
     url(r'^api/pedido/(?P<pk>\d+)/edit/(?P<comando>\w+)/$',
-        views.ReservaEdit.as_view())
+        views.ReservaEdit.as_view()),
+    url(r'^api/agenda', views.AgendaView.as_view())
 ]

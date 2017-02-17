@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
-from .utils import add_dias_uteis
+from .utils import dias_uteis
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,7 +27,8 @@ class EventoSerializer(serializers.ModelSerializer):
         model = Evento
         fields = ('nome', 'descricao', 'local', 'data_inicio','hora_inicio',
                   'data_fim', 'hora_fim', 'legislativo','observacao',
-                  'cancelado','causa_cancelamento','publicado_agenda','video_conferencia','responsavel',)
+                  'cancelado','causa_cancelamento','publicado_agenda',
+                  'video_conferencia','responsavel',)
         read_only_fields = ('publicado_agenda',)
 
     def update(self, instance, validated_data):
@@ -38,6 +39,9 @@ class EventoSerializer(serializers.ModelSerializer):
         instance.descricao = validated_data.get('descricao',
                                                 instance.descricao)
         instance.local = validated_data.get('local', instance.local)
+        if instance.publicado_agenda is True:
+            if validated_data.get('data_inicio') > dias_uteis(validated_data.get('data_inicio'),3,-1):
+                raise serializers.ValidationError('Data com antecedencia menor que 3 dias uteis')
         instance.data_inicio = validated_data.get('data_inicio',
                                                   instance.data_inicio)
         instance.hora_inicio = validated_data.get('hora_inicio',
@@ -54,6 +58,8 @@ class EventoSerializer(serializers.ModelSerializer):
                                                   instance.cancelado)
         instance.video_conferencia = validated_data.get('video_conferencia',
                                                   instance.video_conferencia)
+        instance.causa_cancelamento = validated_data.get('causa_cancelamento',
+                                                  instance.causa_cancelamento)
         instance.save()
 
         responsavel.nome = responsavel_data.get('nome', responsavel.nome)
@@ -90,7 +96,7 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
         evento =  Evento.objects.create(responsavel=responsavel,**evento_data)
         ano = str(datetime.datetime.now().year)
         nr_referencia = str(random.randrange(0, 1000000,5)) + '/' + ano
-        validade = add_dias_uteis(datetime.datetime.now().date(),5)
+        validade = dias_uteis(datetime.datetime.now().date(),5,1)
         if evento_data['local'] == u'SR' and request.user.groups.filter(name='primeira_secretaria').exists():
             if evento_data['video_conferencia'] is True:
                 pass
@@ -99,7 +105,8 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
             status = u'P'
         reserva = Reserva.objects.create(evento=evento,usario=request.user,
                                          nr_referencia=nr_referencia, ano=ano,
-                                         status=status,validade_pre_reserva=validade)
+                                         status=status,
+                                         validade_pre_reserva=validade)
         return evento
 
 

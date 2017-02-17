@@ -3,7 +3,7 @@ from .serializers import UsuarioSerializer
 from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
 from .permissions import IsAuthenticatedListCreateUser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Reserva, Evento
 from .serializers import ReservaEventoSerializer, ReservaSerializer, EventoSerializer
 import datetime
@@ -117,14 +117,7 @@ class ReservaDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
-        try:
-            reserva = Reserva.objects.get(pk=pk)
-            serializer = ReservaSerializer(reserva, data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 class ReservaEdit(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
@@ -141,8 +134,10 @@ class ReservaEdit(generics.ListCreateAPIView):
             elif comenado == "impedido":
                 request.data['status'] = u'I'
                 #send email
-            elif comando == "reservado" and datetime.datetime.now().date() < reserva.validade_pre_reserva:
+            elif comenado == "reservado":
                 request.data['status'] = u'R'
+            elif comando == "recebido" and datetime.datetime.now().date() < reserva.validade_pre_reserva:
+                request.data['recebido'] = True
             else:
                 return Response({"message": "Reserva fora do prazo de validade"},status=status.HTTP_404_NOT_FOUND)
             request.data['data_modificacao'] = datetime.datetime.now()
@@ -178,3 +173,16 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class AgendaView(generics.ListAPIView):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaEventoSerializer
+    permission_classes = (AllowAny,)
+
+    def list(self, request, *args, **kwargs):
+        data_incio = datetime.datetime.now().date()
+        data_fim = data_incio + datetime.timedelta(days=7)
+        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_incio,data_fim))
+        serializer = ReservaEventoSerializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
