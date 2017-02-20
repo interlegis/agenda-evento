@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
-from .utils import dias_uteis
+from .utils import dias_uteis, check_datas
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,6 +60,8 @@ class EventoSerializer(serializers.ModelSerializer):
                                                   instance.video_conferencia)
         instance.causa_cancelamento = validated_data.get('causa_cancelamento',
                                                   instance.causa_cancelamento)
+        conflito_datas = check_datas(instance.data_inicio,instance.data_fim,
+                                     instance.hora_inicio,instance.hora_fim)
         instance.save()
 
         responsavel.nome = responsavel_data.get('nome', responsavel.nome)

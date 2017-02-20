@@ -6,7 +6,9 @@ from .permissions import IsAuthenticatedListCreateUser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Reserva, Evento
 from .serializers import ReservaEventoSerializer, ReservaSerializer, EventoSerializer
+from .utils import check_datas
 import datetime
+
 
 
 class UsuarioListCreate(generics.ListCreateAPIView):
@@ -80,8 +82,12 @@ class ReservaViewSet(generics.ListCreateAPIView):
         serializer = ReservaEventoSerializer(data=request.data)
         if serializer.is_valid():
             try:
+                aviso = check_datas(serializer.data['evento']['data_inicio'],
+                                    serializer.data['evento']['data_fim'],
+                                    serializer.data['evento']['hora_inicio'],
+                                    serializer.data['evento']['hora_fim'])
                 serializer.save(request)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response({'Reserva-Evento': serializer.data, 'avisos': aviso}, status=status.HTTP_201_CREATED)
             except:
                 return Response(serializer.errors,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
@@ -138,8 +144,10 @@ class ReservaEdit(generics.ListCreateAPIView):
                 request.data['status'] = u'R'
             elif comando == "recebido" and datetime.datetime.now().date() < reserva.validade_pre_reserva:
                 request.data['recebido'] = True
+            elif comando == "recebido" and datetime.datetime.now().date() > reserva.validade_pre_reserva:
+                request.data['status'] = u'I'
             else:
-                return Response({"message": "Reserva fora do prazo de validade"},status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": "Comando nao e valido"},status=status.HTTP_404_NOT_FOUND)
             request.data['data_modificacao'] = datetime.datetime.now()
             serializer = ReservaSerializer(reserva, data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -181,8 +189,8 @@ class AgendaView(generics.ListAPIView):
     permission_classes = (AllowAny,)
 
     def list(self, request, *args, **kwargs):
-        data_incio = datetime.datetime.now().date()
-        data_fim = data_incio + datetime.timedelta(days=7)
-        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_incio,data_fim))
+        data_inicio = datetime.datetime.now().date()
+        data_fim = data_inicio + datetime.timedelta(days=7)
+        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim))
         serializer = ReservaEventoSerializer(queryset, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
