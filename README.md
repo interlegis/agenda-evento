@@ -11,9 +11,9 @@ There are two methods for getting started with this repo:
 Checkout this repo, install dependencies, then start the gulp process with the following:
 
 ```
-	> git clone git@github.com:swallville/Calendario_Eventos.git
+	> git clone git@github.com:interlegis/agenda-evento.git
 	> cd Calendario_Eventos
 ```
 
 ####Not Familiar with Git?#####
-Click [here](https://github.com/swallville/Calendario_Eventos) then download the .zip file.
+Click [here](https://github.com/interlegis/agenda-evento/archive/master.zip) then download the .zip file.
