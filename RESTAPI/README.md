@@ -11,7 +11,7 @@ There are two methods for getting started with this repo:
 Checkout this repo, install dependencies, then start the gulp process with the following:
 
 ```
-	> git clone git@github.com:interlegis/agenda-evento.git
+	> git clone https://github.com/interlegis/agenda-evento.git
 	> cd Calendario_Eventos
 ```
 
