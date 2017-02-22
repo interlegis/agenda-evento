@@ -135,26 +135,26 @@ class ReservaEdit(generics.ListCreateAPIView):
             reserva = Reserva.objects.get(pk=pk)
             if comando == "prereservado":
                 request.data['status'] = u'P'
-            elif comenado == "cancelado":
+            elif comando == "cancelado":
                 request.data['status'] = u'C'
-            elif comenado == "impedido":
+            elif comando == "impedido":
                 request.data['status'] = u'I'
                 #send email
-            elif comenado == "reservado":
+            elif comando == "reservado":
                 request.data['status'] = u'R'
             elif comando == "recebido" and datetime.datetime.now().date() < reserva.validade_pre_reserva:
                 request.data['recebido'] = True
             elif comando == "recebido" and datetime.datetime.now().date() > reserva.validade_pre_reserva:
                 request.data['status'] = u'I'
             else:
-                return Response({"message": "Comando nao e valido"},status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": "Comando nao e valido"}, status=status.HTTP_404_NOT_FOUND)
             request.data['data_modificacao'] = datetime.datetime.now()
             serializer = ReservaSerializer(reserva, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
         except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Registro inexistente"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
