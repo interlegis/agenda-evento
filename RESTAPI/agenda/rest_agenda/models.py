@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
+from django.utils import timezone
 
 class Responsavel(models.Model):
     nome = models.CharField(blank=True, max_length=100)
@@ -53,7 +54,7 @@ class Reserva(models.Model):
     )
     data_criacao = models.DateTimeField(
         blank=False,
-        default=datetime.datetime.now,
+        default=timezone.now(),
         null=False
     )
     evento = models.ForeignKey(Evento, verbose_name=u'Evento',

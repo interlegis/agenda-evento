@@ -23,3 +23,19 @@ def check_datas(data_inicio,data_fim,hora_inicio,hora_fim):
        Reserva.objects.filter(evento__data_fim=data_fim,evento__hora_inicio__lte=hora_fim):
         aviso['ConflitoHorario'] = 'Existe evento(s) com conflito de horario, aguarde confirmacao'
     return aviso
+
+def checkEventoDatas(evento_data):
+    data_inicio = evento_data['data_inicio']
+    data_fim = evento_data['data_fim']
+    hora_inicio = evento_data['hora_inicio']
+    hora_fim = evento_data['hora_fim']
+    if Reserva.objects.filter(evento__data_inicio=data_inicio,status=u'R'):
+        return False
+    if Reserva.objects.filter(evento__data_fim=data_fim,status=u'R'):
+        return False
+    if Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim),status=u'R'):
+        return False
+    if Reserva.objects.filter(evento__data_inicio=data_inicio,evento__hora_inicio__gte=hora_inicio,status=u'R') or \
+       Reserva.objects.filter(evento__data_fim=data_fim,evento__hora_inicio__lte=hora_fim,status=u'R'):
+       return False
+    return True

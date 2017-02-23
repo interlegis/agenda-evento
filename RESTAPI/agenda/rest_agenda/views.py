@@ -191,6 +191,6 @@ class AgendaView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         data_inicio = datetime.datetime.now().date()
         data_fim = data_inicio + datetime.timedelta(days=7)
-        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim))
+        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim),status=u'R')
         serializer = ReservaEventoSerializer(queryset, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

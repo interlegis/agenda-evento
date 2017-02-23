@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
-from .utils import dias_uteis, check_datas
+from .utils import dias_uteis, checkEventoDatas
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,8 +60,6 @@ class EventoSerializer(serializers.ModelSerializer):
                                                   instance.video_conferencia)
         instance.causa_cancelamento = validated_data.get('causa_cancelamento',
                                                   instance.causa_cancelamento)
-        conflito_datas = check_datas(instance.data_inicio,instance.data_fim,
-                                     instance.hora_inicio,instance.hora_fim)
         instance.save()
 
         responsavel.nome = responsavel_data.get('nome', responsavel.nome)
@@ -94,6 +92,8 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
 
     def save(self, request, **kwargs):
         evento_data = self.data.pop('evento')
+        if not checkEventoDatas(evento_data):
+            raise serializers.ValidationError('Eventos ja reservados nesse periodo')
         responsavel = Responsavel.objects.create(**evento_data.pop('responsavel'))
         evento =  Evento.objects.create(responsavel=responsavel,**evento_data)
         ano = str(datetime.datetime.now().year)
