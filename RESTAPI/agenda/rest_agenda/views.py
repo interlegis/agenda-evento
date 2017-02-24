@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from .permissions import IsAuthenticatedListCreateUser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Reserva, Evento
-from .serializers import ReservaEventoSerializer, ReservaSerializer, EventoSerializer
-from .utils import check_datas
+from .serializers import (ReservaEventoSerializer, ReservaSerializer,
+                         EventoSerializer)
+from .utils import check_datas, checkEventoDatas
 import datetime
 
 
@@ -26,9 +27,11 @@ class UsuarioListCreate(generics.ListCreateAPIView):
                 user.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except:
-                return Response("Created Error",status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response("Created Error",
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         try:
@@ -46,7 +49,9 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, pk=None):
         try:
-            return Response(UsuarioSerializer(request.user, context={'request':request}).data)
+            return Response(UsuarioSerializer(request.user,
+                            context={'request':request}).data,
+                            status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -67,8 +72,9 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
                 user = User.objects.get(username=serializer.data['username'])
                 user.set_password(request.data['password'])
                 user.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -82,16 +88,25 @@ class ReservaViewSet(generics.ListCreateAPIView):
         serializer = ReservaEventoSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                aviso = check_datas(serializer.data['evento']['data_inicio'],
-                                    serializer.data['evento']['data_fim'],
-                                    serializer.data['evento']['hora_inicio'],
-                                    serializer.data['evento']['hora_fim'])
-                serializer.save(request)
-                return Response({'Reserva-Evento': serializer.data, 'avisos': aviso}, status=status.HTTP_201_CREATED)
+                if checkEventoDatas(serializer.data['evento']):
+                    aviso = check_datas(serializer.data['evento']['data_inicio'],
+                                        serializer.data['evento']['data_fim'],
+                                        serializer.data['evento']['hora_inicio'],
+                                        serializer.data['evento']['hora_fim'])
+                    serializer.save(request)
+                    return Response({'Reserva-Evento': serializer.data,
+                                    'avisos': aviso},
+                                    status=status.HTTP_201_CREATED)
+                else:
+                    return Response({'mensagem-erro' : 'Ja existem eventos \
+                                    reservados nessa data ou horario'},
+                                    status=status.HTTP_400_BAD_REQUEST)
             except:
-                return Response(serializer.errors,status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response(serializer.errors,
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         try:
@@ -142,19 +157,23 @@ class ReservaEdit(generics.ListCreateAPIView):
                 #send email
             elif comando == "reservado":
                 request.data['status'] = u'R'
-            elif comando == "recebido" and datetime.datetime.now().date() < reserva.validade_pre_reserva:
+            elif comando == "recebido" and datetime.datetime.now().date() < \
+                 reserva.validade_pre_reserva:
                 request.data['recebido'] = True
-            elif comando == "recebido" and datetime.datetime.now().date() > reserva.validade_pre_reserva:
+            elif comando == "recebido" and datetime.datetime.now().date() > \
+                 reserva.validade_pre_reserva:
                 request.data['status'] = u'I'
             else:
-                return Response({"message": "Comando nao e valido"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": "Comando nao e valido"},
+                                status=status.HTTP_404_NOT_FOUND)
             request.data['data_modificacao'] = datetime.datetime.now()
             serializer = ReservaSerializer(reserva, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
         except:
-            return Response({"message": "Registro inexistente"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Registro inexistente"},
+                            status=status.HTTP_404_NOT_FOUND)
 
 
 class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -191,6 +210,8 @@ class AgendaView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         data_inicio = datetime.datetime.now().date()
         data_fim = data_inicio + datetime.timedelta(days=7)
-        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim),status=u'R')
+        queryset = Reserva.objects.filter(evento__data_inicio__range=(data_inicio,
+                                                                      data_fim),
+                                          status=u'R')
         serializer = ReservaEventoSerializer(queryset, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

@@ -40,8 +40,10 @@ class EventoSerializer(serializers.ModelSerializer):
                                                 instance.descricao)
         instance.local = validated_data.get('local', instance.local)
         if instance.publicado_agenda is True:
-            if validated_data.get('data_inicio') > dias_uteis(validated_data.get('data_inicio'),3,-1):
-                raise serializers.ValidationError('Data com antecedencia menor que 3 dias uteis')
+            if validated_data.get('data_inicio') > \
+               dias_uteis(validated_data.get('data_inicio'),3,-1):
+                raise serializers.ValidationError('Data com antecedencia menor \
+                                                  que 3 dias uteis')
         instance.data_inicio = validated_data.get('data_inicio',
                                                   instance.data_inicio)
         instance.hora_inicio = validated_data.get('hora_inicio',
@@ -74,12 +76,15 @@ class EventoSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['data_inicio'] < datetime.datetime.now().date():
-            raise serializers.ValidationError('Data de inicio deve ser maior igual a de hoje')
+            raise serializers.ValidationError('Data de inicio deve ser maior \
+            igual a de hoje')
         elif attrs['data_fim'] < attrs['data_inicio']:
-            raise serializers.ValidationError('Data final deve maior igual a data de inicio')
+            raise serializers.ValidationError('Data final deve maior igual \
+            a data de inicio')
         elif attrs['data_inicio'] == attrs['data_fim']:
             if attrs['hora_fim'] < attrs['hora_inicio']:
-                raise serializers.ValidationError('Evento no mesmo dia, horas final tem que ser maior')
+                raise serializers.ValidationError('Evento no mesmo dia, horas \
+                final tem que ser maior')
         return attrs
 
 
@@ -93,19 +98,21 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
     def save(self, request, **kwargs):
         evento_data = self.data.pop('evento')
         if not checkEventoDatas(evento_data):
-            raise serializers.ValidationError('Eventos ja reservados nesse periodo')
+            raise serializers.ValidationError('Eventos ja reservados nesse \
+            periodo')
         responsavel = Responsavel.objects.create(**evento_data.pop('responsavel'))
         evento =  Evento.objects.create(responsavel=responsavel,**evento_data)
         ano = str(datetime.datetime.now().year)
         nr_referencia = str(random.randrange(0, 1000000,5)) + '/' + ano
         validade = dias_uteis(datetime.datetime.now().date(),5,1)
-        if evento_data['local'] == u'SR' and request.user.groups.filter(name='primeira_secretaria').exists():
+        if evento_data['local'] == u'SR' and \
+           request.user.groups.filter(name='primeira_secretaria').exists():
             if evento_data['video_conferencia'] is True:
                 pass
             status = u'R'
         else:
             status = u'P'
-        reserva = Reserva.objects.create(evento=evento,usario=request.user,
+        reserva = Reserva.objects.create(evento=evento,usuario=request.user,
                                          nr_referencia=nr_referencia, ano=ano,
                                          status=status,
                                          validade_pre_reserva=validade)

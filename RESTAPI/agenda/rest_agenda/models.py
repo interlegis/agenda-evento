@@ -59,7 +59,7 @@ class Reserva(models.Model):
     )
     evento = models.ForeignKey(Evento, verbose_name=u'Evento',
                                   on_delete=models.CASCADE)
-    usario = models.ForeignKey(User, verbose_name=u'Responsavel-Reserva')
+    usuario = models.ForeignKey(User, verbose_name=u'Responsavel-Reserva')
     status = models.CharField(blank=False, max_length=100, choices=STATUS,
                              null=False,default='P')
     data_modificacao = models.DateTimeField(blank=False, auto_now=True,
