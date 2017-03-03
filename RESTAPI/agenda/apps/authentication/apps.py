@@ -1,7 +1,8 @@
 from django.apps import AppConfig
 
-class RestAgendaConfig(AppConfig):
-    name ='rest_agenda'
+
+class AuthenticationConfig(AppConfig):
+    name ='apps.authentication'
 
     def ready(self):
         from . import signals

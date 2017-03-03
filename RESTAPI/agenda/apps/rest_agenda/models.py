@@ -16,6 +16,7 @@ class Responsavel(models.Model):
     def __unicode__(self):
         return "Responsavel %s" % self.nome
 
+
 class Evento(models.Model):
     LOCAIS = (
         (u'SR', u"Sala de Reunioes"),
@@ -44,6 +45,7 @@ class Evento(models.Model):
 
     def __unicode__(self):
         return "Evento %s %s" % (self.nome, self.local)
+
 
 class Reserva(models.Model):
     STATUS = (

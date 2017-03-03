@@ -29,9 +29,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
-    'rest_agenda.apps.RestAgendaConfig',
+    'apps.rest_agenda',
+    'apps.authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

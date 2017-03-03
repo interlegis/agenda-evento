@@ -1,18 +1,8 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
 from .utils import dias_uteis, checkEventoDatas
-
-class UsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username', 'password', 'first_name', 'last_name'
-                  , 'is_superuser', 'email', 'is_staff',)
-        extra_kwargs = {'password': {'write_only': True},
-                        'is_superuser': {'write_only': True},
-                        'is_staff': {'write_only': True}}
 
 
 class ResponsavelSerializer(serializers.ModelSerializer):
@@ -42,8 +32,7 @@ class EventoSerializer(serializers.ModelSerializer):
         if instance.publicado_agenda is True:
             if validated_data.get('data_inicio') > \
                dias_uteis(validated_data.get('data_inicio'),3,-1):
-                raise serializers.ValidationError('Data com antecedencia menor \
-                                                  que 3 dias uteis')
+                raise serializers.ValidationError('Data com antecedencia menor que 3 dias uteis')
         instance.data_inicio = validated_data.get('data_inicio',
                                                   instance.data_inicio)
         instance.hora_inicio = validated_data.get('hora_inicio',
@@ -58,6 +47,8 @@ class EventoSerializer(serializers.ModelSerializer):
                                                   instance.observacao)
         instance.cancelado = validated_data.get('cancelado',
                                                   instance.cancelado)
+        instance.publicado_agenda = validated_data.get('publicado_agenda',
+                                                  instance.publicado_agenda)
         instance.video_conferencia = validated_data.get('video_conferencia',
                                                   instance.video_conferencia)
         instance.causa_cancelamento = validated_data.get('causa_cancelamento',
@@ -117,7 +108,6 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
                                          status=status,
                                          validade_pre_reserva=validade)
         return evento
-
 
 
 class ReservaSerializer(serializers.ModelSerializer):

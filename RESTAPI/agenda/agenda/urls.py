@@ -3,5 +3,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('rest_agenda.urls')),
+    url(r'^', include('apps.rest_agenda.urls')),
+    url(r'^', include('apps.authentication.urls')),
 ]
