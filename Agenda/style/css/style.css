@@ -1,0 +1,33 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+.navbar-default {
+  background-color: #25528c;
+  border-color: #1a3a64;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: white;
+}
+
+navbar-default .navbar-nav>li>a:active {
+  color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+  color: white;
+}
+
+.navbar-brand>img {
+  height: 40px;
+  margin-top: -10px;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+    color: white;
+    background-color: #1a3a64;
+}
+
+.main-div {
+  margin-top: 5%;
+}
