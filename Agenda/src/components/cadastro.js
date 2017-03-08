@@ -1,8 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
+import { Link } from 'react-router';
+import _ from 'lodash';
 import * as actions from '../actions';
 
+const FIELDS = {
+  primeiro_nome: {
+    type:'text',
+    titulo:'Primeiro Nome:',
+    label:'seu primeiro nome'
+  },
+  ultimo_nome: {
+    type:'text',
+    titulo:'Sobrenome:',
+    label:'seu sobrenome'
+  },
+  usuario: {
+    type:'text',
+    titulo:'Usuario:',
+    label:'o nome do usuario'
+  },
+  email: {
+    type:'email',
+    titulo:'Email:',
+    label:'o email'
+  },
+  senha: {
+    type:'password',
+    titulo:'Senha:',
+    label:'sua senha'
+  },
+};
+
 class Cadastro extends Component{
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
+
+  static propTypes = {
+      fields: PropTypes.object.isRequired,
+      handleSubmit: PropTypes.func.isRequired,
+      resetForm: PropTypes.func.isRequired,
+      submitting: PropTypes.bool.isRequired
+  };
+
   handleSubmitForm(formProps){
     console.log(formProps);
     this.props.cadastroUsuario(formProps);
@@ -18,64 +59,58 @@ class Cadastro extends Component{
     }
   }
 
+  renderField(fieldConfig, field){
+    const fieldHelper = this.props.fields[field];
+
+    return(
+      <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+        <label>{fieldConfig.titulo}</label>
+        <input className="form-control" {...fieldHelper} type={fieldConfig.type}
+        placeholder={`Coloque ${fieldConfig.label}`}/>
+        {fieldHelper.touched && fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
+      </fieldset>
+    );
+  }
+
   render(){
-    const { handleSubmit, fields: { first_name ,last_name ,username ,email, password }} = this.props;
+    const { error, handleSubmit, pristine, resetForm, submitting,
+      fields: { primeiro_nome ,ultimo_nome ,usuario ,email, senha }} = this.props;
 
     return(
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
-        <fieldset className="form-group">
-          <label>Primeiro Nome:</label>
-          <input className="form-control" {...first_name} type="text"/>
-          {first_name.touched && first_name.error && <div className="error">{first_name.error}</div>}
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Sobrenome:</label>
-          <input className="form-control" {...last_name} type="text"/>
-          {last_name.touched && last_name.error && <div className="error">{last_name.error}</div>}
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Usuario:</label>
-          <input className="form-control" {...username} type="text"/>
-          {username.touched && username.error && <div className="error">{username.error}</div>}
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <input className="form-control" {...email} type="email"/>
-          {email.touched && email.error && <div className="error">{email.error}</div>}
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Senha:</label>
-          <input className="form-control" {...password} type="password"/>
-          {password.touched && password.error && <div className="error">{password.error}</div>}
-        </fieldset>
+        {_.map(FIELDS, this.renderField.bind(this))}
         {this.renderAlert()}
-        <button action="submit" className="btn btn-primary" onClick={() => console.log('oi')}>Cadastre-se</button>
+        <div className="btn-group" role="group">
+            <button type="submit" disabled={submitting}
+              className={((primeiro_nome.touched && primeiro_nome.invalid) ||
+                (ultimo_nome.touched && ultimo_nome.invalid) ||
+                (usuario.touched && usuario.invalid) ||
+                (email.touched && email.invalid) ||
+                (senha.touched && senha.invalid)) ?
+                 "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
+                Cadastre-se
+            </button>
+            <button type="button" className="btn btn-default btn-md"
+              disabled={pristine || submitting} onClick={resetForm}>
+              Limpar
+            </button>
+          </div>
+          <Link to="/" className="btn btn-danger btn-md" role="button">
+            Cancelar
+          </Link>
       </form>
     );
   }
 }
 
-function validate(formProps){
+function validate(values) {
   const errors = {};
-  if (!formProps.first_name) {
-    errors.first_name = 'Por favor, insira seu primeiro nome';
-  }
 
-  if (!formProps.last_name) {
-    errors.last_name = 'Por favor, insira seu sobrenome';
-  }
-
-  if (!formProps.username) {
-    errors.username = 'Por favor, insira o nome de usuario';
-  }
-
-  if (!formProps.email) {
-    errors.email = 'Por favor, insira o email';
-  }
-
-  if (!formProps.password) {
-    errors.password = 'Por favor, insira sua senha';
-  }
+  _.each(FIELDS, (type, field) => {
+    if (!values[field]) {
+      errors[field] = `Por favor, insira ${type.label}...`;
+    }
+  });
   return errors;
 }
 
@@ -85,6 +120,6 @@ function mapStateToProps(state) {
 
 export default reduxForm({
   form: 'cadastro',
-  fields: [ 'first_name','last_name', 'email','username', 'password' ],
+  fields: _.keys(FIELDS),
   validate
 }, mapStateToProps, actions)(Cadastro);
