@@ -26,8 +26,8 @@ class Navbar extends Component {
     return (
       <ul className="nav navbar-nav">
         <li><Link to="">Agenda</Link></li>
-        <li><Link to="">Pedidos</Link></li>
-        <li><Link to="">Novo Evento</Link></li>
+        <li><Link to="/pedidos">Meus Pedidos</Link></li>
+        <li><Link to="/novoEvento">Novo Evento</Link></li>
         <li className ="dropdown navbar-right">
             <Link to="" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil<span className="caret"></span></Link>
             <ul className="dropdown-menu">

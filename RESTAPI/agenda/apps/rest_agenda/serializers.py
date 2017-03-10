@@ -83,8 +83,8 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
     evento = EventoSerializer()
     class Meta:
         model = Reserva
-        fields = ('id','nr_referencia','status','recebido','evento',)
-        read_only_fields = ('status','id','recebido','nr_referencia',)
+        fields = ('id','data_criacao','nr_referencia','status','recebido','evento',)
+        read_only_fields = ('status','id','recebido','nr_referencia','data_criacao')
 
     def save(self, request, **kwargs):
         evento_data = self.data.pop('evento')
@@ -113,5 +113,5 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
 class ReservaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reserva
-        fields = ('status','recebido','data_modificacao','nr_referencia',)
+        fields = ('status','recebido','data_criacao','data_modificacao','nr_referencia',)
         read_only_fields = ('nr_referencia',)

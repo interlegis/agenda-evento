@@ -2,19 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import * as actions from '../actions';
-
-const FIELDS = {
-  usuario: {
-    type:'text',
-    titulo:'Usuario:',
-    label:'o nome do usuario'
-  },
-  senha: {
-    type:'password',
-    titulo:'Senha:',
-    label:'sua senha'
-  }
-};
+import { FIELD_USUARIO_LOGIN } from './forms/fields_types';
 
 class Login extends Component{
   handleSubmitForm({ username, password }){
@@ -46,14 +34,14 @@ class Login extends Component{
 
   render(){
     const { error, handleSubmit, pristine, resetForm, submitting,
-       fields: { usuario, senha }} = this.props;
+       fields: { username, password }} = this.props;
     return(
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
-        {_.map(FIELDS, this.renderField.bind(this))}
+        {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
         {this.renderAlert()}
         <button type="submit" disabled={submitting}
-          className={((usuario.touched && usuario.invalid) ||
-            (senha.touched && senha.invalid)) ?
+          className={((username.touched && username.invalid) ||
+            (password.touched && password.invalid)) ?
              "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
             Entrar
         </button>
@@ -69,7 +57,7 @@ class Login extends Component{
 function validate(values) {
   const errors = {};
 
-  _.each(FIELDS, (type, field) => {
+  _.each(FIELD_USUARIO_LOGIN, (type, field) => {
     if (!values[field]) {
       errors[field] = `Por favor, insira ${type.label}...`;
     }
@@ -83,6 +71,6 @@ function mapStateToProps(state){
 
 export default reduxForm({
   form: 'login',
-  fields: _.keys(FIELDS),
+  fields: _.keys(FIELD_USUARIO_LOGIN),
   validate
 }, mapStateToProps, actions)(Login);

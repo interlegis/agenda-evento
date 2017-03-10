@@ -3,34 +3,7 @@ import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import * as actions from '../actions';
-
-const FIELDS = {
-  primeiro_nome: {
-    type:'text',
-    titulo:'Primeiro Nome:',
-    label:'seu primeiro nome'
-  },
-  ultimo_nome: {
-    type:'text',
-    titulo:'Sobrenome:',
-    label:'seu sobrenome'
-  },
-  usuario: {
-    type:'text',
-    titulo:'Usuario:',
-    label:'o nome do usuario'
-  },
-  email: {
-    type:'email',
-    titulo:'Email:',
-    label:'o email'
-  },
-  senha: {
-    type:'password',
-    titulo:'Senha:',
-    label:'sua senha'
-  },
-};
+import { FIELD_USUARIO_CADASTRO } from './forms/fields_types';
 
 class Cadastro extends Component{
   static contextTypes = {
@@ -74,19 +47,19 @@ class Cadastro extends Component{
 
   render(){
     const { error, handleSubmit, pristine, resetForm, submitting,
-      fields: { primeiro_nome ,ultimo_nome ,usuario ,email, senha }} = this.props;
+      fields: { first_name ,last_name ,username ,email, password }} = this.props;
 
     return(
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
-        {_.map(FIELDS, this.renderField.bind(this))}
+        {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
         {this.renderAlert()}
         <div className="btn-group" role="group">
             <button type="submit" disabled={submitting}
-              className={((primeiro_nome.touched && primeiro_nome.invalid) ||
-                (ultimo_nome.touched && ultimo_nome.invalid) ||
-                (usuario.touched && usuario.invalid) ||
+              className={((first_name.touched && first_name.invalid) ||
+                (last_name.touched && last_name.invalid) ||
+                (username.touched && username.invalid) ||
                 (email.touched && email.invalid) ||
-                (senha.touched && senha.invalid)) ?
+                (password.touched && password.invalid)) ?
                  "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
                 Cadastre-se
             </button>
@@ -106,7 +79,7 @@ class Cadastro extends Component{
 function validate(values) {
   const errors = {};
 
-  _.each(FIELDS, (type, field) => {
+  _.each(FIELD_USUARIO_CADASTRO, (type, field) => {
     if (!values[field]) {
       errors[field] = `Por favor, insira ${type.label}...`;
     }
@@ -120,6 +93,6 @@ function mapStateToProps(state) {
 
 export default reduxForm({
   form: 'cadastro',
-  fields: _.keys(FIELDS),
+  fields: _.keys(FIELD_USUARIO_CADASTRO),
   validate
 }, mapStateToProps, actions)(Cadastro);

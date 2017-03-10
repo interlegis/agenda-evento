@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -130,6 +131,22 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class PedidosUserView(generics.ListAPIView):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaEventoSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        try:    
+            user = User.objects.get(pk=request.user.pk)
+            queryset = Reserva.objects.filter(usuario=user)
+            serializer = ReservaEventoSerializer(queryset, many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 class AgendaView(generics.ListAPIView):
