@@ -35,3 +35,14 @@ navbar-default .navbar-nav>li>a:active {
 .div-evento{
   margin-top: 20%;
 }
+
+.btn-pedido{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+  margin-top: 3.5%;
+}
+
+.space{
+  margin-left: 1% !important;
+}

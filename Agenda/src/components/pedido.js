@@ -21,6 +21,7 @@ class NovoPedido extends Component{
   handleSubmitForm(formProps){
     console.log(formProps);
     this.props.cadastroPedido(formProps);
+    this.context.router.push('/pedidos');
   }
 
   renderAlert(){
@@ -79,21 +80,21 @@ class NovoPedido extends Component{
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
         {_.map(FIELD_PEDIDO, this.renderField.bind(this))}
         {this.renderAlert()}
-        <div className="btn-group" role="group">
+        <div className="btn-pedido" role="group" aling>
             <button
               type="submit"
               disabled={submitting}
-              className="btn btn-primary btn-md">
+              className="btn btn-primary btn-md space">
               Enviar Pedido
             </button>
-            <button type="button" className="btn btn-default btn-md"
+            <button type="button" className="btn btn-default btn-md space"
               disabled={pristine || submitting} onClick={resetForm}>
               Limpar
             </button>
+            <Link to="/" className="btn btn-danger btn-md space" role="button">
+              Cancelar
+            </Link>
           </div>
-          <Link to="/" className="btn btn-danger btn-md" role="button">
-            Cancelar
-          </Link>
       </form>
     );
   }
@@ -111,7 +112,9 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.authentication.error};
+  return {
+    errorMessage: state.authentication.error,
+  };
 }
 
 export default reduxForm({

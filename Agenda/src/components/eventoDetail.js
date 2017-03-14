@@ -49,6 +49,12 @@ class EventoDatail extends Component {
       }else{
         video_conferencia = 'Não'
       }
+      var local;
+      if (this.props.evento.local == 'SR') {
+        local = 'Sala de Reunioes'
+      }else{
+        local = 'Auditorio Interlegis'
+      }
       return(
         <div className="col-md-10">
           <h1>Pedido - {this.props.reserva.nr_referencia}</h1>
@@ -74,7 +80,7 @@ class EventoDatail extends Component {
                 <tbody>
                   <tr>
                     <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
-                    <td><h4><strong>Local: </strong>{this.props.evento.local}</h4></td>
+                    <td><h4><strong>Local: </strong>{local}</h4></td>
                   </tr>
                   <tr>
                     <td><h4><strong>Descrição: </strong>{this.props.evento.descricao}</h4></td>
