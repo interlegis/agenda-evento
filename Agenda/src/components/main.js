@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signoutUser } from '../actions';
+import { signoutUser, getUsuario } from '../actions';
 import { browserHistory } from 'react-router';
 
 class Main extends Component {
   static contextTypes = {
     router: React.PropTypes.object
+  }
+
+  componentWillMount() {
+    this.props.getUsuario();
   }
 
   logout(){
@@ -42,4 +46,4 @@ function mapStateToProps(state){
   return { user: state.user.usuario };
 }
 
-export default connect(mapStateToProps, { signoutUser })(Main);
+export default connect(mapStateToProps, { signoutUser, getUsuario })(Main);

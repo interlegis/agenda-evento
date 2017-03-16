@@ -1,3 +1,11 @@
+export const FIELD_USUARIO_UPDATE = {
+  first_name: '',
+  last_name: '',
+  username: '',
+  email:'',
+  password:''
+};
+
 export const FIELD_USUARIO_CADASTRO = {
   first_name: {
     type:'text',
@@ -23,7 +31,7 @@ export const FIELD_USUARIO_CADASTRO = {
     type:'password',
     titulo:'Senha:',
     label:'sua senha'
-  },
+  }
 };
 
 export const FIELD_USUARIO_LOGIN = {

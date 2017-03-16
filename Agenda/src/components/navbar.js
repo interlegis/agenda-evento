@@ -31,7 +31,7 @@ class Navbar extends Component {
         <li className ="dropdown navbar-right">
             <Link to="" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil<span className="caret"></span></Link>
             <ul className="dropdown-menu">
-              <li><Link to="#">Configurações</Link></li>
+              <li><Link to="/configuracoes">Configurações</Link></li>
               <li role="separator" className="divider"></li>
               <li><a onClick={this.logout.bind(this)}>Sair</a></li>
             </ul>
