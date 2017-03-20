@@ -4,15 +4,14 @@ import { CRIA_PEDIDO, GET_PEDIDOS_USER,
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 
-const config_user = {
-  headers: {
-      'X-CSRFToken': Cookies.get('csrftoken'),
-      'Content-Type': 'application/json',
-      'Authorization': 'token ' + localStorage.token
-  }
-};
-
 export function cadastroPedido(props) {
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
   return function(dispatch){
     const data = {
       "evento": {
@@ -45,6 +44,13 @@ export function cadastroPedido(props) {
 }
 
 export function getPedidos(){
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
   return function(dispatch){
     axios.get(`${ROOT_URL}api/pedido/user`, config_user)
       .then(response => {
@@ -57,6 +63,13 @@ export function getPedidos(){
 }
 
 export function getPedidoEvento(id){
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
   return function(dispatch){
     axios.get(`${ROOT_URL}api/pedido/${id}/`, config_user)
       .then(response => {

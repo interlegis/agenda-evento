@@ -76,6 +76,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
 
 export function signoutUser(){
   localStorage.removeItem('token');
+  browserHistory.push('/');
   return{ type: UNAUTH_USUARIO };
 }
 
