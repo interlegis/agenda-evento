@@ -36,6 +36,7 @@ export function cadastroPedido(props) {
     axios.post(`${ROOT_URL}api/pedido/`, data, config_user)
       .then(response => {
         dispatch({ type: CRIA_PEDIDO });
+        dispatch(ErrorMessage(''));
         swal(
             { title: "Sweet!",
             text: "Pedido Created.",
@@ -76,6 +77,7 @@ export function getPedidos(){
     axios.get(`${ROOT_URL}api/pedido/user`, config_user)
       .then(response => {
         dispatch({ type: GET_PEDIDOS_USER, payload: response.data });
+        dispatch(ErrorMessage(''));
       })
       .catch(() => {
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
@@ -95,9 +97,11 @@ export function getPedidoEvento(id){
     axios.get(`${ROOT_URL}api/pedido/${id}/`, config_user)
       .then(response => {
         dispatch({ type: RESERVA_GET, payload: response.data});
+        dispatch(ErrorMessage(''));
         axios.get(`${ROOT_URL}api/pedido/${id}/evento/`, config_user)
           .then(response => {
             dispatch({ type: EVENTO_GET, payload: response.data});
+            dispatch(ErrorMessage(''));
           })
           .catch(() => {
             dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
