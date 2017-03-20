@@ -21,7 +21,7 @@ class NovoPedido extends Component{
   handleSubmitForm(formProps){
     console.log(formProps);
     this.props.cadastroPedido(formProps);
-    this.context.router.push('/pedidos');
+    this.context.router.push('/main');
   }
 
   renderAlert(){
@@ -53,7 +53,8 @@ class NovoPedido extends Component{
         return(
           <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label>{fieldConfig.titulo}</label>
-            <input name={fieldConfig.name} id={fieldConfig.name} className="form-control" {...fieldHelper} type={fieldConfig.type} />
+            <input name={fieldConfig.name} id={fieldConfig.name}
+            className="form-control" {...fieldHelper} type={fieldConfig.type} />
           </fieldset>
         );
       break;
@@ -87,7 +88,19 @@ class NovoPedido extends Component{
             <button
               type="submit"
               disabled={submitting}
-              className="btn btn-primary btn-md space">
+              className={((nome.touched && nome.invalid) ||
+                (descricao.touched && descricao.invalid) ||
+                (local.touched && local.invalid) ||
+                (data_inicio.touched && data_inicio.invalid) ||
+                (hora_inicio.touched && hora_inicio.invalid) ||
+                (data_fim.touched && data_fim.invalid) ||
+                (hora_fim.touched && hora_fim.invalid) ||
+                (observacao.touched && observacao.invalid) ||
+                (nome_responsavel.touched && nome_responsavel.invalid) ||
+                (email_responsavel.touched && email_responsavel.invalid) ||
+                (telefone_responsavel.touched && telefone_responsavel.invalid) ||
+                (lotacao_responsavel.touched && lotacao_responsavel.invalid)) ?
+                "btn btn-primary btn-md space disabled" :"btn btn-primary btn-md space"}>
               Enviar Pedido
             </button>
             <button type="button" className="btn btn-default btn-md space"

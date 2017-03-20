@@ -36,9 +36,30 @@ export function cadastroPedido(props) {
     axios.post(`${ROOT_URL}api/pedido/`, data, config_user)
       .then(response => {
         dispatch({ type: CRIA_PEDIDO });
+        swal(
+            { title: "Sweet!",
+            text: "Pedido Created.",
+            imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
+            nimation: "slide-from-top",
+            timer: 2000,
+            showConfirmButton: false
+          }
+        );
       })
-      .catch(() => {
+      .catch((err) => {
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+        swal({
+          title: "Oops...",
+          text: "Server Error. Try Again Later ¯\\_(ツ)_/¯",
+          type: "error",
+          animation: "slide-from-top",
+          timer: 2000,
+          showConfirmButton: false
+        }, () => {
+        // Redirect the user
+        window.location.href = "/";
+        });
+        throw err;
       });
   }
 }
