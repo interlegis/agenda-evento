@@ -36,11 +36,13 @@ class Cadastro extends Component{
     const fieldHelper = this.props.fields[field];
 
     return(
-      <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-        <label>{fieldConfig.titulo}</label>
+      <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+        ? "form-group has-error has-feedback" : "form-group"} key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+        <label className="control-label">{fieldConfig.titulo}</label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Coloque ${fieldConfig.label}`}/>
-        {fieldHelper.touched && fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
+        placeholder={`Coloque ${fieldConfig.label}`} />
+        {fieldHelper.touched && fieldHelper.error &&
+           <div className="help-block">{fieldHelper.error}</div>}
       </fieldset>
     );
   }

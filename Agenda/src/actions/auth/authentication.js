@@ -18,6 +18,7 @@ export function signinUser({ username, password }) {
     axios.post(`${ROOT_URL}api/auth/`, { username, password }, config)
       .then(response => {
         dispatch({ type: AUTH_USUARIO });
+        dispatch(ErrorMessage(''));
         localStorage.setItem('token', response.data.token);
         console.log(localStorage.token);
         const config_user = {
@@ -29,7 +30,8 @@ export function signinUser({ username, password }) {
         };
         axios.get(`${ROOT_URL}api/users/i/`, config_user)
           .then(response => {
-            dispatch({ type: USUARIO, payload: response.data})
+            dispatch({ type: USUARIO, payload: response.data});
+            dispatch(ErrorMessage(''));
           })
           .catch(() => {
               dispatch(signoutUser())
@@ -50,6 +52,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
         axios.post(`${ROOT_URL}api/auth/`, { username, password }, config)
           .then(response => {
             dispatch({ type: AUTH_USUARIO });
+            dispatch(ErrorMessage(''));
             localStorage.setItem('token', response.data.token);
             const config_user = {
               headers: {
@@ -79,6 +82,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
 
 export function signoutUser(){
   localStorage.removeItem('token');
+  browserHistory.push('/');
   return{ type: UNAUTH_USUARIO };
 }
 
@@ -94,7 +98,8 @@ export function getUsuario(){
 
     axios.get(`${ROOT_URL}api/users/i/`, config_user)
       .then(response => {
-        dispatch({ type: USUARIO, payload: response.data})
+        dispatch({ type: USUARIO, payload: response.data});
+        dispatch(ErrorMessage(''));
       })
       .catch(() => {
           dispatch(signoutUser())
@@ -117,6 +122,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
       { first_name ,last_name ,username ,email, password } ,config_user)
       .then(response => {
         dispatch({ type: UPDATE_USUARIO, payload: response.data});
+        dispatch(ErrorMessage(''));
         swal(
             { title: "Sweet!",
             text: "User Updated.",

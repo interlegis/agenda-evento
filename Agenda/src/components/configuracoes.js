@@ -8,7 +8,7 @@ import { FIELD_USUARIO_CADASTRO, FIELD_USUARIO_UPDATE } from './forms/fields_typ
 class Configuracoes extends Component{
   constructor(props) {
         super(props);
-        this.state = { term: this.props.user };
+        this.state = { initialValues: this.props.user };
   }
 
   static contextTypes = {
@@ -44,17 +44,17 @@ class Configuracoes extends Component{
 
   renderField(fieldConfig, field){
     const fieldHelper = this.props.fields[field];
-    console.log(this.props.user);
-    console.log(this.state.term);
+    console.log(this.state.initialValues);
     return(
-      <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-        <label>{fieldConfig.titulo}</label>
+      <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+        ? "form-group has-error has-feedback" : "form-group"} key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+        <label className="control-label">{fieldConfig.titulo}</label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Coloque ${fieldConfig.label}`} value={this.state.term[field]}
-        onChange={(event) => {this.state.term[field] = event.target.value;
+        placeholder={`Coloque ${fieldConfig.label}`} value={this.state.initialValues[field]}
+        onChange={(event) => {this.state.initialValues[field] = event.target.value;
           this.forceUpdate();}}/>
         {fieldHelper.touched && fieldHelper.error &&
-           <div className="error">{fieldHelper.error}</div>}
+           <div className="help-block">{fieldHelper.error}</div>}
       </fieldset>
     );
   }
@@ -80,8 +80,8 @@ class Configuracoes extends Component{
             </button>
             <button type="button" className="btn btn-default btn-md"
               disabled={pristine || submitting}
-              onClick={() => {resetForm;
-                this.setState({term: FIELD_USUARIO_UPDATE});}}>
+              onClick={() => {
+                this.setState({initialValues: FIELD_USUARIO_UPDATE});}}>
               Limpar
             </button>
           </div>
@@ -95,7 +95,7 @@ class Configuracoes extends Component{
 
 function validate(values) {
   const errors = {};
-
+    console.log(values);
   _.each(FIELD_USUARIO_CADASTRO, (type, field) => {
     if (!values[field]) {
       errors[field] = `Por favor, insira ${type.label}...`;
@@ -106,7 +106,8 @@ function validate(values) {
 
 function mapStateToProps(state) {
   return { errorMessage: state.authentication.error,
-           user: state.user.usuario};
+           user: state.user.usuario,
+           initialValues: state.user.usuario };
 }
 
 export default reduxForm({

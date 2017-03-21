@@ -61,8 +61,9 @@ class MeusPedidos extends Component {
         </table>
       );
     }
-    return(
-      <h3>Carregando...</h3>
+
+    return (
+      <div className="cp-spinner cp-morph"></div>
     );
   }
 }
