@@ -8,59 +8,73 @@ class EventoDatail extends Component {
     this.props.getPedidoEvento(this.props.params.id);
   }
 
+  ReservaSatatus(status){
+      switch (status) {
+        case 'P':
+          return 'Pre-Reservado';
+        break;
+        case 'R':
+          return 'Reservado';
+        break;
+        case 'C':
+          return 'Cancelado';
+        break;
+      };
+  }
+
+  DataFormat(data_string) {
+    const d = new Date(data_string);
+    const dia = d.getUTCDate();
+    const mes = d.getUTCMonth() + 1;
+    const ano = d.getFullYear();
+    return (dia + '/' + mes + '/' + ano);
+  }
+
+  DataHoraFormat(data_string) {
+    const d = new Date(data_string);
+    const hora = d.getUTCHours();
+    const minutos = d.getUTCMinutes();
+    return (hora + ':' + minutos);
+  }
+
+  TrueFalseSimNao(bool) {
+    if (bool) {
+      return 'Sim';
+    }else{
+      return 'Não';
+    }
+  }
+
   render() {
     if (this.props.reserva && this.props.evento){
-      console.log(this.props.evento);
-      var status;
-        switch (this.props.reserva.status) {
-          case 'P':
-            status = 'Pre-Reservado';
-          break;
-          case 'R':
-            status = 'Reservado';
-          break;
-          case 'C':
-            status = 'Cancelado';
-          break;
-        }
-      const d = new Date(this.props.reserva.data_criacao);
-      const dia = d.getUTCDate();
-      const mes = d.getUTCMonth() + 1;
-      const ano = d.getFullYear();
-      const data = dia + '/' + mes + '/' + ano;
-      const hora = d.getUTCHours();
-      const minutos = d.getUTCMinutes();
-      const hora_criacao =  hora + ':' + minutos;
+      const status = this.ReservaSatatus(this.props.reserva.status);
+      const legislativo = this.TrueFalseSimNao(this.props.reserva.legislativo);
+      const video_conferencia = this.TrueFalseSimNao(this.props.reserva.video_conferencia);
+      const data_criacao = this.DataFormat(this.props.reserva.data_criacao);
+      const hora_criacao = this.DataHoraFormat(this.props.reserva.data_criacao);
+      const data_inicio = this.DataFormat(this.props.evento.data_inicio);
+      const hora_inicio = this.props.evento.hora_inicio;
+      const data_fim = this.DataFormat(this.props.evento.data_fim);
+      const hora_fim = this.props.evento.hora_fim;
       var recebido;
       if (this.props.reserva.recebido) {
         recebido = 'Recebido'
       }else{
-        recebido = 'Nao oficializado'
-      }
-      var legislativo;
-      if (this.props.reserva.legislativo) {
-        legislativo = 'Sim'
-      }else{
-        legislativo = 'Não'
-      }
-      var video_conferencia;
-      if (this.props.reserva.video_conferencia) {
-        video_conferencia = 'Sim'
-      }else{
-        video_conferencia = 'Não'
+        recebido = 'Não oficializado'
       }
       var local;
       if (this.props.evento.local == 'SR') {
-        local = 'Sala de Reunioes'
+        local = 'Sala de Reuniões'
       }else{
-        local = 'Auditorio Interlegis'
+        local = 'Auditório Interlegis'
       }
       return(
         <div className="col-md-10">
           <h1>Pedido - {this.props.reserva.nr_referencia}</h1>
           <hr/>
           <div>
-            <h3>Reserva</h3>
+            <h1>Reserva</h1>
+            <hr/>
             <table className="col-md-12">
               <tbody>
                 <tr>
@@ -68,14 +82,15 @@ class EventoDatail extends Component {
                   <td><h4><strong>Recebido: </strong>{recebido}</h4></td>
                 </tr>
                 <tr>
-                  <td><h4><strong>Data: </strong>{data}</h4></td>
+                  <td><h4><strong>Data: </strong>{data_criacao}</h4></td>
                   <td><h4><strong>Hora: </strong>{hora_criacao}</h4></td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div className="div-evento">
-            <h3>Evento</h3>
+            <h1>Evento</h1>
+            <hr/>
               <table className="col-md-12">
                 <tbody>
                   <tr>
@@ -86,12 +101,12 @@ class EventoDatail extends Component {
                     <td><h4><strong>Descrição: </strong>{this.props.evento.descricao}</h4></td>
                   </tr>
                   <tr>
-                    <td><h4><strong>Data Inicio: </strong>{this.props.evento.data_inicio}</h4></td>
-                    <td><h4><strong>Hora Inicio: </strong>{this.props.evento.hora_inicio}</h4></td>
+                    <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
+                    <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
                   </tr>
                   <tr>
-                    <td><h4><strong>Data Fim: </strong>{this.props.evento.data_fim}</h4></td>
-                    <td><h4><strong>Hora Fim: </strong>{this.props.evento.hora_fim}</h4></td>
+                    <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
+                    <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
                   </tr>
                   <tr>
                     <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>

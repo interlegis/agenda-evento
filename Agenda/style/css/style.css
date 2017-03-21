@@ -4,6 +4,11 @@ body {
 .navbar {
   min-height: 70px;
 }
+
+.navbar, a:active, a:hover, a:link, a:visited{
+  color: white;
+}
+
 .navbar-default {
   background-color: #26528C;
 }
@@ -32,6 +37,21 @@ navbar-default .navbar-nav>li>a:active {
 
 .main-div {
   margin-top: 85px;
+  display: flex;
+}
+
+.login-div{
+  margin: 0 auto;
+}
+
+.login-button{
+  display: flex;
+  justify-content: center;
+}
+
+.div-pedido{
+  margin: 0 auto;
+  width: 80%;
 }
 
 .div-evento{

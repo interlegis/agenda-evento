@@ -81,7 +81,8 @@ class NovoPedido extends Component{
                 ,lotacao_responsavel}} = this.props;
 
     return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
+      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+        className="div-pedido">
         {_.map(FIELD_PEDIDO, this.renderField.bind(this))}
         {this.renderAlert()}
         <div className="btn-pedido" role="group" aling>

@@ -39,19 +39,22 @@ class Login extends Component{
     const { error, handleSubmit, pristine, resetForm, submitting,
        fields: { username, password }} = this.props;
     return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
+      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+        className="col-md-4 col-lg-4 col-sm-4 col-xs-8 login-div">
         {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
         {this.renderAlert()}
-        <button type="submit" disabled={submitting}
-          className={((username.touched && username.invalid) ||
-            (password.touched && password.invalid)) ?
-             "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
-            Entrar
-        </button>
-        <button type="button" className="btn btn-default btn-md"
-          disabled={pristine || submitting} onClick={resetForm}>
-          Limpar
-        </button>
+        <div className="login-button">
+          <button type="submit" disabled={submitting}
+            className={((username.touched && username.invalid) ||
+              (password.touched && password.invalid)) ?
+               "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
+              Entrar
+          </button>
+          <button type="button" className="btn btn-default btn-md"
+            disabled={pristine || submitting} onClick={resetForm}>
+            Limpar
+          </button>
+        </div>
       </form>
     );
   }

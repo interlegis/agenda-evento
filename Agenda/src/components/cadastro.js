@@ -52,7 +52,8 @@ class Cadastro extends Component{
       fields: { first_name ,last_name ,username ,email, password }} = this.props;
 
     return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}>
+      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+        className="div-pedido">
         {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
         {this.renderAlert()}
         <div className="btn-group" role="group">
@@ -70,9 +71,6 @@ class Cadastro extends Component{
               Limpar
             </button>
           </div>
-          <Link to="/" className="btn btn-danger btn-md" role="button">
-            Cancelar
-          </Link>
       </form>
     );
   }
