@@ -44,6 +44,17 @@ navbar-default .navbar-nav>li>a:active {
   margin: 0 auto;
 }
 
+.calendar-page{
+  height: 550px;
+  margin: 0 auto;
+}
+
+.calendar-page h1{
+  padding-bottom: 25px;
+  display: flex;
+  justify-content: center;
+}
+
 .login-button{
   display: flex;
   justify-content: center;
@@ -709,7 +720,8 @@ p.credits{
 p.credits a{
 	margin: 0px;
 }
-a:link, a:active, a:visited{
+
+.dropdown-menu a:link, a:active, a:visited{
 	color: #3F51B5;
 	text-decoration: none;
 	font-size: 1em;

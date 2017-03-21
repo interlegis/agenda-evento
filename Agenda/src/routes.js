@@ -5,6 +5,7 @@ import App from './components/app';
 import Home from './components/home';
 import Cadastro from './components/cadastro';
 import Main from './components/main';
+import Agenda from './components/agenda';
 import Login from './components/login';
 import NovoPedido from './components/pedido';
 import MeusPedidos from './components/meusPedidos';
@@ -14,6 +15,7 @@ import Configuracoes from './components/configuracoes';
 export default(
   <Route path="/" component={App} location="history">
     <IndexRoute component={Home} />
+    <Route path="/agenda" component={Agenda} />
     <Route path="/login" component={Login} />
     <Route path="/cadastro" component={Cadastro} />
     <Route path="/main" component={requireAuth(Main)} />

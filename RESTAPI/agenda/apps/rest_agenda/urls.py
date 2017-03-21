@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^api/pedido/(?P<pk>\d+)/edit/(?P<comando>\w+)/$',
         views.ReservaEdit.as_view(),name='edit-pedido'),
     url(r'^api/agenda', views.AgendaView.as_view(),name='agenda'),
-    url(r'^api/pedido/user', views.PedidosUserView.as_view(),name='pedido-user')
+    url(r'^api/pedido/user', views.PedidosUserView.as_view(),name='pedido-user'),
+    url(r'^api/eventos/agenda', views.EventoListView.as_view(), name='agenda-evento')
 ]

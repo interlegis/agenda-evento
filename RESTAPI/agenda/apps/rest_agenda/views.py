@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Reserva, Evento
 from .serializers import (ReservaEventoSerializer, ReservaSerializer,
-                         EventoSerializer)
+                         EventoSerializer, EventoSerializerAgenda )
 from .utils import check_datas, checkEventoDatas
 import datetime
 
@@ -139,7 +139,7 @@ class PedidosUserView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
-        try:    
+        try:
             user = User.objects.get(pk=request.user.pk)
             queryset = Reserva.objects.filter(usuario=user)
             serializer = ReservaEventoSerializer(queryset, many=True)
@@ -161,4 +161,15 @@ class AgendaView(generics.ListAPIView):
                                                                       data_fim),
                                           status=u'R')
         serializer = ReservaEventoSerializer(queryset, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+
+class EventoListView(generics.ListAPIView):
+    queryset = Evento.objects.all()
+    serializer_class = EventoSerializerAgenda
+    permission_classes = (AllowAny,)
+
+    def list(self, request, *args, **kwargs):
+        serializer = EventoSerializerAgenda(self.get_queryset(), many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

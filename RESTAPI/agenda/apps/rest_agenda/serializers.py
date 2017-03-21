@@ -11,6 +11,25 @@ class ResponsavelSerializer(serializers.ModelSerializer):
         fields = ('nome', 'email','telefone', 'lotacao',)
 
 
+class EventoSerializerAgenda(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField('get_nome')
+    start = serializers.SerializerMethodField('get_data_inicio')
+    end = serializers.SerializerMethodField('get_data_fim')
+    class Meta:
+        model = Evento
+        fields = ('id', 'title', 'start','end',)
+
+    def get_nome(self, obj):
+        return obj.nome
+
+    def get_data_inicio(self, obj):
+        return obj.data_inicio
+
+    def get_data_fim(self, obj):
+        return obj.data_fim
+
+
+
 class EventoSerializer(serializers.ModelSerializer):
     responsavel = ResponsavelSerializer()
     class Meta:

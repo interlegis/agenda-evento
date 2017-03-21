@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { CRIA_PEDIDO, GET_PEDIDOS_USER,
-        ROOT_URL, RESERVA_GET, EVENTO_GET } from '../types';
+        ROOT_URL, RESERVA_GET, EVENTO_GET,
+        SAVE_CALENDAR } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
+import _ from 'lodash';
 
 export function cadastroPedido(props) {
   const config_user = {
@@ -77,6 +79,27 @@ export function getPedidos(){
     axios.get(`${ROOT_URL}api/pedido/user`, config_user)
       .then(response => {
         dispatch({ type: GET_PEDIDOS_USER, payload: response.data });
+        dispatch({ type: SAVE_CALENDAR, payload: bigCalendarFormat(response.data) });
+        dispatch(ErrorMessage(''));
+      })
+      .catch(() => {
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function getAgendaPedidos(){
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
+  return function(dispatch){
+    axios.get(`${ROOT_URL}api/eventos/agenda`, config_user)
+      .then(response => {
+        dispatch({ type: SAVE_CALENDAR, payload: response.data });
         dispatch(ErrorMessage(''));
       })
       .catch(() => {
