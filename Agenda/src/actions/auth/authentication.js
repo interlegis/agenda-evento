@@ -19,6 +19,7 @@ export function signinUser({ username, password }) {
       .then(response => {
         dispatch({ type: AUTH_USUARIO });
         localStorage.setItem('token', response.data.token);
+        console.log(localStorage.token);
         const config_user = {
           headers: {
               'X-CSRFToken': Cookies.get('csrftoken'),
@@ -60,6 +61,8 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
             axios.get(`${ROOT_URL}api/users/i/`, config_user)
               .then(response => {
                 dispatch({ type: USUARIO, payload: response.data})
+                localStorage.setItem('user', "oi");
+                console.log(localStorage);
               })
               .catch(() => {
                   dispatch(signoutUser())

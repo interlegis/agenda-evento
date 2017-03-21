@@ -99,6 +99,14 @@ class EventoDatail extends Component {
                   </tr>
                 </tbody>
               </table>
+              <div className="btn-pedido col-md-12" role="group" aling>
+                  <button className="btn btn-primary btn-md space">
+                    Editar Pedido
+                  </button>
+                  <button type="button" className="btn btn-default btn-md space">
+                    Ajuda
+                  </button>
+              </div>
           </div>
         </div>
       );

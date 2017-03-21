@@ -16,20 +16,27 @@ class Navbar extends Component {
   renderLinks(){
     if (!this.props.authenticated) {
       return (
-        <ul className="nav navbar-nav">
+        <ul className="nav navbar-nav navbar-right">
           <li><Link to="">Agenda</Link></li>
           <li className="navbar-right"><Link to="/cadastro">Cadastro</Link></li>
           <li className="navbar-right"><Link to="/login">Login</Link></li>
         </ul>
       );
     }
+    var perfil;
+    if (!this.props.user){
+      perfil = "Perfil"
+    }else{
+      perfil = this.props.user.first_name;
+    }
     return (
-      <ul className="nav navbar-nav">
+      <ul className="nav navbar-nav navbar-right">
+        <li><Link to="/">Inicio</Link></li>
         <li><Link to="">Agenda</Link></li>
-        <li><Link to="/pedidos">Meus Pedidos</Link></li>
+        <li><Link to="/pedidos">Pedidos</Link></li>
         <li><Link to="/novoEvento">Novo Evento</Link></li>
         <li className ="dropdown navbar-right">
-            <Link to="" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Perfil<span className="caret"></span></Link>
+            <Link to="" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bem-Vindo, {perfil}<span className="caret"></span></Link>
             <ul className="dropdown-menu">
               <li><Link to="/configuracoes">Configurações</Link></li>
               <li role="separator" className="divider"></li>
@@ -45,7 +52,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container">
           <Link className="navbar-brand" to="">
-            <img alt="Brand" src="/style/img/logo_interlegis.png"/>
+            <img alt="Brand" src="/style/img/Inter_Logo.jpg"/>
           </Link>
               {this.renderLinks()}
         </div>

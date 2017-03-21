@@ -1,12 +1,15 @@
 body {
   font-family: 'Open Sans', sans-serif;
 }
+.navbar {
+  min-height: 70px;
+}
 .navbar-default {
-  background-color: #25528c;
-  border-color: #1a3a64;
+  background-color: #26528C;
 }
 
 .navbar-default .navbar-nav>li>a {
+  margin-top: 10px;
   color: white;
 }
 
@@ -19,8 +22,7 @@ navbar-default .navbar-nav>li>a:active {
 }
 
 .navbar-brand>img {
-  height: 40px;
-  margin-top: -10px;
+  height: 42px;
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
@@ -29,11 +31,11 @@ navbar-default .navbar-nav>li>a:active {
 }
 
 .main-div {
-  margin-top: 5%;
+  margin-top: 85px;
 }
 
 .div-evento{
-  margin-top: 20%;
+  margin-top: 50px;
 }
 
 .btn-pedido{
