@@ -5,6 +5,7 @@ import App from './components/app';
 import Home from './components/home';
 import Cadastro from './components/cadastro';
 import Main from './components/main';
+import AgendaHome from './components/agenda_home';
 import Agenda from './components/agenda';
 import Login from './components/login';
 import NovoPedido from './components/pedido';
@@ -16,6 +17,7 @@ export default(
   <Route path="/" component={App} location="history">
     <IndexRoute component={Home} />
     <Route path="/agenda" component={Agenda} />
+    <Route path="/inicio/agenda" component={AgendaHome} />
     <Route path="/login" component={Login} />
     <Route path="/cadastro" component={Cadastro} />
     <Route path="/main" component={requireAuth(Main)} />

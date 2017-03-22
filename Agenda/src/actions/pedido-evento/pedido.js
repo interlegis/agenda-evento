@@ -79,7 +79,6 @@ export function getPedidos(){
     axios.get(`${ROOT_URL}api/pedido/user`, config_user)
       .then(response => {
         dispatch({ type: GET_PEDIDOS_USER, payload: response.data });
-        dispatch({ type: SAVE_CALENDAR, payload: bigCalendarFormat(response.data) });
         dispatch(ErrorMessage(''));
       })
       .catch(() => {
@@ -93,7 +92,6 @@ export function getAgendaPedidos(){
     headers: {
         'X-CSRFToken': Cookies.get('csrftoken'),
         'Content-Type': 'application/json',
-        'Authorization': 'token ' + localStorage.token
     }
   };
   return function(dispatch){

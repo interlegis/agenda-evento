@@ -70,7 +70,7 @@ class EventoDatail extends Component {
       }
       return(
         <div className="col-md-10">
-          <h1>Pedido - {this.props.reserva.nr_referencia}</h1>
+          <h1 aling="center">Pedido - {this.props.reserva.nr_referencia}</h1>
           <hr/>
           <div>
             <h1>Reserva</h1>
@@ -114,15 +114,31 @@ class EventoDatail extends Component {
                   </tr>
                 </tbody>
               </table>
-              <div className="btn-pedido col-md-12" role="group" aling>
-                  <button className="btn btn-primary btn-md space">
-                    Editar Pedido
-                  </button>
-                  <button type="button" className="btn btn-default btn-md space">
-                    Ajuda
-                  </button>
+            </div>
+              <div className="div-evento-responsavel">
+                <h1>Responsável</h1>
+                <hr/>
+                  <table className="col-md-12">
+                    <tbody>
+                      <tr>
+                        <td><h4><strong>Nome: </strong>{this.props.evento.responsavel.nome}</h4></td>
+                        <td><h4><strong>Email: </strong>{this.props.evento.responsavel.email}</h4></td>
+                      </tr>
+                      <tr>
+                        <td><h4><strong>Telefone: </strong>{this.props.evento.responsavel.telefone}</h4></td>
+                        <td><h4><strong>Lotação: </strong>{this.props.evento.responsavel.lotacao}</h4></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                <div className="btn-pedido col-md-12" role="group" aling>
+                    <button className="btn btn-primary btn-lg space">
+                      Editar Pedido
+                    </button>
+                    <button type="button" className="btn btn-default btn-lg space">
+                      Ajuda
+                    </button>
+                </div>
               </div>
-          </div>
         </div>
       );
     }
