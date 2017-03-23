@@ -78,27 +78,28 @@ class ReservaEdit(generics.ListCreateAPIView):
 
     def post(self, request, pk, comando):
         try:
+            data = {}
             reserva = Reserva.objects.get(pk=pk)
             if comando == "prereservado":
-                request.data['status'] = u'P'
+                data['status'] = u'P'
             elif comando == "cancelado":
-                request.data['status'] = u'C'
+                data['status'] = u'C'
             elif comando == "impedido":
-                request.data['status'] = u'I'
+                data['status'] = u'I'
                 #send email
             elif comando == "reservado":
-                request.data['status'] = u'R'
+                data['status'] = u'R'
             elif comando == "recebido" and datetime.datetime.now().date() < \
                  reserva.validade_pre_reserva:
-                request.data['recebido'] = True
+                data['recebido'] = True
             elif comando == "recebido" and datetime.datetime.now().date() > \
                  reserva.validade_pre_reserva:
-                request.data['status'] = u'I'
+                data['status'] = u'I'
             else:
                 return Response({"message": "Comando nao e valido"},
                                 status=status.HTTP_404_NOT_FOUND)
-            request.data['data_modificacao'] = datetime.datetime.now()
-            serializer = ReservaSerializer(reserva, data=request.data)
+            data['data_modificacao'] = datetime.datetime.now()
+            serializer = ReservaSerializer(reserva, data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
@@ -155,7 +156,17 @@ class AgendaView(generics.ListAPIView):
     permission_classes = (AllowAny,)
 
     def list(self, request, *args, **kwargs):
-        data_inicio = datetime.datetime.now().date()
+        dia_da_semana = datetime.datetime.now().date().weekday()
+        data_atual = datetime.datetime.now().date()
+        if  dia_da_semana > 2:
+            data_inicio = data_atual - datetime.timedelta(days=dia_da_semana-2)
+        elif dia_da_semana < 2:
+            minus_data = 0
+            while(minus_data != 2):
+                minus_data -= 1
+            data_inicio = data_atual - datetime.timedelta(days=dia_da_semana-minus_data)
+        else:
+            data_inicio = datetime.datetime.now().date()
         data_fim = data_inicio + datetime.timedelta(days=7)
         queryset = Reserva.objects.filter(evento__data_inicio__range=(data_inicio,
                                                                       data_fim),
@@ -166,7 +177,9 @@ class AgendaView(generics.ListAPIView):
 
 
 class EventoListView(generics.ListAPIView):
-    queryset = Evento.objects.all()
+    queryset = Reserva.objects.filter(status=u'R').values('evento__data_fim',
+    'evento__data_inicio','evento__descricao','evento__id','evento__local',
+    'evento__nome')
     serializer_class = EventoSerializerAgenda
     permission_classes = (AllowAny,)
 

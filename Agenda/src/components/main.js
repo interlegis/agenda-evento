@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { signoutUser, getUsuario } from '../actions';
 import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 class Main extends Component {
   static contextTypes = {
@@ -23,11 +24,18 @@ class Main extends Component {
     if (user) {
       return (
         <div>
-          <h2>Ola</h2>
-          <h3>Username: {user.username}</h3>
-          <h3>Primeiro Nome: {user.first_name}</h3>
-          <h3>Sobrenome: {user.last_name }</h3>
-          <h3>Email: {user.email}</h3>
+          <h1 className="bottom-space">Bem Vindo(a), {user.first_name}.</h1>
+            <div className="col-md-12 row cards-section">
+              <Link to="/pedidos"><div className="col-md-4 col-xs-12 card">
+                <p className="card-text">Meus Pedidos/Eventos</p>
+              </div></Link>
+              <Link to="/novoEvento"><div className="col-md-4 col-xs-12 card">
+                  <p className="card-text">Novo Pedido</p>
+              </div></Link>
+              <Link to="/agenda"><div className="col-md-4 col-xs-12 card">
+                <p className="card-text">Agenda</p>
+              </div></Link>
+            </div>
           <button className="btn btn-danger" onClick={this.logout.bind(this)} >Log Out</button>
         </div>
       );

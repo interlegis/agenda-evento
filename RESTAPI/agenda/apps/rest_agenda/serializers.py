@@ -15,20 +15,23 @@ class EventoSerializerAgenda(serializers.ModelSerializer):
     title = serializers.SerializerMethodField('get_nome')
     start = serializers.SerializerMethodField('get_data_inicio')
     end = serializers.SerializerMethodField('get_data_fim')
+    description = serializers.SerializerMethodField('get_desc')
     class Meta:
         model = Evento
-        fields = ('id', 'title', 'start','end',)
+        fields = ('id', 'title', 'start','end', 'description')
 
     def get_nome(self, obj):
-        return obj.nome
+        return obj['evento__nome']
 
     def get_data_inicio(self, obj):
-        return obj.data_inicio
+        return str(obj['evento__data_inicio'])
 
     def get_data_fim(self, obj):
-        return obj.data_fim
+        return str(obj['evento__data_fim'])
 
-
+    def get_desc(self, obj):
+        return obj['evento__descricao']
+        
 
 class EventoSerializer(serializers.ModelSerializer):
     responsavel = ResponsavelSerializer()

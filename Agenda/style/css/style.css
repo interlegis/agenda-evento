@@ -11,6 +11,10 @@ h1 {
   min-height: 70px;
 }
 
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  color: white;
+}
+
 .navbar a:active a:hover a:link a:visited{
   color: white;
 }
@@ -44,6 +48,7 @@ navbar-default .navbar-nav>li>a:active {
 .main-div {
   margin-top: 85px;
   display: flex;
+  justify-content: center;
 }
 
 .login-div{
@@ -96,6 +101,9 @@ navbar-default .navbar-nav>li>a:active {
   margin-left: 0;
 }
 
+.home-calendar .rbc-btn-group{
+  display: none;
+}
 /*  Card Inicio */
 .w3-card-4{
     margin-top: 45px;
@@ -148,4 +156,39 @@ navbar-default .navbar-nav>li>a:active {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.bottom-space{
+  margin-bottom: 25px;
+}
+
+.cards-section{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100px;
+  width: 350px;
+  font-size: 1.2em;
+  background-color: #f1f1f1!important;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+  margin-bottom: 10px;
+}
+
+.card:hover{
+  background-color: #26528C!important;
+  color: white!important;
+}
+
+.cards-section a{
+  text-decoration: none;
+  color: #26528C;
+  margin-right: 1%;
+  margin-left: 1%;
 }

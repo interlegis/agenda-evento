@@ -32,7 +32,7 @@ class Navbar extends Component {
     }
     return (
       <ul className="nav navbar-nav navbar-right">
-        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/main">Inicio</Link></li>
         <li><Link to="/agenda">Agenda</Link></li>
         <li><Link to="/pedidos">Pedidos</Link></li>
         <li><Link to="/novoEvento">Novo Evento</Link></li>

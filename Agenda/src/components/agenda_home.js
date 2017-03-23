@@ -17,7 +17,7 @@ class AgendaHome extends Component {
 
   render() {
     return (
-      <div className="calendar-page month-page">
+      <div className="calendar-page month-page home-calendar">
       <h1>Agenda de Eventos Intergelis</h1>
       <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
         <BigCalendar

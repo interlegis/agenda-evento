@@ -15,7 +15,7 @@ class MeusPedidos extends Component {
         var status;
           switch (pedido.status) {
             case 'P':
-              status = 'Pre-Reservado';
+              status = 'Pré-Reservado';
             break;
             case 'R':
               status = 'Reservado';
@@ -51,8 +51,8 @@ class MeusPedidos extends Component {
               <th>Nome do Evento</th>
               <th>N de Ref.</th>
               <th>Status</th>
-              <th>Data de Criacao</th>
-              <th>Hora de Criacao</th>
+              <th>Data de Criação</th>
+              <th>Hora de Criação</th>
             </tr>
           </thead>
           <tbody>

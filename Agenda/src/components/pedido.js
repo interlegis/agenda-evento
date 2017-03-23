@@ -96,7 +96,6 @@ class NovoPedido extends Component{
                 (hora_inicio.touched && hora_inicio.invalid) ||
                 (data_fim.touched && data_fim.invalid) ||
                 (hora_fim.touched && hora_fim.invalid) ||
-                (observacao.touched && observacao.invalid) ||
                 (nome_responsavel.touched && nome_responsavel.invalid) ||
                 (email_responsavel.touched && email_responsavel.invalid) ||
                 (telefone_responsavel.touched && telefone_responsavel.invalid) ||
@@ -121,7 +120,8 @@ function validate(values) {
   const errors = {};
 
   _.each(FIELD_PEDIDO, (fieldConfig, field) => {
-    if (!values[field] && fieldConfig.type != 'select' && fieldConfig.type != 'checkbox'){
+    if (!values[field] && fieldConfig.type != 'select' &&
+        fieldConfig.type != 'checkbox' && fieldConfig.type != 'observacao'){
       errors[field] = `Por favor, insira ${fieldConfig.label}...`;
     }
   });
