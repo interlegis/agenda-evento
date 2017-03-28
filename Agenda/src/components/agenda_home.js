@@ -26,7 +26,7 @@ class AgendaHome extends Component {
            views={['month','week']}
            messages={{next:"Próximo",previous:"Anterior",today:"Hoje",month: "Mês",
                       week: "Semana"}}
-           onSelectEvent={event => this.context.router.push('/evento/'+event.id)}
+           onSelectEvent={event => this.context.router.push('/evento/'+event._id)}
            culture={moment.locale('pt')}
          />
       </div>
