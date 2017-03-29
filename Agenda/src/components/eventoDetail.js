@@ -48,8 +48,8 @@ class EventoDatail extends Component {
   render() {
     if (this.props.reserva && this.props.evento){
       const status = this.ReservaSatatus(this.props.reserva.status);
-      const legislativo = this.TrueFalseSimNao(this.props.reserva.legislativo);
-      const video_conferencia = this.TrueFalseSimNao(this.props.reserva.video_conferencia);
+      const legislativo = this.TrueFalseSimNao(this.props.evento.legislativo);
+      const video_conferencia = this.TrueFalseSimNao(this.props.evento.video_conferencia);
       const data_criacao = this.DataFormat(this.props.reserva.data_criacao);
       const hora_criacao = this.DataHoraFormat(this.props.reserva.data_criacao);
       const data_inicio = this.DataFormat(this.props.evento.data_inicio);
@@ -130,11 +130,11 @@ class EventoDatail extends Component {
                       </tr>
                     </tbody>
                   </table>
-                <div className="btn-pedido col-md-12" role="group" aling>
+                <div className="btn-pedido col-md-12" role="group">
                     <button className="btn btn-primary btn-lg space">
                       Editar Pedido
                     </button>
-                    <button type="button" className="btn btn-default btn-lg space">
+                    <button className="btn btn-default btn-lg space">
                       Ajuda
                     </button>
                 </div>

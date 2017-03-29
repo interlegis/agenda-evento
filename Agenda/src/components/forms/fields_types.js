@@ -94,7 +94,8 @@ export const FIELD_PEDIDO = {
     label: 'legislativo'
   },
   observacao: {
-    type: 'observacao',
+    type: 'textarea',
+    type_s: 'observacao',
     titulo: 'Obervação:',
     label: 'a observação'
   },

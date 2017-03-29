@@ -8,6 +8,10 @@ class MeusPedidos extends Component {
     this.props.getPedidos();
   }
 
+  deletePedido(id){
+    this.props.deletarPedido(id);
+  }
+
   render() {
     if(this.props.pedidos){
       var itensTabela = this.props.pedidos.map( function(pedido) {
@@ -40,9 +44,25 @@ class MeusPedidos extends Component {
             <td>{status}</td>
             <td>{data}</td>
             <td>{hora_criacao}</td>
+            <td>
+              <div>
+                <button
+                  className="btn btn-default btn-sm space"
+                  onClick={() => console.log(pedido.id)}
+                >
+                  Editar Pedido
+                </button>
+                <button
+                  className="btn btn-danger btn-sm space"
+                  onClick={() => this.deletePedido(pedido.id)}
+                >
+                  Deletar Pedido
+                </button>
+              </div>
+            </td>
           </tr>
         );
-      });
+      }, this);
       return(
         <table className="table table-bordered col-md-10">
           <thead className="thead-default">
@@ -53,6 +73,7 @@ class MeusPedidos extends Component {
               <th>Status</th>
               <th>Data de Criação</th>
               <th>Hora de Criação</th>
+              <th>Opções</th>
             </tr>
           </thead>
           <tbody>

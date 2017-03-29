@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         ROOT_URL, RESERVA_GET, EVENTO_GET,
-        SAVE_CALENDAR } from '../types';
+        SAVE_CALENDAR, AVISO_ALERT } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
@@ -40,10 +40,9 @@ export function cadastroPedido(props) {
         dispatch({ type: CRIA_PEDIDO });
         dispatch(ErrorMessage(''));
         swal(
-            { title: "Sweet!",
-            text: "Pedido Created.",
-            imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
-            nimation: "slide-from-top",
+            { title: "Pedido Criado com Sucessco",
+            text: "Aguarde Confirmação",
+            animation: "slide-from-top",
             timer: 2000,
             showConfirmButton: false
           }
@@ -53,7 +52,7 @@ export function cadastroPedido(props) {
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
         swal({
           title: "Oops...",
-          text: "Server Error. Try Again Later ¯\\_(ツ)_/¯",
+          text: "Erro Interno - Tente novamente mais tarde",
           type: "error",
           animation: "slide-from-top",
           timer: 2000,
@@ -127,6 +126,25 @@ export function getPedidoEvento(id){
           .catch(() => {
             dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
           });
+      })
+      .catch(() => {
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function deletarPedido(id) {
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
+  return function(dispatch){
+    axios.delete(`${ROOT_URL}api/pedido/${id}/`, config_user)
+      .then(response => {
+        dispatch(getPedidos());
       })
       .catch(() => {
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));

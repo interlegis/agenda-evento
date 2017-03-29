@@ -36,14 +36,12 @@ class Main extends Component {
                 <p className="card-text">Agenda</p>
               </div></Link>
             </div>
-          <button className="btn btn-danger" onClick={this.logout.bind(this)} >Log Out</button>
         </div>
       );
     }
     return (
       <div>
-        <h2>Ola</h2>
-        <button className="btn btn-danger" onClick={this.logout.bind(this)} >Log Out</button>
+        <h2>Carregando...</h2>
       </div>
     );
   }

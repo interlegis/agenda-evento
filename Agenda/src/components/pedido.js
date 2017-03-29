@@ -3,8 +3,10 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import * as actions from '../actions';
-import { SELECT, CHECKBOX } from '../actions/types';
+import { SELECT, CHECKBOX, TEXTAREA, DATA_INICIO } from '../actions/types';
 import { FIELD_PEDIDO } from './forms/fields_types';
+import moment from 'moment';
+import DatePicker from 'react-bootstrap-date-picker';
 
 class NovoPedido extends Component{
   static contextTypes = {
@@ -41,11 +43,11 @@ class NovoPedido extends Component{
         return(
           <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label>{fieldConfig.titulo}</label>
-            <select {...fieldHelper} className="form-control" value="">
-              <option value={fieldConfig.option.SR}>Sala de Reuniões</option>
+            <select {...fieldHelper} className="form-control">
+              <option disabled>Selecione um local</option>
               <option value={fieldConfig.option.AI}>Auditório Interlegis</option>
+              <option value={fieldConfig.option.SR}>Sala de Reuniões</option>
             </select>
-            {fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
           </fieldset>
         );
       break;
@@ -58,6 +60,37 @@ class NovoPedido extends Component{
           </fieldset>
         );
       break;
+      // case TEXTAREA:
+      //   return(
+      //     <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+      //       <label>{fieldConfig.titulo}</label>
+      //       <textarea
+      //         cols="10  "
+      //         {...fieldHelper}
+      //         className="form-control"
+      //         rows="8"
+      //         />
+      //       {fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
+      //     </fieldset>
+      //   );
+      // break;
+      // case DATA_INICIO:
+      //   return(
+      //     <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+      //       <label>{fieldConfig.titulo}</label>
+      //       <DatePicker
+      //         {...fieldHelper}
+      //         dateFormat="MM-DD-YYYY"
+      //         placeholder={`Insira a ${fieldConfig.label}`}
+      //         id="data_inicio"
+      //         name="data_inicio"
+      //         monthLabels={['Janeiro', 'Feveiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
+      //         dayLabels={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
+      //       />
+      //       {fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
+      //     </fieldset>
+      //   );
+      // break;
       default:
         return(
           <fieldset className={(fieldHelper.touched && fieldHelper.invalid)

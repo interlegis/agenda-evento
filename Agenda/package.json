@@ -35,6 +35,8 @@
     "react-addons-test-utils": "^0.14.8",
     "react-addons-update": "^15.4.2",
     "react-big-calendar": "^0.12.3",
+    "react-bootstrap": "^0.30.8",
+    "react-bootstrap-date-picker": "^5.0.1",
     "react-dom": "^0.14.8",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",

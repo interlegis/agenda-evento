@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   user: user_reducer,
   pedidos: pedidos_reducers,
   pedido_detail: reserva_detail_reducers,
-  calendar: calendar_reducers
+  calendar: calendar_reducers,
 });
 
 export default rootReducer;
