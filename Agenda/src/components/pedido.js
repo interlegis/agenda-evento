@@ -3,12 +3,30 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import * as actions from '../actions';
-import { SELECT, CHECKBOX, TEXTAREA, DATA_INICIO } from '../actions/types';
+import { SELECT, CHECKBOX, TEXTAREA, DATA_INICIO, DATA_FIM,
+  TIME, TELEFONE } from '../actions/types';
 import { FIELD_PEDIDO } from './forms/fields_types';
 import moment from 'moment';
 import DatePicker from 'react-bootstrap-date-picker';
+import $ from 'jquery';
+import { mask } from 'jquery-mask-plugin';
+
+moment.locale("pt-br");
+
+$('#maskTelForm').find('[name="telefone"]').mask('(099)99999-9999');
+$('#maskTimeForm').find('[name="tempo"]').mask('99:99:99');
 
 class NovoPedido extends Component{
+  constructor(props){
+    super(props);
+
+    this.state = {
+      value: 'AI'
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -26,6 +44,10 @@ class NovoPedido extends Component{
     this.context.router.push('/main');
   }
 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
   renderAlert(){
     if (this.props.errorMessage) {
       return(
@@ -41,9 +63,11 @@ class NovoPedido extends Component{
     switch (fieldConfig.type) {
       case SELECT:
         return(
-          <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-            <label>{fieldConfig.titulo}</label>
-            <select {...fieldHelper} className="form-control">
+          <fieldset className="form-group"
+          key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <select {...fieldHelper} className="form-control"
+            value={this.state.value} onChange={this.handleChange}>
               <option disabled>Selecione um local</option>
               <option value={fieldConfig.option.AI}>Auditório Interlegis</option>
               <option value={fieldConfig.option.SR}>Sala de Reuniões</option>
@@ -53,51 +77,118 @@ class NovoPedido extends Component{
       break;
       case CHECKBOX:
         return(
-          <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-            <label>{fieldConfig.titulo}</label>
+          <fieldset className="form-group"
+          key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
             <input name={fieldConfig.name} id={fieldConfig.name}
-            className="form-control" {...fieldHelper} type={fieldConfig.type} />
+            className="form-control" {...fieldHelper}
+            type={fieldConfig.type} />
           </fieldset>
         );
       break;
-      // case TEXTAREA:
-      //   return(
-      //     <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-      //       <label>{fieldConfig.titulo}</label>
-      //       <textarea
-      //         cols="10  "
-      //         {...fieldHelper}
-      //         className="form-control"
-      //         rows="8"
-      //         />
-      //       {fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
-      //     </fieldset>
-      //   );
-      // break;
-      // case DATA_INICIO:
-      //   return(
-      //     <fieldset className="form-group" key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-      //       <label>{fieldConfig.titulo}</label>
-      //       <DatePicker
-      //         {...fieldHelper}
-      //         dateFormat="MM-DD-YYYY"
-      //         placeholder={`Insira a ${fieldConfig.label}`}
-      //         id="data_inicio"
-      //         name="data_inicio"
-      //         monthLabels={['Janeiro', 'Feveiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']}
-      //         dayLabels={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
-      //       />
-      //       {fieldHelper.error && <div className="error">{fieldHelper.error}</div>}
-      //     </fieldset>
-      //   );
-      // break;
+      case TEXTAREA:
+        return(
+          <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+            key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+           <fieldConfig.type
+             placeholder={`Insira a ${fieldConfig.label}`}
+             cols="10"
+             type="text"
+             {...fieldHelper}
+             className="form-control"
+             rows="8"
+             value={fieldHelper.value || ''}
+           />
+           {fieldHelper.touched && fieldHelper.invalid
+             && fieldHelper.error &&
+             <div className="help-block">{fieldHelper.error}</div>}
+           </fieldset>
+        );
+      break;
+      case DATA_INICIO:
+        return(
+          <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <DatePicker
+              {...fieldHelper}
+              dateFormat="MM-DD-YYYY"
+              placeholder={`Insira a ${fieldConfig.label}`}
+              id="data_inicio"
+              name="data_inicio"
+              monthLabels={['Janeiro', 'Feveiro', 'Março', 'Abril', 'Maio',
+              'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+              'Novembro', 'Dezembro']}
+              dayLabels={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
+            />
+            {fieldHelper.touched && fieldHelper.invalid
+              && fieldHelper.error &&
+              <div className="help-block">{fieldHelper.error}</div>}
+          </fieldset>
+        );
+      break;
+      case DATA_FIM:
+        return(
+          <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <DatePicker
+              {...fieldHelper}
+              dateFormat="MM-DD-YYYY"
+              placeholder={`Insira a ${fieldConfig.label}`}
+              id="data_fim"
+              name="data_fim"
+              monthLabels={['Janeiro', 'Feveiro', 'Março', 'Abril', 'Maio',
+              'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+              'Novembro', 'Dezembro']}
+              dayLabels={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
+            />
+            {fieldHelper.touched && fieldHelper.invalid
+              && fieldHelper.error &&
+              <div className="help-block">{fieldHelper.error}</div>}
+          </fieldset>
+        );
+      break;
+      case TIME:
+        return(
+          <fieldset id="maskTimeForm" className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <input className="form-control" {...fieldHelper} name="tempo"
+            type={fieldConfig.type}
+            placeholder={`Coloque ${fieldConfig.label}`}/>
+            {fieldHelper.touched && fieldHelper.error &&
+              <div className="help-block">{fieldHelper.error}</div>}
+          </fieldset>
+        );
+      break;
+      case TELEFONE:
+        return(
+          <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <input className="form-control" {...fieldHelper}
+            type={fieldConfig.type} name="telefone"
+            placeholder={`Coloque ${fieldConfig.label}`} />
+            {fieldHelper.touched && fieldHelper.error &&
+              <div className="help-block">{fieldHelper.error}</div>}
+          </fieldset>
+        );
+      break;
       default:
         return(
           <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
             ? "form-group has-error has-feedback" : "form-group"}
              key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
-            <input className="form-control" {...fieldHelper} type={fieldConfig.type}
+            <input className="form-control" {...fieldHelper}
+            type={fieldConfig.type}
             placeholder={`Coloque ${fieldConfig.label}`}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
@@ -125,11 +216,11 @@ class NovoPedido extends Component{
               className={((nome.touched && nome.invalid) ||
                 (descricao.touched && descricao.invalid) ||
                 (local.touched && local.invalid) ||
-                (data_inicio.touched && data_inicio.invalid) ||
-                (hora_inicio.touched && hora_inicio.invalid) ||
-                (data_fim.touched && data_fim.invalid) ||
-                (hora_fim.touched && hora_fim.invalid) ||
                 (nome_responsavel.touched && nome_responsavel.invalid) ||
+                (hora_inicio.touched && hora_inicio.invalid) ||
+                (hora_fim.touched && hora_fim.invalid) ||
+                (data_inicio.touched && data_inicio.invalid) ||
+                (data_fim.touched && data_fim.invalid) ||
                 (email_responsavel.touched && email_responsavel.invalid) ||
                 (telefone_responsavel.touched && telefone_responsavel.invalid) ||
                 (lotacao_responsavel.touched && lotacao_responsavel.invalid)) ?
@@ -151,19 +242,40 @@ class NovoPedido extends Component{
 
 function validate(values) {
   const errors = {};
+  var re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  var re_tel = /^\([0-9]{3}\)[0-9]{5}-[0-9]{4}$/;
+  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
 
   _.each(FIELD_PEDIDO, (fieldConfig, field) => {
     if (!values[field] && fieldConfig.type != 'select' &&
         fieldConfig.type != 'checkbox' && fieldConfig.type != 'observacao'){
       errors[field] = `Por favor, insira ${fieldConfig.label}...`;
     }
+
+    if (values[field] && fieldConfig.type == 'Email' && !re_email.test(values[field])) {
+      errors[field] = `Por favor, insira um email em formato valido!`;
+    }
+    if (values[field] && fieldConfig.type == 'tel' && !re_tel.test(values[field])) {
+      errors[field] = `Por favor, insira um telefone em formato valido!`;
+    }
+    if (values[field] && fieldConfig.type == 'time' && !re_time.test(values[field])) {
+      errors[field] = `Por favor, insira um horario em formato valido!`;
+    }
+
   });
   return errors;
 }
 
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
 function mapStateToProps(state) {
   return {
-    errorMessage: state.authentication.error,
+    errorMessage: state.authentication.error
   };
 }
 

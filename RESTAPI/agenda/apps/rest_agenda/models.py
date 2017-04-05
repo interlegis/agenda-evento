@@ -2,11 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
+from agenda import settings
 
 class Responsavel(models.Model):
     nome = models.CharField(blank=True, max_length=100)
     email = models.EmailField()
-    telefone = models.CharField(blank=True, max_length=11)
+    telefone = models.CharField(blank=True, max_length=15)
     lotacao = models.CharField(blank=True, max_length=100)
 
     class Meta:

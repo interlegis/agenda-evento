@@ -29,11 +29,13 @@ class Agenda extends Component {
       var time_inicial = evento['start_hour'].split(":");
       var time_fim = evento['end_hour'].split(":");
 
-      evento['start'] = new Date(date_inicial[0], date_inicial[1],
-        date_inicial[2], time_inicial[0], time_inicial[1], time_inicial[2]);
+      evento['start'] = new Date(date_inicial[0],
+        (Number(date_inicial[1]) - 1).toString(),date_inicial[2], time_inicial[0],
+        time_inicial[1], time_inicial[2]);
 
-      evento['end'] = new Date(date_fim[0], date_fim[1],
+      evento['end'] = new Date(date_fim[0], (Number(date_fim[1]) - 1).toString(),
         date_fim[2], time_fim[0], time_fim[1], time_fim[2]);
+
       return evento;
     });
 
@@ -41,7 +43,6 @@ class Agenda extends Component {
   }
 
   render() {
-    console.log(new Date(1376145058 * 1000));
     console.log(this.props.eventos);
     console.log(this.state.neweventos);
 
@@ -49,10 +50,17 @@ class Agenda extends Component {
       <div className="calendar-page col-md-12">
       <h1 align="center">Agenda de Eventos Intergelis</h1>
         <BigCalendar
-          popup
+           popup
            events={this.state.neweventos}
            views={['month', 'week', 'agenda']}
-           messages={{next:"Próximo",previous:"Anterior",today:"Hoje"}}
+           messages={{next:"Próximo",previous:"Anterior",today:"Hoje",month: "Mês",
+                      week: "Semana", agenda: "Agenda"}}
+           components={{
+            event: Event,
+            agenda: {
+              event: EventAgenda
+            }
+            }}
            onSelectEvent={event => this.context.router.push('/evento/'+event._id)}
            culture={moment.locale('pt')}
          />
@@ -61,8 +69,27 @@ class Agenda extends Component {
   }
 }
 
+function Event({ event }) {
+  return (
+    <span>
+      <strong>
+      {event.title}
+      </strong>
+      { event.descricao && (':  ' + event.descricao)}
+    </span>
+  )
+}
+
+function EventAgenda({ event }) {
+  return(
+    <span>
+      <em style={{ color: 'magenta'}}>{event.title}</em>
+      <p>{ event.descricao }</p>
+    </span>
+  );
+}
+
 function mapStateToProps(state){
-  console.log(state.calendar);
   return { eventos: state.calendar };
 }
 

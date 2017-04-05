@@ -65,22 +65,22 @@ export const FIELD_PEDIDO = {
       SR: 'SR',
       AI: 'AI'
     },
-    label: 'Selecio'
+    label: 'Selecione'
   },
   data_inicio: {
-    type: 'date',
+    type: 'data_inicio',
     titulo: 'Data de Início:',
     label: 'a data de início'
+  },
+  data_fim: {
+    type: 'data_fim',
+    titulo: 'Data de Fim:',
+    label: 'a data de fim'
   },
   hora_inicio: {
     type: 'time',
     titulo: 'Hora de Início:',
     label: 'a hora de início'
-  },
-  data_fim: {
-    type: 'date',
-    titulo: 'Data de Fim:',
-    label: 'a data de fim'
   },
   hora_fim: {
     type: 'time',

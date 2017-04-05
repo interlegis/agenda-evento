@@ -64,8 +64,6 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
             axios.get(`${ROOT_URL}api/users/i/`, config_user)
               .then(response => {
                 dispatch({ type: USUARIO, payload: response.data})
-                localStorage.setItem('user', "oi");
-                console.log(localStorage);
               })
               .catch(() => {
                   dispatch(signoutUser())

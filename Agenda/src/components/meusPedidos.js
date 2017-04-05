@@ -8,8 +8,32 @@ class MeusPedidos extends Component {
     this.props.getPedidos();
   }
 
-  deletePedido(id){
-    this.props.deletarPedido(id);
+  deletePedido(id) {
+    swal({
+      confirmButtonColor: "#ec6ci62",
+      title: "Deletar Pedido",
+      text: "Deseja realmente deletar o Pedido?",
+      type: "warning",
+      animation: "slide-from-top",
+      showCancelButton: true,
+      closeOnConfirm: false,
+      closeOnCancel: false,
+      confirmButtonText: "Ok",
+      showLoaderOnConfirm: true,
+    }, (isConfirm) =>
+      {
+        if (isConfirm) {
+          this.props.deletarPedido(id);
+        } else {
+          swal({
+          title: "Cancelado",
+          text: "Seu pedido nao foi cancelado ¯\\_(ツ)_/¯",
+          type: "error",
+          timer: 2000,
+          showConfirmButton: false
+          });
+        }
+      });
   }
 
   render() {

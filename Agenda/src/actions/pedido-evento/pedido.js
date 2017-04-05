@@ -6,6 +6,21 @@ import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
 
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+function DataFormat(data_string) {
+  const d = new Date(data_string);
+  const dia = addZero(d.getUTCDate());
+  const mes = addZero(d.getUTCMonth() + 1);
+  const ano = addZero(d.getFullYear());
+  return (ano + '-' + mes + '-' + dia);
+}
+
 export function cadastroPedido(props) {
   const config_user = {
     headers: {
@@ -20,9 +35,9 @@ export function cadastroPedido(props) {
           "nome": props.nome,
           "descricao": props.descricao,
           "local": props.local,
-          "data_inicio": props.data_inicio,
+          "data_inicio": DataFormat(props.data_inicio),
           "hora_inicio": props.hora_inicio,
-          "data_fim": props.data_fim,
+          "data_fim": DataFormat(props.data_fim),
           "hora_fim": props.hora_fim,
           "legislativo": props.legislativo,
           "observacao": props.observacao,
@@ -35,6 +50,7 @@ export function cadastroPedido(props) {
           }
       }
     }
+    console.log(data);
     axios.post(`${ROOT_URL}api/pedido/`, data, config_user)
       .then(response => {
         dispatch({ type: CRIA_PEDIDO });
@@ -47,21 +63,6 @@ export function cadastroPedido(props) {
             showConfirmButton: false
           }
         );
-      })
-      .catch((err) => {
-        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
-        swal({
-          title: "Oops...",
-          text: "Erro Interno - Tente novamente mais tarde",
-          type: "error",
-          animation: "slide-from-top",
-          timer: 2000,
-          showConfirmButton: false
-        }, () => {
-        // Redirect the user
-        window.location.href = "/";
-        });
-        throw err;
       });
   }
 }
@@ -145,6 +146,20 @@ export function deletarPedido(id) {
     axios.delete(`${ROOT_URL}api/pedido/${id}/`, config_user)
       .then(response => {
         dispatch(getPedidos());
+      })
+      .then(() => {
+        // blog post has been created, navigate the user to index
+        // We navigate by calling this.context.router.replace with the
+        // new path to navigate to.
+        swal(
+          { title: "Sweet!",
+          text: "Pedido deletado.",
+          imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
+          timer: 2000,
+          showConfirmButton: false
+          }
+        );
+        window.location.href = "/main";
       })
       .catch(() => {
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));

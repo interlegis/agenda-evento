@@ -1,7 +1,6 @@
 import datetime
 from .models import Reserva
 
-
 def dias_uteis(data_atual, dias, plus_minus):
     while dias > 0:
         data_atual += datetime.timedelta(days=plus_minus)

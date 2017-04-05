@@ -178,8 +178,8 @@ class AgendaView(generics.ListAPIView):
 
 class EventoListView(generics.ListAPIView):
     queryset = Reserva.objects.filter(status=u'R').values('evento__data_fim',
-    'evento__data_inicio','evento__descricao','evento__id','evento__local',
-    'evento__nome')
+    'evento__data_inicio', 'evento__hora_inicio', 'evento__hora_fim',
+    'evento__descricao','evento__id','evento__local','evento__nome')
     serializer_class = EventoSerializerAgenda
     permission_classes = (AllowAny,)
 
