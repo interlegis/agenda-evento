@@ -12,6 +12,7 @@ import NovoPedido from './components/pedido';
 import MeusPedidos from './components/meusPedidos';
 import EventoDetail from './components/eventoDetail';
 import Configuracoes from './components/configuracoes';
+import EditarPedido from './components/editarPedido';
 
 export default(
   <Route path="/" component={App} location="history">
@@ -24,6 +25,7 @@ export default(
     <Route path="/novoEvento" component={requireAuth(NovoPedido)} />
     <Route path="/pedidos" component={requireAuth(MeusPedidos)} />
     <Route path="/evento/:id" component={requireAuth(EventoDetail)} />
+    <Route path="/evento/editar/:id" component={requireAuth(EditarPedido)} />
     <Route path="/configuracoes" component={requireAuth(Configuracoes)} />
   </Route>
 );

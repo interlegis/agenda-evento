@@ -16,15 +16,13 @@ moment.locale("pt-br");
 $('#maskTelForm').find('[name="telefone"]').mask('(099)99999-9999');
 $('#maskTimeForm').find('[name="tempo"]').mask('99:99:99');
 
-class NovoPedido extends Component{
+class editarPedido extends Component{
   constructor(props){
     super(props);
 
     this.state = {
-      value: 'AI'
+      initialValues: this.props.pedido
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
   static contextTypes = {
@@ -38,14 +36,14 @@ class NovoPedido extends Component{
       submitting: PropTypes.bool.isRequired
   };
 
+  componentWillMount() {
+    this.props.getPedidoEvento(this.props.params.id);
+  }
+
   handleSubmitForm(formProps){
     console.log(formProps);
     this.props.cadastroPedido(formProps);
     this.context.router.push('/main');
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
   }
 
   renderAlert(){
@@ -67,7 +65,12 @@ class NovoPedido extends Component{
           key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
             <select {...fieldHelper} className="form-control"
-            value={this.state.value} onChange={this.handleChange}>
+            value={this.state.initialValues[field]}
+            onChange={
+              (event) => {
+                this.state.initialValues[field] = event.target.value;
+              this.forceUpdate();}
+            }>
               <option disabled>Selecione um local</option>
               <option value={fieldConfig.option.AI}>Auditório Interlegis</option>
               <option value={fieldConfig.option.SR}>Sala de Reuniões</option>
@@ -81,8 +84,10 @@ class NovoPedido extends Component{
           key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
             <input name={fieldConfig.name} id={fieldConfig.name}
-            className="form-control" {...fieldHelper}
-            type={fieldConfig.type} />
+            value={this.state.initialValues[field]} className="form-control"
+            {...fieldHelper} onChange={
+              (event) => {this.state.initialValues[field] = event.target.value;
+                this.forceUpdate();}} type={fieldConfig.type} />
           </fieldset>
         );
       break;
@@ -99,7 +104,12 @@ class NovoPedido extends Component{
              {...fieldHelper}
              className="form-control"
              rows="8"
-             value={fieldHelper.value || ''}
+             onChange={
+               (event) => {
+                 this.state.initialValues[field] = event.target.value;
+               this.forceUpdate();}
+             }
+             value={this.state.initialValues[field] || ''}
            />
            {fieldHelper.touched && fieldHelper.invalid
              && fieldHelper.error &&
@@ -161,7 +171,13 @@ class NovoPedido extends Component{
             <label className="control-label">{fieldConfig.titulo}</label>
             <input className="form-control" {...fieldHelper} name="tempo"
             type={fieldConfig.type}
-            placeholder={`Coloque ${fieldConfig.label}`}/>
+            placeholder={`Coloque ${fieldConfig.label}`}
+            onChange={
+              (event) => {
+                this.state.initialValues[field] = event.target.value;
+              this.forceUpdate();}
+            }
+            value={this.state.initialValues[field]}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
@@ -175,13 +191,20 @@ class NovoPedido extends Component{
             <label className="control-label">{fieldConfig.titulo}</label>
             <input className="form-control" {...fieldHelper}
             type={fieldConfig.type} name="telefone"
-            placeholder={`Coloque ${fieldConfig.label}`} />
+            placeholder={`Coloque ${fieldConfig.label}`}
+            onChange={
+              (event) => {
+                this.state.initialValues[field] = event.target.value;
+              this.forceUpdate();}
+            }
+            value={this.state.initialValues[field]}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
         );
       break;
       default:
+      //console.log(this.props.initialValues);
         return(
           <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
             ? "form-group has-error has-feedback" : "form-group"}
@@ -189,7 +212,13 @@ class NovoPedido extends Component{
             <label className="control-label">{fieldConfig.titulo}</label>
             <input className="form-control" {...fieldHelper}
             type={fieldConfig.type}
-            placeholder={`Coloque ${fieldConfig.label}`}/>
+            placeholder={`Coloque ${fieldConfig.label}`}
+            onChange={
+              (event) => {
+                this.state.initialValues[field] = event.target.value;
+              this.forceUpdate();}
+            }
+            value={this.state.initialValues[field]}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
@@ -204,38 +233,44 @@ class NovoPedido extends Component{
                 ,nome_responsavel ,email_responsavel ,telefone_responsavel
                 ,lotacao_responsavel}} = this.props;
 
-    return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
-        className="div-pedido">
-        {_.map(FIELD_PEDIDO, this.renderField.bind(this))}
-        {this.renderAlert()}
-        <div className="btn-pedido" role="group" aling>
-            <button
-              type="submit"
-              disabled={submitting}
-              className={((nome.touched && nome.invalid) ||
-                (descricao.touched && descricao.invalid) ||
-                (local.touched && local.invalid) ||
-                (nome_responsavel.touched && nome_responsavel.invalid) ||
-                (hora_inicio.touched && hora_inicio.invalid) ||
-                (hora_fim.touched && hora_fim.invalid) ||
-                (data_inicio.touched && data_inicio.invalid) ||
-                (data_fim.touched && data_fim.invalid) ||
-                (email_responsavel.touched && email_responsavel.invalid) ||
-                (telefone_responsavel.touched && telefone_responsavel.invalid) ||
-                (lotacao_responsavel.touched && lotacao_responsavel.invalid)) ?
-                "btn btn-primary btn-md space disabled" :"btn btn-primary btn-md space"}>
-              Enviar Pedido
-            </button>
-            <button type="button" className="btn btn-default btn-md space"
-              disabled={pristine || submitting} onClick={resetForm}>
-              Limpar
-            </button>
-            <Link to="/" className="btn btn-danger btn-md space" role="button">
-              Cancelar
-            </Link>
-          </div>
-      </form>
+    if (this.props.pedido) {
+      return(
+        <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+          className="div-pedido">
+          {_.map(FIELD_PEDIDO, this.renderField.bind(this))}
+          {this.renderAlert()}
+          <div className="btn-pedido" role="group" aling>
+              <button
+                type="submit"
+                disabled={submitting}
+                className={((nome.touched && nome.invalid) ||
+                  (descricao.touched && descricao.invalid) ||
+                  (local.touched && local.invalid) ||
+                  (nome_responsavel.touched && nome_responsavel.invalid) ||
+                  (hora_inicio.touched && hora_inicio.invalid) ||
+                  (hora_fim.touched && hora_fim.invalid) ||
+                  (data_inicio.touched && data_inicio.invalid) ||
+                  (data_fim.touched && data_fim.invalid) ||
+                  (email_responsavel.touched && email_responsavel.invalid) ||
+                  (telefone_responsavel.touched && telefone_responsavel.invalid) ||
+                  (lotacao_responsavel.touched && lotacao_responsavel.invalid)) ?
+                  "btn btn-primary btn-md space disabled" :"btn btn-primary btn-md space"}>
+                Enviar Pedido
+              </button>
+              <button type="button" className="btn btn-default btn-md space"
+                disabled={pristine || submitting} onClick={resetForm}>
+                Limpar
+              </button>
+              <Link to="/" className="btn btn-danger btn-md space" role="button">
+                Cancelar
+              </Link>
+            </div>
+        </form>
+      );
+    }
+
+    return (
+      <h3>Carregando...</h3>
     );
   }
 }
@@ -274,13 +309,16 @@ function addZero(i) {
 }
 
 function mapStateToProps(state) {
+  console.log(state.pedido_detail.evento_id);
   return {
-    errorMessage: state.authentication.error
+    errorMessage: state.authentication.error,
+    pedido: state.pedido_detail.evento_id,
+    initialValues: state.pedido_detail.evento_id
   };
 }
 
 export default reduxForm({
-  form: 'pedido',
+  form: 'editarPedido',
   fields: _.keys(FIELD_PEDIDO),
   validate
-}, mapStateToProps, actions)(NovoPedido);
+}, mapStateToProps, actions)(editarPedido);

@@ -83,7 +83,7 @@ function Event({ event }) {
 function EventAgenda({ event }) {
   return(
     <span>
-      <em style={{ color: 'magenta'}}>{event.title}</em>
+      <em style={{ color: '#26528C'}}>{event.title}</em>
       <p>{ event.descricao }</p>
     </span>
   );

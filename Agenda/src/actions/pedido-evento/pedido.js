@@ -56,13 +56,26 @@ export function cadastroPedido(props) {
         dispatch({ type: CRIA_PEDIDO });
         dispatch(ErrorMessage(''));
         swal(
-            { title: "Pedido Criado com Sucessco",
+            {
+            title: "Pedido Criado com Sucessco",
             text: "Aguarde Confirmação",
+            type: "success",
             animation: "slide-from-top",
             timer: 2000,
             showConfirmButton: false
           }
         );
+      })
+      .catch((err) => {
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+        swal({
+          title: "Erro",
+          text: "Erro Interno. Tente mais tarde",
+          type: "error",
+          timer: 2000,
+          showConfirmButton: false
+        });
+        throw err;
       });
   }
 }
@@ -146,20 +159,7 @@ export function deletarPedido(id) {
     axios.delete(`${ROOT_URL}api/pedido/${id}/`, config_user)
       .then(response => {
         dispatch(getPedidos());
-      })
-      .then(() => {
-        // blog post has been created, navigate the user to index
-        // We navigate by calling this.context.router.replace with the
-        // new path to navigate to.
-        swal(
-          { title: "Sweet!",
-          text: "Pedido deletado.",
-          imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
-          timer: 2000,
-          showConfirmButton: false
-          }
-        );
-        window.location.href = "/main";
+        dispatch(ErrorMessage(''));
       })
       .catch(() => {
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));

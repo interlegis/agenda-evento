@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import * as actions from '../actions';
@@ -7,6 +7,10 @@ class MeusPedidos extends Component {
   componentWillMount() {
     this.props.getPedidos();
   }
+
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
 
   deletePedido(id) {
     swal({
@@ -18,12 +22,21 @@ class MeusPedidos extends Component {
       showCancelButton: true,
       closeOnConfirm: false,
       closeOnCancel: false,
-      confirmButtonText: "Ok",
+      confirmButtonText: "Deletar",
       showLoaderOnConfirm: true,
     }, (isConfirm) =>
       {
         if (isConfirm) {
           this.props.deletarPedido(id);
+          swal(
+            {
+            title: "Sweet!",
+            text: "Pedido deletado.",
+            type: "success",
+            showConfirmButton: false
+            }
+          );
+          window.location.href = "/main";
         } else {
           swal({
           title: "Cancelado",
@@ -70,12 +83,15 @@ class MeusPedidos extends Component {
             <td>{hora_criacao}</td>
             <td>
               <div>
-                <button
-                  className="btn btn-default btn-sm space"
-                  onClick={() => console.log(pedido.id)}
-                >
-                  Editar Pedido
-                </button>
+              <button
+                className="btn btn-default btn-sm space"
+                onClick={() => {
+                  this.props.getPedidoEvento(pedido.id);
+                  this.context.router.replace(`/evento/editar/${pedido.id}`);
+                }}
+              >
+                Editar Pedido
+              </button>
                 <button
                   className="btn btn-danger btn-sm space"
                   onClick={() => this.deletePedido(pedido.id)}
@@ -108,7 +124,7 @@ class MeusPedidos extends Component {
     }
 
     return (
-      <div className="cp-spinner cp-morph"></div>
+        <h3>Carregando...</h3>
     );
   }
 }
