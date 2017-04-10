@@ -20,7 +20,7 @@ h1 {
 }
 
 .navbar-default {
-  background-color: #26528C;
+  background-color: #001B5B;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -139,7 +139,7 @@ navbar-default .navbar-nav>li>a:active {
 
 .w3-dark-grey, .w3-hover-dark-grey:hover, .w3-dark-gray, .w3-hover-dark-gray:hover {
     color: white!important;
-    background-color: #26528C!important;
+    background-color: #001B5B!important;
 }
 
 .w3-block {
@@ -183,13 +183,24 @@ navbar-default .navbar-nav>li>a:active {
 }
 
 .card:hover{
-  background-color: #26528C!important;
+  background-color: #001B5B!important;
   color: white!important;
 }
 
 .cards-section a{
   text-decoration: none;
-  color: #26528C;
+  color: #001B5B;
   margin-right: 1%;
   margin-left: 1%;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #001B5B;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #E82C0C;
+    border-color: #d43f3a;
 }

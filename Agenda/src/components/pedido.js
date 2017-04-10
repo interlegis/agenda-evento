@@ -14,7 +14,6 @@ import { mask } from 'jquery-mask-plugin';
 moment.locale("pt-br");
 
 $('#maskTelForm').find('[name="telefone"]').mask('(099)99999-9999');
-$('#maskTimeForm').find('[name="tempo"]').mask('99:99:99');
 
 class NovoPedido extends Component{
   constructor(props){
@@ -153,20 +152,6 @@ class NovoPedido extends Component{
           </fieldset>
         );
       break;
-      case TIME:
-        return(
-          <fieldset id="maskTimeForm" className={(fieldHelper.touched && fieldHelper.invalid)
-            ? "form-group has-error has-feedback" : "form-group"}
-             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-            <label className="control-label">{fieldConfig.titulo}</label>
-            <input className="form-control" {...fieldHelper} name="tempo"
-            type={fieldConfig.type}
-            placeholder={`Coloque ${fieldConfig.label}`}/>
-            {fieldHelper.touched && fieldHelper.error &&
-              <div className="help-block">{fieldHelper.error}</div>}
-          </fieldset>
-        );
-      break;
       case TELEFONE:
         return(
           <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
@@ -244,7 +229,7 @@ function validate(values) {
   const errors = {};
   var re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   var re_tel = /^\([0-9]{3}\)[0-9]{5}-[0-9]{4}$/;
-  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
 
   _.each(FIELD_PEDIDO, (fieldConfig, field) => {
     if (!values[field] && fieldConfig.type != 'select' &&

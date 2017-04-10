@@ -12,7 +12,6 @@ export const TEXTAREA = 'textarea';
 export const TELEFONE = 'tel';
 export const DATA_INICIO = 'data_inicio';
 export const DATA_FIM = 'data_fim';
-export const TIME = 'time';
 export const GET_PEDIDOS_USER = 'GET_PEDIDOS_USER';
 export const RESERVA_GET = 'RESERVA_GET';
 export const EVENTO_GET = 'EVENTO_GET';

@@ -40,7 +40,7 @@ class Login extends Component{
        fields: { username, password }} = this.props;
     return(
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
-        className="col-md-4 col-lg-4 col-sm-4 col-xs-8 login-div">
+        className="col-md-3 col-lg-3 col-sm-3 col-xs-8 login-div">
         {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
         {this.renderAlert()}
         <div className="login-button">

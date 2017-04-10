@@ -17,14 +17,6 @@ $('#maskTelForm').find('[name="telefone"]').mask('(099)99999-9999');
 $('#maskTimeForm').find('[name="tempo"]').mask('99:99:99');
 
 class editarPedido extends Component{
-  constructor(props){
-    super(props);
-
-    this.state = {
-      initialValues: this.props.pedido
-    };
-  }
-
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -41,7 +33,6 @@ class editarPedido extends Component{
   }
 
   handleSubmitForm(formProps){
-    console.log(formProps);
     this.props.cadastroPedido(formProps);
     this.context.router.push('/main');
   }
@@ -65,10 +56,10 @@ class editarPedido extends Component{
           key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
             <select {...fieldHelper} className="form-control"
-            value={this.state.initialValues[field]}
+            value={this.props.pedido[field]}
             onChange={
               (event) => {
-                this.state.initialValues[field] = event.target.value;
+                this.props.pedido[field] = event.target.value;
               this.forceUpdate();}
             }>
               <option disabled>Selecione um local</option>
@@ -84,9 +75,9 @@ class editarPedido extends Component{
           key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
             <input name={fieldConfig.name} id={fieldConfig.name}
-            value={this.state.initialValues[field]} className="form-control"
+            value={this.props.pedido[field]} className="form-control"
             {...fieldHelper} onChange={
-              (event) => {this.state.initialValues[field] = event.target.value;
+              (event) => {this.props.pedido[field] = event.target.value;
                 this.forceUpdate();}} type={fieldConfig.type} />
           </fieldset>
         );
@@ -106,10 +97,10 @@ class editarPedido extends Component{
              rows="8"
              onChange={
                (event) => {
-                 this.state.initialValues[field] = event.target.value;
+                 this.props.pedido[field] = event.target.value;
                this.forceUpdate();}
              }
-             value={this.state.initialValues[field] || ''}
+             value={this.props.pedido[field] || ''}
            />
            {fieldHelper.touched && fieldHelper.invalid
              && fieldHelper.error &&
@@ -174,37 +165,79 @@ class editarPedido extends Component{
             placeholder={`Coloque ${fieldConfig.label}`}
             onChange={
               (event) => {
-                this.state.initialValues[field] = event.target.value;
+                this.props.pedido[field] = event.target.value;
               this.forceUpdate();}
             }
-            value={this.state.initialValues[field]}/>
+            value={this.props.pedido[field]}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
         );
       break;
       case TELEFONE:
-        return(
-          <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
-            ? "form-group has-error has-feedback" : "form-group"}
-             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-            <label className="control-label">{fieldConfig.titulo}</label>
-            <input className="form-control" {...fieldHelper}
-            type={fieldConfig.type} name="telefone"
-            placeholder={`Coloque ${fieldConfig.label}`}
-            onChange={
-              (event) => {
-                this.state.initialValues[field] = event.target.value;
-              this.forceUpdate();}
-            }
-            value={this.state.initialValues[field]}/>
-            {fieldHelper.touched && fieldHelper.error &&
-              <div className="help-block">{fieldHelper.error}</div>}
-          </fieldset>
-        );
+        if ( field.indexOf("_responsavel") == -1) {
+          return(
+            <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
+              ? "form-group has-error has-feedback" : "form-group"}
+               key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+              <label className="control-label">{fieldConfig.titulo}</label>
+              <input className="form-control" {...fieldHelper}
+              type={fieldConfig.type} name="telefone"
+              placeholder={`Coloque ${fieldConfig.label}`}
+              onChange={
+                (event) => {
+                  this.props.pedido[field] = event.target.value;
+                this.forceUpdate();}
+              }
+              value={this.props.pedido[field]}/>
+              {fieldHelper.touched && fieldHelper.error &&
+                <div className="help-block">{fieldHelper.error}</div>}
+            </fieldset>
+          );
+        }else{
+          const novo_field = field.slice(0, field.indexOf("_"));
+          return(
+            <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
+              ? "form-group has-error has-feedback" : "form-group"}
+               key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+              <label className="control-label">{fieldConfig.titulo}</label>
+              <input className="form-control" {...fieldHelper}
+              type={fieldConfig.type} name="telefone"
+              placeholder={`Coloque ${fieldConfig.label}`}
+              onChange={
+                (event) => {
+                  this.props.pedido.responsavel[novo_field] = event.target.value;
+                this.forceUpdate();}
+              }
+              value={this.props.pedido.responsavel[novo_field]}/>
+              {fieldHelper.touched && fieldHelper.error &&
+                <div className="help-block">{fieldHelper.error}</div>}
+            </fieldset>
+          );
+        }
       break;
       default:
-      //console.log(this.props.initialValues);
+        if ( field.indexOf("_responsavel") == -1) {
+          return(
+            <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+              ? "form-group has-error has-feedback" : "form-group"}
+               key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+              <label className="control-label">{fieldConfig.titulo}</label>
+              <input className="form-control" {...fieldHelper}
+              type={fieldConfig.type}
+              placeholder={`Coloque ${fieldConfig.label}`}
+              onChange={
+                (event) => {
+                  this.props.pedido[field] = event.target.value;
+                this.forceUpdate();}
+              }
+              value={this.props.pedido[field]}/>
+              {fieldHelper.touched && fieldHelper.error &&
+                <div className="help-block">{fieldHelper.error}</div>}
+            </fieldset>
+          );
+      }else{
+        const novo_field = field.slice(0, field.indexOf("_"));
         return(
           <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
             ? "form-group has-error has-feedback" : "form-group"}
@@ -215,25 +248,25 @@ class editarPedido extends Component{
             placeholder={`Coloque ${fieldConfig.label}`}
             onChange={
               (event) => {
-                this.state.initialValues[field] = event.target.value;
+                this.props.pedido.responsavel[novo_field] = event.target.value;
               this.forceUpdate();}
             }
-            value={this.state.initialValues[field]}/>
+            value={this.props.pedido.responsavel[novo_field]}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
         );
+      }
     }
   }
 
   render(){
-    const { error, handleSubmit, pristine, resetForm, submitting,
-      fields: { nome ,descricao ,local ,option ,data_inicio ,hora_inicio ,
-                data_fim ,hora_fim ,legislativo ,observacao ,video_conferencia
-                ,nome_responsavel ,email_responsavel ,telefone_responsavel
-                ,lotacao_responsavel}} = this.props;
-
     if (this.props.pedido) {
+      const { error, handleSubmit, pristine, resetForm, submitting,
+        fields: { nome ,descricao ,local ,option ,data_inicio ,hora_inicio ,
+                  data_fim ,hora_fim ,legislativo ,observacao ,video_conferencia,
+                  nome_responsavel ,email_responsavel ,telefone_responsavel
+                  ,lotacao_responsavel}} = this.props;
       return(
         <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
           className="div-pedido">
@@ -309,11 +342,9 @@ function addZero(i) {
 }
 
 function mapStateToProps(state) {
-  console.log(state.pedido_detail.evento_id);
   return {
     errorMessage: state.authentication.error,
     pedido: state.pedido_detail.evento_id,
-    initialValues: state.pedido_detail.evento_id
   };
 }
 
