@@ -166,3 +166,68 @@ export function deletarPedido(id) {
       });
   }
 }
+
+export function updatePedido(props, id){
+  return function(dispatch){
+    const config_user = {
+      headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json',
+          'Authorization': 'token ' + localStorage.token
+      }
+    };
+
+    const data = {
+      "nome": props.nome,
+      "descricao": props.descricao,
+      "local": props.local,
+      "data_inicio": DataFormat(props.data_inicio),
+      "hora_inicio": props.hora_inicio,
+      "data_fim": DataFormat(props.data_fim),
+      "hora_fim": props.hora_fim,
+      "legislativo": props.legislativo,
+      "observacao": props.observacao,
+      "video_conferencia": props.video_conferencia,
+      "responsavel": {
+          "nome": props.nome_responsavel,
+          "email": props.email_responsavel,
+          "telefone": props.telefone_responsavel,
+          "lotacao": props.lotacao_responsavel
+      }
+    }
+    console.log(data);
+    axios.put(`${ROOT_URL}api/pedido/${id}/evento/`,
+      data ,config_user)
+      .then(response => {
+        dispatch({ type: EVENTO_GET, payload: response.data});
+        dispatch(ErrorMessage(''));
+        swal(
+            { title: "Sucesso!",
+            text: "Pedido Atualizado.",
+            imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
+            timer: 2000,
+            showConfirmButton: false
+          }, () => {
+            // Redirect the user
+            window.location.href = "/main";
+          }
+        );
+      })
+      .catch((err) => {
+          dispatch(signoutUser())
+          dispatch(ErrorMessage('Erro Interno - Usuario nao Encontrado, erro no servidor'));
+          swal({
+            title: "Oops...",
+            text: "User not available. Try Again Later ¯\\_(ツ)_/¯",
+            type: "error",
+            animation: "slide-from-top",
+            timer: 2000,
+            showConfirmButton: false
+          }, () => {
+          // Redirect the user
+          window.location.href = "/main";
+          });
+          throw err;
+      });
+  }
+}

@@ -143,7 +143,7 @@ class EventoDatail extends Component {
       );
     }
     return(
-      <h3>Carregando</h3>
+      <h3>Carregando...</h3>
     );
   }
 }

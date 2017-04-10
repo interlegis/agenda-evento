@@ -122,8 +122,8 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
         dispatch({ type: UPDATE_USUARIO, payload: response.data});
         dispatch(ErrorMessage(''));
         swal(
-            { title: "Sweet!",
-            text: "User Updated.",
+            { title: "Sucesso!",
+            text: "Usuario Atualizado.",
             imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
             timer: 2000,
             showConfirmButton: false
@@ -138,7 +138,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
           dispatch(ErrorMessage('Erro Interno - Usuario nao Encontrado, erro no servidor'));
           swal({
             title: "Oops...",
-            text: "User not available. Try Again Later ¯\\_(ツ)_/¯",
+            text: "Usuario Indisponivel. Try Again Later ¯\\_(ツ)_/¯",
             type: "error",
             animation: "slide-from-top",
             timer: 2000,

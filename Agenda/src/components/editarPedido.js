@@ -33,8 +33,8 @@ class editarPedido extends Component{
   }
 
   handleSubmitForm(formProps){
-    this.props.cadastroPedido(formProps);
-    this.context.router.push('/main');
+    console.log(formProps);
+    this.props.updatePedido(formProps, this.props.params.id);
   }
 
   renderAlert(){
@@ -76,9 +76,8 @@ class editarPedido extends Component{
             <label className="control-label">{fieldConfig.titulo}</label>
             <input name={fieldConfig.name} id={fieldConfig.name}
             value={this.props.pedido[field]} className="form-control"
-            {...fieldHelper} onChange={
-              (event) => {this.props.pedido[field] = event.target.value;
-                this.forceUpdate();}} type={fieldConfig.type} />
+            {...fieldHelper}
+                type={fieldConfig.type} />
           </fieldset>
         );
       break;
@@ -341,10 +340,39 @@ function addZero(i) {
     return i;
 }
 
+function DataFormat(data_string) {
+  const d = new Date(data_string);
+  const dia = addZero(d.getUTCDate());
+  const mes = addZero(d.getUTCMonth() + 1);
+  const ano = addZero(d.getFullYear());
+  return (ano + '-' + mes + '-' + dia);
+}
+
 function mapStateToProps(state) {
+  var new_pedido = {};
+  if (state.pedido_detail.evento_id) {
+    new_pedido = {
+      "nome": state.pedido_detail.evento_id.nome,
+      "descricao": state.pedido_detail.evento_id.descricao,
+      "local": state.pedido_detail.evento_id.local,
+      "data_inicio": state.pedido_detail.evento_id.data_inicio,
+      "hora_inicio": state.pedido_detail.evento_id.hora_inicio,
+      "data_fim": state.pedido_detail.evento_id.data_fim,
+      "hora_fim": state.pedido_detail.evento_id.hora_fim,
+      "legislativo": state.pedido_detail.evento_id.legislativo,
+      "observacao": state.pedido_detail.evento_id.observacao,
+      "video_conferencia": state.pedido_detail.evento_id.video_conferencia,
+      "nome_responsavel": state.pedido_detail.evento_id.responsavel.nome,
+      "email_responsavel": state.pedido_detail.evento_id.responsavel.email,
+      "telefone_responsavel": state.pedido_detail.evento_id.responsavel.telefone,
+      "lotacao_responsavel": state.pedido_detail.evento_id.responsavel.lotacao
+    };
+  }
+
   return {
     errorMessage: state.authentication.error,
     pedido: state.pedido_detail.evento_id,
+    initialValues: new_pedido
   };
 }
 
