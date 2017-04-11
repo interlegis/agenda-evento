@@ -97,7 +97,7 @@ button.rbc-input::-moz-focus-inner {
   text-align: center;
   color: #00ACC1;
   font-size: 1.4em;
-  margin-left: -23%;
+  margin-left: 0%;
 }
 .rbc-toolbar button {
   color: #373a3c;

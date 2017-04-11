@@ -55,12 +55,14 @@ class Agenda extends Component {
            views={['month', 'week', 'agenda']}
            messages={{next:"Próximo",previous:"Anterior",today:"Hoje",month: "Mês",
                       week: "Semana", agenda: "Agenda"}}
-           components={{
+           components={
+           {
             event: Event,
             agenda: {
               event: EventAgenda
             }
-            }}
+           }
+          }
            onSelectEvent={event => this.context.router.push('/evento/'+event._id)}
            culture={moment.locale('pt')}
          />

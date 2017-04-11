@@ -55,12 +55,40 @@ class AgendaHome extends Component {
            views={['month','week', 'agenda']}
            messages={{next:"Próximo",previous:"Anterior",today:"Hoje",month: "Mês",
                       week: "Semana", agenda: "Agenda"}}
+           components={
+             {
+             event: Event,
+             agenda: {
+               event: EventAgenda
+             }
+            }
+          }
            onSelectEvent={event => this.context.router.push('/evento/'+event._id)}
            culture={moment.locale('pt')}
          />
       </div>
     );
   }
+}
+
+function Event({ event }) {
+  return (
+    <span>
+      <strong>
+      {event.title}
+      </strong>
+      { event.descricao && (':  ' + event.descricao)}
+    </span>
+  )
+}
+
+function EventAgenda({ event }) {
+  return(
+    <span>
+      <em style={{ color: '#26528C'}}>{event.title}</em>
+      <p>{ event.descricao }</p>
+    </span>
+  );
 }
 
 function mapStateToProps(state){
