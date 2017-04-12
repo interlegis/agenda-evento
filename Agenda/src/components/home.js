@@ -29,7 +29,7 @@ class Home extends Component {
                <div className="card">
                    <div className="front">
                        <div className="cover">
-                        <img alt="Brand_card" src="/style/img/interlegis.jpg"/>
+                        <img alt="Brand_card" src="/style/img/interlegis2.jpg"/>
                        </div>
                        <div className="content">
                            <div className="main">
