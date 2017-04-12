@@ -26,13 +26,13 @@ class Main extends Component {
         <div>
           <h1 className="bottom-space">Bem Vindo(a), {user.first_name}.</h1>
             <div className="col-md-12 row cards-section">
-              <Link to="/pedidos"><div className="col-md-4 col-xs-12 card">
+              <Link to="/pedidos"><div className="col-md-4 col-xs-12 card-main">
                 <p className="card-text">Meus Pedidos/Eventos</p>
               </div></Link>
-              <Link to="/novoEvento"><div className="col-md-4 col-xs-12 card">
+              <Link to="/novoEvento"><div className="col-md-4 col-xs-12 card-main">
                   <p className="card-text">Novo Pedido</p>
               </div></Link>
-              <Link to="/agenda"><div className="col-md-4 col-xs-12 card">
+              <Link to="/agenda"><div className="col-md-4 col-xs-12 card-main">
                 <p className="card-text">Agenda</p>
               </div></Link>
             </div>

@@ -3,8 +3,8 @@ body {
 }
 
 h1 {
-    color: #00ACC1;
-    font-size: 2.8em;
+  color: #00ACC1;
+  font-size: 2.8em;
 }
 
 .navbar {
@@ -170,7 +170,7 @@ navbar-default .navbar-nav>li>a:active {
     justify-content: center;
 }
 
-.card{
+.card-main{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,7 +182,7 @@ navbar-default .navbar-nav>li>a:active {
   margin-bottom: 10px;
 }
 
-.card:hover{
+.card-main:hover{
   background-color: #001B5B!important;
   color: white!important;
 }

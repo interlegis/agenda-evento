@@ -218,7 +218,7 @@ export function updatePedido(props, id){
           dispatch(ErrorMessage('Erro Interno - Usuario nao Encontrado, erro no servidor'));
           swal({
             title: "Oops...",
-            text: "User not available. Try Again Later ¯\\_(ツ)_/¯",
+            text: "Pedido indisponivel. Try Again Later ¯\\_(ツ)_/¯",
             type: "error",
             animation: "slide-from-top",
             timer: 2000,
