@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         ROOT_URL, RESERVA_GET, EVENTO_GET,
-        SAVE_CALENDAR, AVISO_ALERT } from '../types';
+        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, AVISO_ALERT } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
@@ -102,6 +102,25 @@ export function getAgendaPedidos(){
     axios.get(`${ROOT_URL}api/eventos/agenda`, config_user)
       .then(response => {
         dispatch({ type: SAVE_CALENDAR, payload: response.data });
+        dispatch(ErrorMessage(''));
+      })
+      .catch(() => {
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function getAgendaPedidosNews(){
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+    }
+  };
+  return function(dispatch){
+    axios.get(`${ROOT_URL}api/eventos/agenda/news`, config_user)
+      .then(response => {
+        dispatch({ type: SAVE_CALENDAR_NEWS, payload: response.data });
         dispatch(ErrorMessage(''));
       })
       .catch(() => {

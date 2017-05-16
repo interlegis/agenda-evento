@@ -17,3 +17,4 @@ export const GET_PEDIDOS_USER = 'GET_PEDIDOS_USER';
 export const RESERVA_GET = 'RESERVA_GET';
 export const EVENTO_GET = 'EVENTO_GET';
 export const SAVE_CALENDAR = 'SAVE_CALENDAR';
+export const SAVE_CALENDAR_NEWS = 'SAVE_CALENDAR_NEWS';
