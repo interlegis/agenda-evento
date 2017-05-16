@@ -75,7 +75,7 @@ class EventoDatail extends Component {
           <div>
             <h1 className="title">Reserva</h1>
             <hr/>
-            <table className="col-md-12">
+            <table className="col-md-12 text-reserva">
               <tbody>
                 <tr>
                   <td><h4><strong>Status: </strong>{status}</h4></td>
@@ -91,7 +91,7 @@ class EventoDatail extends Component {
           <div className="div-evento">
             <h1 className="title">Evento</h1>
             <hr/>
-              <table className="col-md-12">
+              <table className="col-md-12 text-reserva">
                 <tbody>
                   <tr>
                     <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
@@ -114,7 +114,7 @@ class EventoDatail extends Component {
               <div className="div-evento-responsavel">
                 <h1 className="title">Responsável</h1>
                 <hr/>
-                  <table className="col-md-12">
+                  <table className="col-md-12 text-reserva">
                     <tbody>
                       <tr>
                         <td><h4><strong>Nome: </strong>{this.props.evento.responsavel.nome}</h4></td>
