@@ -11,5 +11,7 @@ urlpatterns = [
         views.ReservaEdit.as_view(),name='edit-pedido'),
     url(r'^api/agenda', views.AgendaView.as_view(),name='agenda'),
     url(r'^api/pedido/user', views.PedidosUserView.as_view(),name='pedido-user'),
+    url(r'^api/eventos/agenda/news', views.EventoLastestListView.as_view(),
+    name='agenda-evento-last'),
     url(r'^api/eventos/agenda', views.EventoListView.as_view(), name='agenda-evento')
 ]
