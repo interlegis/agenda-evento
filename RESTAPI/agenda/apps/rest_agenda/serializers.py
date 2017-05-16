@@ -17,10 +17,12 @@ class EventoSerializerAgenda(serializers.ModelSerializer):
     start_hour = serializers.SerializerMethodField('get_hora_inicio')
     end_hour = serializers.SerializerMethodField('get_hora_fim')
     description = serializers.SerializerMethodField('get_desc')
+    lugar = serializers.SerializerMethodField('get_local')
+
     class Meta:
         model = Evento
         fields = ('_id', 'title', 'start', 'start_hour', 'end_hour', 'end',
-        'description')
+        'description', 'lugar')
 
     def get_id(self, obj):
         return obj['evento__id']
@@ -42,6 +44,9 @@ class EventoSerializerAgenda(serializers.ModelSerializer):
 
     def get_desc(self, obj):
         return obj['evento__descricao']
+
+    def get_local(self, obj):
+        return obj['evento__local']
 
 class EventoSerializer(serializers.ModelSerializer):
     responsavel = ResponsavelSerializer()

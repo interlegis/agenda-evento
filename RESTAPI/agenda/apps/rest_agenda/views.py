@@ -8,7 +8,6 @@ from .serializers import (ReservaEventoSerializer, ReservaSerializer,
 from .utils import check_datas, checkEventoDatas
 import datetime
 
-
 class ReservaViewSet(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
     serializer_class = ReservaEventoSerializer
