@@ -16,13 +16,12 @@ class Home extends Component {
       var hora_inicio = evento.start_hour.split(":");
       var hora_fim = evento.end_hour.split(":");
 
-
-
       if (evento.lugar == 'SR') {
         local = 'Sala de Reuniões'
-      }else{
+      } else{
         local = 'Auditório Interlegis'
       }
+
       return(
         <div className="col-md-4 col-sm-6" key={evento.title+local}>
             <div className="card-container">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
-import * as actions from '../actions';
+import { signinUser } from '../actions';
 import { FIELD_USUARIO_LOGIN } from './forms/fields_types';
 
 class Login extends Component{
@@ -79,4 +79,4 @@ export default reduxForm({
   form: 'login',
   fields: _.keys(FIELD_USUARIO_LOGIN),
   validate
-}, mapStateToProps, actions)(Login);
+}, mapStateToProps, {signinUser})(Login);

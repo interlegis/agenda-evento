@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
-import * as actions from '../actions';
+import { getUsuario, updateUsuario, signinUser } from '../actions';
 import { FIELD_USUARIO_CADASTRO, FIELD_USUARIO_UPDATE } from './forms/fields_types';
 
 class Configuracoes extends Component{
@@ -120,4 +120,4 @@ export default reduxForm({
   form: 'configuracoes',
   fields: _.keys(FIELD_USUARIO_CADASTRO),
   validate
-}, mapStateToProps, actions)(Configuracoes);
+}, mapStateToProps, { getUsuario, updateUsuario, signinUser })(Configuracoes);

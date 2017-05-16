@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as actions from '../actions';
+import { getPedidos, getPedidoEvento, deletarPedido }
+from '../actions/pedido-evento/pedido';
 
 class MeusPedidos extends Component {
   componentWillMount() {
@@ -133,4 +134,5 @@ function mapStateToProps(state){
   return {pedidos: state.pedidos.pedidos }
 }
 
-export default connect(mapStateToProps, actions)(MeusPedidos);
+export default connect(mapStateToProps,
+  { getPedidos, getPedidoEvento, deletarPedido })(MeusPedidos);

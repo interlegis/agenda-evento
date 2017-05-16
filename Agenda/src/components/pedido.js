@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
-import * as actions from '../actions';
+import { updatePedido, getPedidoEvento } from '../actions';
 import { SELECT, CHECKBOX, TEXTAREA, DATA_INICIO, DATA_FIM,
   TIME, TELEFONE } from '../actions/types';
 import { FIELD_PEDIDO } from './forms/fields_types';
@@ -14,6 +14,8 @@ import { mask } from 'jquery-mask-plugin';
 moment.locale("pt-br");
 
 $('#maskTelForm').find('[name="telefone"]').mask('(099)99999-9999');
+$('.form-group').find('[name="hora_inicio"]').mask('99:99:99');
+$('.form-group').find('[name="hora_fim"]').mask('99:99:99');
 
 class NovoPedido extends Component{
   constructor(props){
@@ -48,6 +50,19 @@ class NovoPedido extends Component{
   }
 
   renderAlert(){
+    if (this.props.errorMessage === 'Evento fora do periodo de editar') {
+      swal(
+          { title: "Cancelado",
+          text: "Evento fora do periodo de editar!",
+          type: "error",
+          timer: 2000,
+          showConfirmButton: false
+        }, () => {
+          // Redirect the user
+          window.location.href = "/main";
+        }
+      );
+    }
     if (this.props.errorMessage) {
       return(
         <div className="alert alert-danger">
@@ -152,6 +167,26 @@ class NovoPedido extends Component{
           </fieldset>
         );
       break;
+      case TIME:
+        return(
+          <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <input className="form-control" {...fieldHelper}
+            type={fieldConfig.type}
+            placeholder={`Coloque ${fieldConfig.label}`}
+            onChange={
+              (event) => {
+                this.props.pedido[field] = event.target.value;
+              this.forceUpdate();}
+            }
+            value={this.props.pedido[field]}/>
+            {fieldHelper.touched && fieldHelper.error &&
+              <div className="help-block">{fieldHelper.error}</div>}
+          </fieldset>
+        );
+      break;
       case TELEFONE:
         return(
           <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
@@ -228,8 +263,8 @@ class NovoPedido extends Component{
 function validate(values) {
   const errors = {};
   var re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  var re_tel = /^\([0-9]{3}\)[0-9]{5}-[0-9]{4}$/;
-  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+  var re_tel = /^\([0-9]{3}\)[0-9]{4,5}-[0-9]{4}$/;
+  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0][0]$/;
 
   _.each(FIELD_PEDIDO, (fieldConfig, field) => {
     if (!values[field] && fieldConfig.type != 'select' &&
@@ -268,4 +303,4 @@ export default reduxForm({
   form: 'pedido',
   fields: _.keys(FIELD_PEDIDO),
   validate
-}, mapStateToProps, actions)(NovoPedido);
+}, mapStateToProps, {updatePedido, getPedidoEvento})(NovoPedido);

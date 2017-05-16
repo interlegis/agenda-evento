@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
-import * as actions from '../actions';
+import { cadastroUsuario } from '../actions';
 import { FIELD_USUARIO_CADASTRO } from './forms/fields_types';
 
 class Cadastro extends Component{
@@ -95,4 +95,4 @@ export default reduxForm({
   form: 'cadastro',
   fields: _.keys(FIELD_USUARIO_CADASTRO),
   validate
-}, mapStateToProps, actions)(Cadastro);
+}, mapStateToProps, { cadastroUsuario })(Cadastro);

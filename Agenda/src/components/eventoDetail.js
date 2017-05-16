@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as actions from '../actions';
+import { getPedidoEvento } from '../actions';
 
 class EventoDatail extends Component {
   componentWillMount() {
@@ -155,4 +155,4 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps, actions)(EventoDatail);
+export default connect(mapStateToProps, { getPedidoEvento })(EventoDatail);

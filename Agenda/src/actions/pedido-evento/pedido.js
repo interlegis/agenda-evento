@@ -67,15 +67,7 @@ export function cadastroPedido(props) {
         );
       })
       .catch((err) => {
-        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
-        swal({
-          title: "Erro",
-          text: "Erro Interno. Tente mais tarde",
-          type: "error",
-          timer: 2000,
-          showConfirmButton: false
-        });
-        throw err;
+        dispatch(ErrorMessage(`${err.response.data.non_field_errors[0]}`));
       });
   }
 }
@@ -214,20 +206,8 @@ export function updatePedido(props, id){
         );
       })
       .catch((err) => {
-          dispatch(signoutUser())
-          dispatch(ErrorMessage('Erro Interno - Usuario nao Encontrado, erro no servidor'));
-          swal({
-            title: "Oops...",
-            text: "Pedido indisponivel. Try Again Later ¯\\_(ツ)_/¯",
-            type: "error",
-            animation: "slide-from-top",
-            timer: 2000,
-            showConfirmButton: false
-          }, () => {
-          // Redirect the user
-          window.location.href = "/main";
-          });
-          throw err;
+          console.log(err.response.data.non_field_errors[0]);
+          dispatch(ErrorMessage(`${err.response.data.non_field_errors[0]}`));
       });
   }
 }

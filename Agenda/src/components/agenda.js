@@ -59,7 +59,8 @@ class Agenda extends Component {
            {
             event: Event,
             agenda: {
-              event: EventAgenda
+              event: EventAgenda,
+              time: EventTime
             }
            }
           }
@@ -80,6 +81,17 @@ function Event({ event }) {
       { event.descricao && (':  ' + event.descricao)}
     </span>
   )
+}
+
+function EventTime({ event }) {
+  console.log(event);
+  return(
+    <span>
+      <p style={{ color: '#26528C'}}>
+        { `${event.start_hour} - ${event.end_hour}` }
+      </p>
+    </span>
+  );
 }
 
 function EventAgenda({ event }) {
