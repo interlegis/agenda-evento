@@ -98,11 +98,6 @@ class EventoSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, attrs):
-        print Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
-        evento__hora_fim__lte=attrs['hora_fim'],
-        evento__data_inicio=attrs['data_inicio'],
-        evento__data_fim=attrs['data_fim'], evento__local=attrs['local'],
-        status=u'R').exclude(pk=self.instance.pk);
         if (attrs['data_inicio'] - datetime.datetime.now().date()).days < 3:
             raise serializers.ValidationError('Evento fora do periodo de editar')
         elif attrs['data_inicio'] < datetime.datetime.now().date():
