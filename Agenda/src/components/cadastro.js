@@ -18,7 +18,6 @@ class Cadastro extends Component{
   };
 
   handleSubmitForm(formProps){
-    console.log(formProps);
     this.props.cadastroUsuario(formProps);
   }
 

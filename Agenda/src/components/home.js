@@ -8,7 +8,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.props.eventos);
     var cards = this.props.eventos.map( function(evento) {
       var local;
       var data_inicio = evento.start.split("-");

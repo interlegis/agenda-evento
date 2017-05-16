@@ -42,9 +42,6 @@ class AgendaHome extends Component {
   }
 
   render() {
-    console.log(this.props.eventos);
-    console.log(this.state.neweventos);
-
     return (
       <div className="calendar-page col-md-12">
       <h1 align="center">Agenda de Eventos Intergelis</h1>

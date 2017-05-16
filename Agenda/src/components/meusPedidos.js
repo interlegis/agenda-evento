@@ -53,7 +53,6 @@ class MeusPedidos extends Component {
   render() {
     if(this.props.pedidos){
       var itensTabela = this.props.pedidos.map( function(pedido) {
-        console.log(pedido);
         var status;
           switch (pedido.status) {
             case 'P':

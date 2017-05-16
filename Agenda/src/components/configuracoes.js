@@ -27,7 +27,6 @@ class Configuracoes extends Component{
   }
 
   handleSubmitForm(formProps){
-    console.log(formProps);
     this.props.updateUsuario(formProps);
     this.props.signinUser(formProps);
   }
@@ -44,7 +43,6 @@ class Configuracoes extends Component{
 
   renderField(fieldConfig, field){
     const fieldHelper = this.props.fields[field];
-    console.log(this.state.initialValues);
     return(
       <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
         ? "form-group has-error has-feedback" : "form-group"} key={`${fieldConfig.type}\_${fieldConfig.label}`}>

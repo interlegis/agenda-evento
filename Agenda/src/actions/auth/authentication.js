@@ -4,8 +4,6 @@ import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL, UPDATE
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 
-
-
 const config = {
   headers: {
       'X-CSRFToken': Cookies.get('csrftoken'),
@@ -20,7 +18,6 @@ export function signinUser({ username, password }) {
         dispatch({ type: AUTH_USUARIO });
         dispatch(ErrorMessage(''));
         localStorage.setItem('token', response.data.token);
-        console.log(localStorage.token);
         const config_user = {
           headers: {
               'X-CSRFToken': Cookies.get('csrftoken'),

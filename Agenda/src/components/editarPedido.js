@@ -34,7 +34,6 @@ class editarPedido extends Component{
   }
 
   handleSubmitForm(formProps){
-    console.log(formProps);
     this.props.updatePedido(formProps, this.props.params.id);
   }
 

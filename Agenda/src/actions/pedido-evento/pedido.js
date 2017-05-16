@@ -50,7 +50,6 @@ export function cadastroPedido(props) {
           }
       }
     }
-    console.log(data);
     axios.post(`${ROOT_URL}api/pedido/`, data, config_user)
       .then(response => {
         dispatch({ type: CRIA_PEDIDO });
@@ -187,7 +186,6 @@ export function updatePedido(props, id){
           "lotacao": props.lotacao_responsavel
       }
     }
-    console.log(data);
     axios.put(`${ROOT_URL}api/pedido/${id}/evento/`,
       data ,config_user)
       .then(response => {
