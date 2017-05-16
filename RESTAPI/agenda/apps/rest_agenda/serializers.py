@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Q
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
@@ -100,16 +101,26 @@ class EventoSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, attrs):
-        if attrs['data_inicio'] < datetime.datetime.now().date():
+        print self.instance.pk;
+        if (attrs['data_inicio'] - datetime.datetime.now().date()).days < 3:
+            raise serializers.ValidationError('Evento fora do periodo de editar')
+        elif attrs['data_inicio'] < datetime.datetime.now().date():
             raise serializers.ValidationError('Data de inicio deve ser maior \
             igual a de hoje')
         elif attrs['data_fim'] < attrs['data_inicio']:
-            raise serializers.ValidationError('Data final deve maior igual \
+            raise serializers.ValidationError('Data final deve ser maior igual \
             a data de inicio')
         elif attrs['data_inicio'] == attrs['data_fim']:
             if attrs['hora_fim'] < attrs['hora_inicio']:
-                raise serializers.ValidationError('Evento no mesmo dia, horas \
-                final tem que ser maior')
+                raise serializers.ValidationError('Evento no mesmo dia: hora \
+                final tem que ser maior do que a hora inicial')
+            if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
+            evento__hora_fim__gte=attrs['hora_fim'], status=u'R'):
+                if Reserva.objects.filter(evento__data_inicio=attrs['data_inicio'],
+                evento__data_fim=attrs['data_fim'],
+                evento__local=attrs['local']).exclude(pk=self.instance.pk):
+                    raise serializers.ValidationError('Evento no mesmo dia: horario \
+                    ja reservado')
         return attrs
 
 
