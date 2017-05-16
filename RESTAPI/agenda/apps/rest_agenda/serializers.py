@@ -1,16 +1,13 @@
 from rest_framework import serializers
-from django.db.models import Q
 from .models import Reserva, Evento, Responsavel
 import random
 import datetime
 from .utils import dias_uteis, checkEventoDatas
 
-
 class ResponsavelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Responsavel
         fields = ('nome', 'email','telefone', 'lotacao',)
-
 
 class EventoSerializerAgenda(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_id')
@@ -153,7 +150,6 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
                                          status=status,
                                          validade_pre_reserva=validade)
         return evento
-
 
 class ReservaSerializer(serializers.ModelSerializer):
     class Meta:
