@@ -67,26 +67,27 @@ class Configuracoes extends Component{
         className="div-pedido">
         {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
         {this.renderAlert()}
-        <div className="btn-group" role="group">
+        <div className="btn-pedido" role="group" align>
             <button type="submit" disabled={submitting}
               className={((first_name.touched && first_name.invalid) ||
                 (last_name.touched && last_name.invalid) ||
                 (username.touched && username.invalid) ||
                 (email.touched && email.invalid) ||
                 (password.touched && password.invalid)) ?
-                 "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
+                 "btn btn-primary btn-md disabled space" : "btn btn-primary btn-md space"}>
                 Atualizar
             </button>
-            <button type="button" className="btn btn-default btn-md"
+            <button type="button" className="btn btn-default btn-md space"
               disabled={pristine || submitting}
               onClick={() => {
                 this.setState({initialValues: FIELD_USUARIO_UPDATE});}}>
               Limpar
             </button>
+            <Link to="/" className="btn btn-danger btn-md space" role="button">
+              Cancelar
+            </Link>
           </div>
-          <Link to="/" className="btn btn-danger btn-md" role="button">
-            Cancelar
-          </Link>
+          <div className="space-50"></div>
       </form>
     );
   }

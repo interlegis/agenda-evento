@@ -93,12 +93,13 @@ class Home extends Component {
       });
 
       return (
-        <div className="calendar-page">
-        <h1>Agenda de Eventos Intergelis</h1>
+        <div className="row">
+        <h1 className="title">Agenda de Eventos Intergelis</h1>
         <h3>
         Sistema para agendamento de eventos a serem realizados no prédio Interlegis
         </h3>
-        <div className="list-cards-eventos">
+        <div className="space-30"></div>
+        <div className="col-sm-10 col-sm-offset-1">
           {cards}
         </div>
       </div>

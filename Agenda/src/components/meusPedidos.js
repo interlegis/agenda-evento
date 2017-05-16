@@ -15,12 +15,14 @@ class MeusPedidos extends Component {
 
   deletePedido(id) {
     swal({
-      confirmButtonColor: "#ec6ci62",
       title: "Deletar Pedido",
       text: "Deseja realmente deletar o Pedido?",
       type: "warning",
       animation: "slide-from-top",
+      cancelButtonText: "Cancelar",
       showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       closeOnConfirm: false,
       closeOnCancel: false,
       confirmButtonText: "Deletar",

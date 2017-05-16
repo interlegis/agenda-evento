@@ -39,23 +39,29 @@ class Login extends Component{
     const { error, handleSubmit, pristine, resetForm, submitting,
        fields: { username, password }} = this.props;
     return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
-        className="col-md-3 col-lg-3 col-sm-3 col-xs-8 login-div">
-        {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
-        {this.renderAlert()}
-        <div className="login-button">
-          <button type="submit" disabled={submitting}
-            className={((username.touched && username.invalid) ||
-              (password.touched && password.invalid)) ?
-               "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
-              Entrar
-          </button>
-          <button type="button" className="btn btn-default btn-md"
-            disabled={pristine || submitting} onClick={resetForm}>
-            Limpar
-          </button>
+      <div className="row">
+        <h2 className="title">Agenda de Eventos Intergelis</h2>
+        <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
+        <div className="col-sm-10 col-sm-offset-5">
+          <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+            className="col-md-3 col-lg-3 col-sm-3 col-xs-8 login-div">
+            {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
+            {this.renderAlert()}
+            <div className="login-button">
+              <button type="submit" disabled={submitting}
+                className={((username.touched && username.invalid) ||
+                  (password.touched && password.invalid)) ?
+                   "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
+                  Entrar
+              </button>
+              <button type="button" className="btn btn-default btn-md"
+                disabled={pristine || submitting} onClick={resetForm}>
+                Limpar
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     );
   }
 }
