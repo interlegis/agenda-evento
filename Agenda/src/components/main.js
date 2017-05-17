@@ -23,7 +23,7 @@ class Main extends Component {
     if (user) {
       return (
         <div>
-          <h1 className="bottom-space">Bem Vindo(a), {user.first_name}.</h1>
+          <h1 className="bottom-space title">Bem Vindo(a), {user.first_name}.</h1>
             <div className="col-md-12 row cards-section">
               <Link to="/pedidos"><div className="col-md-4 col-xs-12 card-main">
                 <p className="card-text">Meus Pedidos/Eventos</p>

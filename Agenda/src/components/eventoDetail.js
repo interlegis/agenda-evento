@@ -70,12 +70,12 @@ class EventoDatail extends Component {
       }
       return(
         <div className="col-md-10">
-          <h1 aling="center">Pedido - {this.props.reserva.nr_referencia}</h1>
+          <h1 className="title" aling="center">Pedido - {this.props.reserva.nr_referencia}</h1>
           <hr/>
           <div>
-            <h1>Reserva</h1>
+            <h1 className="title">Reserva</h1>
             <hr/>
-            <table className="col-md-12">
+            <table className="col-md-12 text-reserva">
               <tbody>
                 <tr>
                   <td><h4><strong>Status: </strong>{status}</h4></td>
@@ -89,36 +89,32 @@ class EventoDatail extends Component {
             </table>
           </div>
           <div className="div-evento">
-            <h1>Evento</h1>
+            <h1 className="title">Evento</h1>
             <hr/>
-              <table className="col-md-12">
+              <table className="col-md-12 text-reserva">
                 <tbody>
                   <tr>
                     <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
                     <td><h4><strong>Local: </strong>{local}</h4></td>
-                  </tr>
-                  <tr>
                     <td><h4><strong>Descrição: </strong>{this.props.evento.descricao}</h4></td>
                   </tr>
                   <tr>
+                    <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
                     <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
                     <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
                   </tr>
                   <tr>
+                    <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
                     <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
                     <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
-                  </tr>
-                  <tr>
-                    <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
-                    <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
                   </tr>
                 </tbody>
               </table>
             </div>
               <div className="div-evento-responsavel">
-                <h1>Responsável</h1>
+                <h1 className="title">Responsável</h1>
                 <hr/>
-                  <table className="col-md-12">
+                  <table className="col-md-12 text-reserva">
                     <tbody>
                       <tr>
                         <td><h4><strong>Nome: </strong>{this.props.evento.responsavel.nome}</h4></td>
