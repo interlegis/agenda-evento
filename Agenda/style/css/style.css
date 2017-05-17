@@ -170,25 +170,10 @@ html {
   color: #3d464d;
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
-  width: 55%;
 
   overflow: hidden-x;
 }
 
-@media (min-width: 650px) {
-  html:before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: -0.25em;
-  }
-
-  body {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 38rem;
-  }
-}
 
 /*-----------------------------------*\
   $HEADER

@@ -6,7 +6,7 @@ export default class App extends Component {
     return (
       <div>
         <Navbar/>
-        <div>
+        <div className="col-md-12 main-div">
           {this.props.children}
         </div>
       </div>
