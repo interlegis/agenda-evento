@@ -28,6 +28,13 @@ export function signinUser({ username, password }) {
         axios.get(`${ROOT_URL}api/users/i/`, config_user)
           .then(response => {
             dispatch({ type: USUARIO, payload: response.data});
+            if (response.data.groups.length > 0) {
+              var array_roles = [];
+              for (var i = 0; i < response.data.groups.length; i++) {
+                array_roles.push(response.data.groups[i].name);
+              }
+              Cookies.set('roles',array_roles);
+            }
             dispatch(ErrorMessage(''));
           })
           .catch(() => {
@@ -77,6 +84,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
 
 export function signoutUser(){
   localStorage.removeItem('token');
+  Cookies.remove('roles');
   browserHistory.push('/');
   return{ type: UNAUTH_USUARIO };
 }

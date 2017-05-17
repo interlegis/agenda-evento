@@ -13,6 +13,8 @@ import MeusPedidos from './components/meusPedidos';
 import EventoDetail from './components/eventoDetail';
 import Configuracoes from './components/configuracoes';
 import EditarPedido from './components/editarPedido';
+import Admin_Area from './components/admin_area';
+import NotFound from './components/notFound';
 
 export default(
   <Route path="/" component={App} location="history">
@@ -27,5 +29,7 @@ export default(
     <Route path="/evento/:id" component={requireAuth(EventoDetail)} />
     <Route path="/evento/editar/:id" component={requireAuth(EditarPedido)} />
     <Route path="/configuracoes" component={requireAuth(Configuracoes)} />
+    <Route path="/admin" component={requireAuth(Admin_Area)} authorize={['primeira_secretaria','admin']} />
+    <Route path="/not-found" component={NotFound} />
   </Route>
 );
