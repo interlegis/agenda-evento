@@ -42,9 +42,9 @@ class Login extends Component{
       <div className="row">
         <h2 className="title">Agenda de Eventos Intergelis</h2>
         <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
-        <div className="col-sm-10 col-sm-offset-5">
+        <div className="col-sm-10 col-sm-offset-4">
           <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
-            className="col-md-3 col-lg-3 col-sm-3 col-xs-8 login-div">
+            className="col-md-5 col-lg-5 col-sm-5 col-xs-8 login-div">
             {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
             {this.renderAlert()}
             <div className="login-button">

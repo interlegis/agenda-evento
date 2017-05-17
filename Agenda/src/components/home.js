@@ -43,11 +43,6 @@ class Home extends Component {
                                     {`${data_fim[2]}/${data_fim[1]}/${data_fim[0]}`}
                                  </p>
                              </div>
-                             <div className="footer">
-                                 <button className="btn btn-simple" onclick="rotateCard(this)">
-                                     <i className="fa fa-mail-forward"></i> Sobre
-                                 </button>
-                             </div>
                          </div>
                      </div>
                      <div className="back">
@@ -77,7 +72,7 @@ class Home extends Component {
                                           </p>
                                       </div>
                                       <div className="stats">
-                                          <h4>Confirmado</h4>
+                                          <h4>Previsto</h4>
                                           <p>
                                               Status
                                           </p>
@@ -99,7 +94,7 @@ class Home extends Component {
         Sistema para agendamento de eventos a serem realizados no prédio Interlegis
         </h3>
         <div className="space-30"></div>
-        <div className="col-sm-10 col-sm-offset-1">
+        <div className="col-sm-10 col-md-12">
           {cards}
         </div>
       </div>
