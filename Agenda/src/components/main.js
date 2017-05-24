@@ -41,7 +41,7 @@ class Main extends Component {
     }
     return (
       <div>
-        <h2>Carregando...</h2>
+        <h2 className="title">Carregando...</h2>
       </div>
     );
   }

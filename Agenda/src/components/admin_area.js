@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getUsuario } from '../actions';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
 
-export default class Admin_Area extends AuthorizedComponent {
+class Admin_Area extends AuthorizedComponent {
   constructor(props) {
     super(props);
     this.userRoles = (((Cookies.get('roles') === undefined) ||
@@ -17,6 +19,7 @@ export default class Admin_Area extends AuthorizedComponent {
   }
 
   componentWillMount() {
+    this.props.getUsuario();
     if ((Cookies.get('roles') === undefined) ||
     (Cookies.get('roles') === null)) {
       this.context.router.push(`${this.notAuthorizedPath}`);
@@ -33,3 +36,6 @@ export default class Admin_Area extends AuthorizedComponent {
     );
   }
 }
+
+export default connect(null,
+  { getUsuario })(Admin_Area);

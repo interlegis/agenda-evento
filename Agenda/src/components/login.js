@@ -85,4 +85,4 @@ export default reduxForm({
   form: 'login',
   fields: _.keys(FIELD_USUARIO_LOGIN),
   validate
-}, mapStateToProps, {signinUser})(Login);
+}, mapStateToProps, { signinUser })(Login);

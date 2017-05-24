@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { getPedidoEvento } from '../actions';
+import { getPedidoEvento, getUsuario } from '../actions';
 import moment from 'moment';
 
 moment.locale("pt-br");
 
 class EventoDatail extends Component {
   componentWillMount() {
+    this.props.getUsuario();
     this.props.getPedidoEvento(this.props.params.id);
   }
 
@@ -151,7 +152,7 @@ class EventoDatail extends Component {
       );
     }
     return(
-      <h3>Carregando...</h3>
+      <h2 className="title">Carregando...</h2>
     );
   }
 }
@@ -163,4 +164,4 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps, { getPedidoEvento })(EventoDatail);
+export default connect(mapStateToProps, { getPedidoEvento, getUsuario })(EventoDatail);

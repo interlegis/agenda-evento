@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getUsuario } from '../actions';
 import Cookies from 'js-cookie';
 
-export default class NotFound extends Component {
+class NotFound extends Component {
+  componentWillMount() {
+    this.props.getUsuario();
+  }
+
   renderAlert(){
     var userRoles = (((Cookies.get('roles') === undefined) ||
     ((Cookies.get('roles') === null))) ? [] :
@@ -15,7 +21,7 @@ export default class NotFound extends Component {
       );
     }
   }
-  
+
   render() {
     return (
       <div>
@@ -29,3 +35,6 @@ export default class NotFound extends Component {
     );
   }
 }
+
+export default connect(null,
+  { getUsuario })(NotFound);

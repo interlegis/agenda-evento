@@ -101,7 +101,7 @@ class Home extends Component {
       );
     }
     return (
-      <h3>Carregando...</h3>
+      <h2 className="title">Carregando...</h2>
     );
   }
 }

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
-import { updatePedido, getPedidoEvento } from '../actions';
+import { updatePedido, getPedidoEvento, getUsuario } from '../actions';
 import { SELECT, CHECKBOX, TEXTAREA, DATA_INICIO, DATA_FIM,
   TIME, TELEFONE } from '../actions/types';
 import { FIELD_PEDIDO } from './forms/fields_types';
@@ -30,6 +30,7 @@ class editarPedido extends Component{
   };
 
   componentWillMount() {
+    this.props.getUsuario();
     this.props.getPedidoEvento(this.props.params.id);
   }
 
@@ -327,7 +328,7 @@ class editarPedido extends Component{
     }
 
     return (
-      <h3>Carregando...</h3>
+      <h2 className="title">Carregando...</h2>
     );
   }
 }
@@ -405,4 +406,4 @@ export default reduxForm({
   form: 'editarPedido',
   fields: _.keys(FIELD_PEDIDO),
   validate
-}, mapStateToProps, {updatePedido, getPedidoEvento})(editarPedido);
+}, mapStateToProps, { updatePedido, getPedidoEvento, getUsuario })(editarPedido);

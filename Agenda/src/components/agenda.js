@@ -3,6 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import _ from 'lodash';
 import { getAgendaPedidos } from '../actions/pedido-evento/pedido';
+import { getUsuario } from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -19,6 +20,7 @@ class Agenda extends Component {
   }
 
   componentWillMount(){
+    this.props.getUsuario();
     this.props.getAgendaPedidos();
   }
 
@@ -96,4 +98,4 @@ function mapStateToProps(state){
   return { eventos: state.calendar };
 }
 
-export default connect(mapStateToProps, { getAgendaPedidos })(Agenda);
+export default connect(mapStateToProps, { getAgendaPedidos, getUsuario })(Agenda);

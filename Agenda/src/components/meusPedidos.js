@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getPedidos, getPedidoEvento, deletarPedido }
 from '../actions/pedido-evento/pedido';
+import { getUsuario } from '../actions';
 
 class MeusPedidos extends Component {
   componentWillMount() {
+    this.props.getUsuario();
     this.props.getPedidos();
   }
 
@@ -150,7 +152,7 @@ class MeusPedidos extends Component {
     }
 
     return (
-        <h2 className="title">Carregando...</h2>
+      <h2 className="title">Carregando...</h2>
     );
   }
 }
@@ -160,4 +162,4 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps,
-  { getPedidos, getPedidoEvento, deletarPedido })(MeusPedidos);
+  { getPedidos, getPedidoEvento, deletarPedido, getUsuario })(MeusPedidos);
