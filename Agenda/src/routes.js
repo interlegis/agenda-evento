@@ -28,7 +28,7 @@ export default(
     <Route path="/novoEvento" component={requireAuth(NovoPedido)} />
     <Route path="/pedidos" component={requireAuth(MeusPedidos)} />
     <Route path="/evento/:id" component={requireAuth(EventoDetail)} />
-    <Route path="/faq" component={requireAuth(Faq)} />
+    <Route path="/faq" component={Faq} />
     <Route path="/evento/editar/:id" component={requireAuth(EditarPedido)} />
     <Route path="/configuracoes" component={requireAuth(Configuracoes)} />
     <Route path="/admin" component={requireAuth(Admin_Area)} authorize={['primeira_secretaria','admin']} />
