@@ -61,7 +61,6 @@ class Configuracoes extends Component{
     const { error, handleSubmit, pristine, resetForm, submitting,
       fields: { first_name ,last_name ,username ,email, password }} = this.props;
       const { user } = this.props;
-
     return(
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
         className="div-pedido">

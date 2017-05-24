@@ -4,6 +4,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { getAgendaPedidos } from '../actions/pedido-evento/pedido';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -29,13 +30,12 @@ class Agenda extends Component {
       var time_inicial = evento['start_hour'].split(":");
       var time_fim = evento['end_hour'].split(":");
 
-      evento['start'] = new Date(date_inicial[0],
-        (Number(date_inicial[1]) - 1).toString(),date_inicial[2], time_inicial[0],
-        time_inicial[1], time_inicial[2]);
+      evento['start'] = new Date(Number(date_inicial[0]),
+        (Number(date_inicial[1]) - 1), Number(date_inicial[2]), Number(time_inicial[0]),
+        Number(time_inicial[1]));
 
-      evento['end'] = new Date(date_fim[0], (Number(date_fim[1]) - 1).toString(),
-        date_fim[2], time_fim[0], time_fim[1], time_fim[2]);
-
+      evento['end'] = new Date(Number(date_fim[0]), (Number(date_fim[1]) - 1),
+        Number(date_fim[2]), Number(time_fim[0]), Number(time_fim[1]));
       return evento;
     });
 
@@ -58,8 +58,7 @@ class Agenda extends Component {
            {
             event: Event,
             agenda: {
-              event: EventAgenda,
-              time: EventTime
+              event: EventAgenda
             }
            }
           }
@@ -83,22 +82,12 @@ function Event({ event }) {
   )
 }
 
-function EventTime({ event }) {
-  console.log(event);
-  return(
-    <span>
-      <p style={{ color: '#26528C'}}>
-        { `${event.start_hour} - ${event.end_hour}` }
-      </p>
-    </span>
-  );
-}
-
 function EventAgenda({ event }) {
   return(
     <span>
-      <em style={{ color: '#26528C'}}>{event.title}</em>
-      <p>{ event.descricao }</p>
+      <Link style={{ color: '#26528C'}} to={`/evento/${event._id}`}>
+        {event.title}
+      </Link>
     </span>
   );
 }

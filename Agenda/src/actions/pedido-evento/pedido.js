@@ -60,13 +60,17 @@ export function cadastroPedido(props) {
             text: "Aguarde Confirmação",
             type: "success",
             animation: "slide-from-top",
-            timer: 2000,
+            timer: 4000,
             showConfirmButton: false
+          }, () => {
+            // Redirect the user
+            window.location.href = "/main";
           }
         );
       })
       .catch((err) => {
-        dispatch(ErrorMessage(`${err.response.data.non_field_errors[0]}`));
+        console.log(err.response.data.non_field_errors);
+        dispatch(ErrorMessage(`${err.response.data.non_field_errors}`));
       });
   }
 }
@@ -152,7 +156,7 @@ export function getPedidoEvento(id){
           });
       })
       .catch(() => {
-        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+        dispatch(ErrorMessage('Usuario não autenticado.'));
       });
   }
 }

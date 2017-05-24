@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { DataTable } from 'react-data-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getPedidos, getPedidoEvento, deletarPedido }
@@ -52,13 +53,61 @@ class MeusPedidos extends Component {
       });
   }
 
+  addZero(i) {
+      if (i < 10) {
+          i = "0" + i;
+      }
+      return i;
+  }
+
   render() {
     if(this.props.pedidos){
-      var itensTabela = this.props.pedidos.map( function(pedido) {
+      console.log(this.props.pedidos);
+
+      const renderButtons =
+        (val, row) => {
+          return (
+            <div>
+              <button
+                className="btn btn-default btn-sm space"
+                onClick={() => {
+                  this.props.getPedidoEvento(row['id']);
+                  this.context.router.replace(`/evento/editar/${row['id']}`);
+                }}
+              >
+                Editar Pedido
+              </button>
+                <button
+                  className="btn btn-danger btn-sm space"
+                  onClick={() => this.deletePedido(row['id'])}
+                >
+                  Deletar Pedido
+                </button>
+            </div>
+          );
+        };
+
+      const renderLink =
+      (val, row) =>{
+        return(
+          <Link to={"/evento/" + row['id']}>{row['referencia']}</Link>
+        );
+      };
+
+      const tableColumns = [
+        { title: 'Nome do Evento', prop: 'nome', className: 'text-center' },
+        { title: 'N de Ref.', render: renderLink, className: 'text-center' },
+        { title: 'Status', prop: 'status', className: 'text-center' },
+        { title: 'Data de Criação', prop: 'data', className: 'text-center'},
+        { title: 'Hora de Criação', prop: 'hora', className: 'text-center'},
+        { title: 'Opções', render: renderButtons, className: 'text-center' },
+      ];
+
+      var data = this.props.pedidos.map((pedido) => {
         var status;
           switch (pedido.status) {
             case 'P':
-              status = 'Pré-Reservado';
+              status = 'Pre-Reservado';
             break;
             case 'R':
               status = 'Reservado';
@@ -71,62 +120,37 @@ class MeusPedidos extends Component {
         const dia = d.getUTCDate();
         const mes = d.getUTCMonth() + 1;
         const ano = d.getFullYear();
-        const data = dia + '/' + mes + '/' + ano;
-        const hora = d.getUTCHours();
-        const minutos = d.getUTCMinutes();
+        const data = mes + '/' + dia + '/' + ano;
+        const scale = d.getTimezoneOffset() / 60;
+        const hora = d.getUTCHours() - scale;
+        const minutos = this.addZero(d.getUTCMinutes());
         const hora_criacao =  hora + ':' + minutos;
-        return(
-          <tr key={pedido.id}>
-            <td >{pedido.id}</td>
-            <td>{pedido.evento.nome}</td>
-            <td><Link to={"/evento/" + pedido.id}>{pedido.nr_referencia}</Link></td>
-            <td>{status}</td>
-            <td>{data}</td>
-            <td>{hora_criacao}</td>
-            <td>
-              <div>
-              <button
-                className="btn btn-default btn-sm space"
-                onClick={() => {
-                  this.props.getPedidoEvento(pedido.id);
-                  this.context.router.replace(`/evento/editar/${pedido.id}`);
-                }}
-              >
-                Editar Pedido
-              </button>
-                <button
-                  className="btn btn-danger btn-sm space"
-                  onClick={() => this.deletePedido(pedido.id)}
-                >
-                  Deletar Pedido
-                </button>
-              </div>
-            </td>
-          </tr>
-        );
-      }, this);
+
+        return {
+          "id": pedido.id,
+          "nome": pedido.evento.nome,
+          "referencia": pedido.nr_referencia,
+          "status": status,
+          "data": data,
+          "hora": hora_criacao
+        };
+      });
+
       return(
-        <table className="table table-bordered col-md-10">
-          <thead className="thead-default">
-            <tr>
-              <th>N</th>
-              <th>Nome do Evento</th>
-              <th>N de Ref.</th>
-              <th>Status</th>
-              <th>Data de Criação</th>
-              <th>Hora de Criação</th>
-              <th>Opções</th>
-            </tr>
-          </thead>
-          <tbody>
-            {itensTabela}
-          </tbody>
-        </table>
+        <DataTable
+         className="container"
+         keys="id"
+         columns={tableColumns}
+         initialData={data}
+         initialPageLength={5}
+         initialSortBy={{ prop: 'data', order: 'descending' }}
+         pageLengthOptions={[ 5, 10, 15 ]}
+       />
       );
     }
 
     return (
-        <h3>Carregando...</h3>
+        <h2 className="title">Carregando...</h2>
     );
   }
 }

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
-import { updatePedido, getPedidoEvento } from '../actions';
+import { cadastroPedido } from '../actions';
 import { SELECT, CHECKBOX, TEXTAREA, DATA_INICIO, DATA_FIM,
   TIME, TELEFONE } from '../actions/types';
 import { FIELD_PEDIDO } from './forms/fields_types';
@@ -41,7 +41,6 @@ class NovoPedido extends Component{
 
   handleSubmitForm(formProps){
     this.props.cadastroPedido(formProps);
-    this.context.router.push('/main');
   }
 
   handleChange(event) {
@@ -302,4 +301,4 @@ export default reduxForm({
   form: 'pedido',
   fields: _.keys(FIELD_PEDIDO),
   validate
-}, mapStateToProps, {updatePedido, getPedidoEvento})(NovoPedido);
+}, mapStateToProps, {cadastroPedido})(NovoPedido);

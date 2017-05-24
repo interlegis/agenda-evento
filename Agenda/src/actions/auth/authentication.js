@@ -39,7 +39,7 @@ export function signinUser({ username, password }) {
           })
           .catch(() => {
               dispatch(signoutUser())
-              dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+              dispatch(ErrorMessage('Usuario não esta autenticado'));
           })
         browserHistory.push('/main');
       })
@@ -132,9 +132,6 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
             timer: 2000,
             showConfirmButton: false
-          }, () => {
-            // Redirect the user
-            window.location.href = "/main";
           }
         );
       })

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getPedidoEvento } from '../actions';
+import moment from 'moment';
+
+moment.locale("pt-br");
 
 class EventoDatail extends Component {
   componentWillMount() {
@@ -22,6 +25,13 @@ class EventoDatail extends Component {
       };
   }
 
+  addZero(i) {
+      if (i < 10) {
+          i = "0" + i;
+      }
+      return i;
+  }
+
   DataFormat(data_string) {
     const d = new Date(data_string);
     const dia = d.getUTCDate();
@@ -32,8 +42,9 @@ class EventoDatail extends Component {
 
   DataHoraFormat(data_string) {
     const d = new Date(data_string);
-    const hora = d.getUTCHours();
-    const minutos = d.getUTCMinutes();
+    const scale = d.getTimezoneOffset() / 60;
+    const hora = d.getUTCHours() - scale;
+    const minutos = this.addZero(d.getUTCMinutes());
     return (hora + ':' + minutos);
   }
 
@@ -58,7 +69,7 @@ class EventoDatail extends Component {
       const hora_fim = this.props.evento.hora_fim;
       var recebido;
       if (this.props.reserva.recebido) {
-        recebido = 'Recebido'
+        recebido = 'Oficializado'
       }else{
         recebido = 'Não oficializado'
       }

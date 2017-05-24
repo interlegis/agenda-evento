@@ -136,9 +136,9 @@ hr {
   background-image: -webkit-linear-gradient(0deg, #fff, #c0c8c9, #fff);
 }
 
-  a:hover {
-    color: #506A85;
-  }
+a:hover {
+  color: #506A85;
+}
 
 /*-----------------------------------*\
   $LAYOUT
@@ -213,6 +213,19 @@ html {
   to {
     -webkit-filter: hue-rotate(-360deg);
   }
+}
+
+@media (min-width:767px) {
+    .navbar-nav.navbar-collapse {
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.navbar-collapse {
+  position: static;
 }
 
 .navbar {

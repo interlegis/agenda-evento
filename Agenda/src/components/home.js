@@ -23,7 +23,7 @@ class Home extends Component {
         }
 
         return(
-          <div className="col-md-4 col-sm-6" key={evento.title+local}>
+          <div className="col-md-4 col-sm-6 col-xs-7" key={evento.title+local}>
               <div className="card-container">
                  <div className="card">
                      <div className="front">
@@ -94,7 +94,7 @@ class Home extends Component {
         Sistema para agendamento de eventos a serem realizados no prédio Interlegis
         </h3>
         <div className="space-30"></div>
-        <div className="col-sm-10 col-md-12">
+        <div className="col-sm-10 col-md-12 col-xs-11">
           {cards}
         </div>
       </div>

@@ -5,11 +5,23 @@ import Cookies from 'js-cookie';
 export default class Admin_Area extends AuthorizedComponent {
   constructor(props) {
     super(props);
-
-    this.userRoles = JSON.parse(Cookies.get('roles'));
+    this.userRoles = (((Cookies.get('roles') === undefined) ||
+    ((Cookies.get('roles') === null))) ? [] :
+    JSON.parse(Cookies.get('roles')));
+    console.log(this.userRoles);
     this.notAuthorizedPath = '/not-found';
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object
+  }
+
+  componentWillMount() {
+    if ((Cookies.get('roles') === undefined) ||
+    (Cookies.get('roles') === null)) {
+      this.context.router.push(`${this.notAuthorizedPath}`);
+    }
+  }
 
   render() {
     return (

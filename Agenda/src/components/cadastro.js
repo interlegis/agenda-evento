@@ -77,10 +77,15 @@ class Cadastro extends Component{
 
 function validate(values) {
   const errors = {};
+  var re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  _.each(FIELD_USUARIO_CADASTRO, (type, field) => {
+  _.each(FIELD_USUARIO_CADASTRO, (fieldConfig, field) => {
     if (!values[field]) {
-      errors[field] = `Por favor, insira ${type.label}...`;
+      errors[field] = `Por favor, insira ${fieldConfig.label}...`;
+    }
+
+    if (values[field] && fieldConfig.type == 'email' && !re_email.test(values[field])) {
+      errors[field] = `Por favor, insira um email em formato valido!`;
     }
   });
   return errors;
