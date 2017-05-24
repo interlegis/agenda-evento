@@ -7,11 +7,11 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    groups = GroupSerializer(many=True)
+    groups = GroupSerializer(many=True, required=False)
     class Meta:
         model = User
         fields = ('username', 'password', 'first_name', 'last_name'
-                  , 'is_superuser', 'email', 'is_staff','groups')
+                  , 'is_superuser', 'email', 'is_staff', 'groups')
         extra_kwargs = {'password': {'write_only': True},
                         'is_superuser': {'write_only': True},
                         'is_staff': {'write_only': True}}

@@ -27,7 +27,7 @@ class ReservaViewSet(generics.ListCreateAPIView):
                                     'avisos': aviso},
                                     status=status.HTTP_201_CREATED)
                 else:
-                    return Response({'mensagem-erro' : 'Ja existem eventos \
+                    return Response({'non_field_errors' : 'Ja existem eventos \
                                     reservados nessa data ou horario'},
                                     status=status.HTTP_400_BAD_REQUEST)
             except:

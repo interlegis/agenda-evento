@@ -4,6 +4,11 @@ import datetime
 from django.utils import timezone
 from agenda import settings
 
+class CronLog(models.Model):
+    date = models.DateTimeField(default=timezone.localtime(timezone.now()), blank=True)
+    def __unicode__(self):
+        return self.date.ctime()
+
 class Responsavel(models.Model):
     nome = models.CharField(blank=True, max_length=100)
     email = models.EmailField()
@@ -57,7 +62,7 @@ class Reserva(models.Model):
     )
     data_criacao = models.DateTimeField(
         blank=False,
-        default=timezone.now(),
+        default=timezone.localtime(timezone.now()),
         null=False
     )
     evento = models.ForeignKey(Evento, verbose_name=u'Evento',

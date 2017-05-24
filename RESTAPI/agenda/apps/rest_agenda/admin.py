@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Reserva, Evento, Responsavel    
+from .models import Reserva, Evento, Responsavel, CronLog  
 
 admin.site.register(Reserva)
 admin.site.register(Evento)
 admin.site.register(Responsavel)
+admin.site.register(CronLog)

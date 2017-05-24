@@ -115,20 +115,19 @@ class EventoSerializer(serializers.ModelSerializer):
             if attrs['hora_fim'] < attrs['hora_inicio']:
                 raise serializers.ValidationError('Evento no mesmo dia: hora \
                 final tem que ser maior do que a hora inicial')
-            if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
-            evento__hora_fim__gte=attrs['hora_inicio'],
-            evento__data_inicio=attrs['data_inicio'],
-            evento__data_fim=attrs['data_fim'], evento__local=attrs['local'],
-            status=u'R').exclude(pk=self.instance.pk):
-                raise serializers.ValidationError('Evento no mesmo dia: horario \
-                ja reservado')
-            if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_fim'],
-            evento__hora_fim__gte=attrs['hora_fim'],
-            evento__data_inicio=attrs['data_inicio'],
-            evento__data_fim=attrs['data_fim'], evento__local=attrs['local'],
-            status=u'R').exclude(pk=self.instance.pk):
-                raise serializers.ValidationError('Evento no mesmo dia: horario \
-                ja reservado')
+            if self.instance is not None:
+                if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
+                evento__hora_fim__gte=attrs['hora_inicio'],
+                evento__data_inicio__range=(attrs['data_inicio'], attrs['data_fim']),
+                evento__local=attrs['local'],
+                status=u'R').exclude(pk=self.instance.pk) or \
+                Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
+                evento__hora_fim__gte=attrs['hora_inicio'],
+                evento__data_fim__range=(attrs['data_inicio'], attrs['data_fim']),
+                evento__local=attrs['local'],
+                status=u'R').exclude(pk=self.instance.pk):
+                    raise serializers.ValidationError('Evento no mesmo dia: horario \
+                    ja reservado')
         return attrs
 
 class ReservaEventoSerializer(serializers.ModelSerializer):
