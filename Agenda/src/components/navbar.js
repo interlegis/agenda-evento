@@ -39,6 +39,7 @@ class Navbar extends Component {
           <li><Link to="/agenda">Agenda</Link></li>
           <li><Link to="/pedidos">Pedidos</Link></li>
           <li><Link to="/novoEvento">Novo Evento</Link></li>
+          <li><Link to="/faq">FAQ</Link></li>
           <li className ="dropdown navbar-right">
               <Link to="" className="dropdown-toggle" data-toggle="dropdown"
                 role="button" aria-haspopup="true" aria-expanded="false">

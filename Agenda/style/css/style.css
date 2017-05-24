@@ -215,6 +215,10 @@ html {
   }
 }
 
+.list-group-item:hover{
+  background-color: #f5f5f5;
+}
+
 @media (min-width:767px) {
     .navbar-nav.navbar-collapse {
         margin-left: 0;

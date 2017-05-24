@@ -138,12 +138,13 @@ class EventoDatail extends Component {
                     </tbody>
                   </table>
                 <div className="btn-pedido col-md-12" role="group">
-                    <Link to={`/evento/editar/${this.props.params.id}`} className="btn btn-primary btn-lg space">
+                    <Link to={`/evento/editar/${this.props.params.id}`}
+                    className="btn btn-primary btn-lg space">
                       Editar Pedido
                     </Link>
-                    <button className="btn btn-default btn-lg space">
+                    <Link to={`/faq`} className="btn btn-default btn-lg space">
                       Ajuda
-                    </button>
+                    </Link>
                 </div>
               </div>
         </div>
