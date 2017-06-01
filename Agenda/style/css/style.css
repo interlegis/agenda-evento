@@ -248,6 +248,10 @@ html {
   background-color: #001B5B;
 }
 
+.navbar-right {
+  margin-right: 0px !important;
+}
+
 .navbar-default .navbar-nav>li>a {
   margin-top: 10px;
   color: white;

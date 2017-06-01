@@ -36,6 +36,14 @@ class AgendaHome extends Component {
 
       evento['end'] = new Date(Number(date_fim[0]), (Number(date_fim[1]) - 1),
         Number(date_fim[2]), Number(time_fim[0]), Number(time_fim[1]));
+        var local;
+        if (evento['lugar'] == 'SR') {
+          local = 'Sala de Reuniões'
+        }else{
+          local = 'Auditório Interlegis'
+        }
+      evento['title'] = evento['title'] + ' - ' + local
+      
       return evento;
     });
     this.setState({neweventos: events});
