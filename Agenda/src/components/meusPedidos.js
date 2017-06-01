@@ -33,16 +33,17 @@ class MeusPedidos extends Component {
     }, (isConfirm) =>
       {
         if (isConfirm) {
+          console.log('deletar');
           this.props.deletarPedido(id);
           swal(
             {
             title: "Sweet!",
             text: "Pedido deletado.",
             type: "success",
+            timer: 2000,
             showConfirmButton: false
             }
           );
-          window.location.href = "/main";
         } else {
           swal({
           title: "Cancelado",
@@ -79,12 +80,14 @@ class MeusPedidos extends Component {
               >
                 Editar Pedido
               </button>
-                <button
-                  className="btn btn-danger btn-sm space"
-                  onClick={() => this.deletePedido(row['id'])}
-                >
-                  Deletar Pedido
-                </button>
+              <button
+                className="btn btn-danger btn-sm space"
+                onClick={() => {
+                  this.deletePedido(row['id']);
+                }}
+              >
+                Deletar Pedido
+              </button>
             </div>
           );
         };

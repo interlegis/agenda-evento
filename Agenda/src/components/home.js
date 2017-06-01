@@ -99,6 +99,19 @@ class Home extends Component {
         </div>
       </div>
       );
+    } else {
+      return (
+        <div className="row">
+        <h1 className="title">Agenda de Eventos Intergelis</h1>
+        <h3>
+        Sistema para agendamento de eventos a serem realizados no prédio Interlegis
+        </h3>
+        <div className="space-30"></div>
+        <div className="col-sm-10 col-md-12 col-xs-11">
+          <h2 className="title">Não há eventos no momento</h2>
+        </div>
+      </div>
+      );
     }
     return (
       <h2 className="title">Carregando...</h2>

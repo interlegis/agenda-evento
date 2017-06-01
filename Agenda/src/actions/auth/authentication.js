@@ -38,7 +38,7 @@ export function signinUser({ username, password }) {
             dispatch(ErrorMessage(''));
           })
           .catch(() => {
-              dispatch(signoutUser())
+              dispatch(signoutUser());
               dispatch(ErrorMessage('Usuario não esta autenticado'));
           })
         browserHistory.push('/main');
@@ -70,7 +70,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
                 dispatch({ type: USUARIO, payload: response.data})
               })
               .catch(() => {
-                  dispatch(signoutUser())
+                  dispatch(signoutUser());
                   dispatch(ErrorMessage('Erro Interno - Usuario Criado, erro no servidor'));
               })
             browserHistory.push('/main');
@@ -85,7 +85,6 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
 export function signoutUser(){
   localStorage.removeItem('token');
   Cookies.remove('roles');
-  browserHistory.push('/');
   return{ type: UNAUTH_USUARIO };
 }
 
@@ -105,7 +104,7 @@ export function getUsuario(){
         dispatch(ErrorMessage(''));
       })
       .catch(() => {
-          dispatch(signoutUser())
+          dispatch(signoutUser());
           dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
       });
   }
@@ -136,7 +135,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
         );
       })
       .catch((err) => {
-          dispatch(signoutUser())
+          dispatch(signoutUser());
           dispatch(ErrorMessage('Erro Interno - Usuario nao Encontrado, erro no servidor'));
           swal({
             title: "Oops...",
