@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getUsuario, getPedidoEvento } from '../actions';
+import { getUsuario, getPedidoEvento, formalizarPedido } from '../actions';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
 
@@ -23,6 +23,11 @@ class Admin_Area extends AuthorizedComponent {
   }
 
   componentWillMount() {
+    this.props.getPedidoEvento(this.props.params.id);
+  }
+
+  pedidoRecebido(){
+    this.props.formalizarPedido(this.props.params.id);
     this.props.getPedidoEvento(this.props.params.id);
   }
 
@@ -71,6 +76,8 @@ class Admin_Area extends AuthorizedComponent {
     }
   }
 
+
+
   render() {
     if (this.props.reserva && this.props.evento){
       switch (this.props.reserva.status) {
@@ -84,7 +91,14 @@ class Admin_Area extends AuthorizedComponent {
                     <h1 className="title">Reserva</h1>
                     <hr/>
                   </div>
-                  <TramitacaoFormalizacao authorize={['primeira_secretaria','admin']}/>
+                  <TramitacaoFormalizacao
+                    authorize={['primeira_secretaria','admin']}
+                    reserva={this.props.reserva} evento={this.props.evento}
+                    onPedidoRecebido={this.pedidoRecebido()}
+                  />
+                  <div className="alert alert-primary">
+                      {this.props.resultadoTramitacao}
+                  </div>
         	       </div>
               );
             }else{
@@ -96,7 +110,10 @@ class Admin_Area extends AuthorizedComponent {
                     <h1 className="title">Reserva</h1>
                     <hr/>
                   </div>
-                  <TramitacaoPedidoRealizado authorize={['primeira_secretaria','admin']}/>
+                  <TramitacaoPedidoRealizado
+                    authorize={['primeira_secretaria','admin']}
+                    reserva={this.props.reserva} evento={this.props.evento}
+                  />
         	       </div>
               );
             }
@@ -111,7 +128,10 @@ class Admin_Area extends AuthorizedComponent {
                     <h1 className="title">Reserva</h1>
                     <hr/>
                   </div>
-                  <tramitacaoPublicacaoAgenda authorize={['primeira_secretaria','admin']}/>
+                  <tramitacaoPublicacaoAgenda
+                    authorize={['primeira_secretaria','admin']}
+                    reserva={this.props.reserva} evento={this.props.evento}
+                  />
         	       </div>
               );
             }else{
@@ -123,7 +143,10 @@ class Admin_Area extends AuthorizedComponent {
                     <h1 className="title">Reserva</h1>
                     <hr/>
                   </div>
-                  <TramitacaoAprovado authorize={['primeira_secretaria','admin']}/>
+                  <TramitacaoAprovado
+                    authorize={['primeira_secretaria','admin']}
+                    reserva={this.props.reserva} evento={this.props.evento}
+                  />
         	       </div>
               );
             }
@@ -143,8 +166,9 @@ class Admin_Area extends AuthorizedComponent {
 function mapStateToProps(state){
   return {
     reserva: state.pedido_detail.reserva_id,
-    evento: state.pedido_detail.evento_id
+    evento: state.pedido_detail.evento_id,
+    resultadoTramitacao: state.resultadoTramitacao
   }
 }
 
-export default connect(mapStateToProps, { getPedidoEvento, getUsuario })(Admin_Area);
+export default connect(mapStateToProps, { getPedidoEvento, getUsuario, formalizarPedido })(Admin_Area);

@@ -14,10 +14,6 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
     this.notAuthorizedPath = '/not-found';
   }
 
-  static contextTypes = {
-    router: React.PropTypes.object
-  }
-
   componentWillMount() {
     this.props.getUsuario();
     if ((Cookies.get('roles') === undefined) ||
@@ -50,7 +46,7 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
               <div className="bs-wizard-info text-center">Passa o pedido do status de 'Pré-reservado' para 'Reservado'</div>
             </div>
 
-            <div className="col-xs-3 bs-wizard-step disabled">
+            <div className="col-xs-3 bs-wizard-step active">
               <div className="text-center bs-wizard-stepnum">Publicação na Agenda</div>
               <div className="progress"><div className="progress-bar"></div></div>
               <a href="#" className="bs-wizard-dot"></a>

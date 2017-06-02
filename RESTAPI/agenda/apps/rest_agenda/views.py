@@ -94,6 +94,8 @@ class ReservaEdit(generics.ListCreateAPIView):
             elif comando == "recebido" and datetime.datetime.now().date() > \
                  reserva.validade_pre_reserva:
                 data['status'] = u'I'
+                return Response({"message": "Pedido fora do prazo para formalizacao"},
+                                status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response({"message": "Comando nao e valido"},
                                 status=status.HTTP_404_NOT_FOUND)

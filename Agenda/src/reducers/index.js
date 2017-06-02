@@ -5,7 +5,7 @@ import user_reducer from './user_reducers';
 import pedidos_reducers from './pedidos_reducers';
 import reserva_detail_reducers from './reserva_detail_reducers';
 import calendar_reducers from './calendar_reducers';
-
+import tramitacao from './tramitacaoPedido'
 const rootReducer = combineReducers({
   form: formReducer,
   authentication: authentication_Reducer,
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
   pedidos: pedidos_reducers,
   pedido_detail: reserva_detail_reducers,
   calendar: calendar_reducers,
+  resultadoTramitacao: tramitacao,
 });
 
 export default rootReducer;

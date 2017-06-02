@@ -232,3 +232,19 @@ export function updatePedido(props, id){
       });
   }
 }
+
+export function formalizarPedido(id) {
+  return function(dispatch){
+    axios.post(`${ROOT_URL}api/pedido/id/edit/recebido/`)
+      .then(response => {
+        dispatch({type: PEDIDO_RECEBIDO, payload: "Pedido Tramitado com Sucesso"})
+      })
+      .catch((err) => {
+        if (err.status_code == 400) {
+          dispatch({type: PEDIDO_NEGADO}, payload: "Pedido fora do prazo para formalização")
+        }else{
+          dispatch({type: ERRO_TRAMITAR_PEDIDO}, payload: "Erro ao tramitar pedido! Tente mais tarde!")
+        }
+      });
+  }
+}
