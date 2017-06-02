@@ -1,3 +1,24 @@
+.bs-wizard {margin-top: 40px;}
+
+/*Form Wizard*/
+.bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;}
+.bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
+.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
+.bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #001B5B; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #001B5B; border-radius: 50px; position: absolute; top: 8px; left: 8px; }
+.bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;}
+.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #001B5B;}
+.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
+.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:50%;}
+.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
+.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {background-color: #f5f5f5;}
+.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {opacity: 0;}
+.bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 50%;}
+.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
+.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
 /*-----------------------------------*\
   $RESET
 \*-----------------------------------*/
@@ -47,7 +68,6 @@ button, textarea {
   color: #f35626;
 
   cursor: pointer;
-  -webkit-animation: hue 60s infinite linear;
 }
 
   .butt--primary {
@@ -80,7 +100,6 @@ h1, .alpha {
   letter-spacing: -.05em;
   text-align: center;
   color: inherit;
-  -webkit-animation: hue 60s infinite linear;
 }
 
 .text-reserva {
@@ -95,7 +114,6 @@ h2, .beta {
   line-height: 1;
   text-align: center;
   color: inherit;
-  -webkit-animation: hue 60s infinite linear;
 }
 
 h3 {
@@ -106,7 +124,6 @@ h3 {
   line-height: 1;
   text-align: center;
   color: inherit;
-  -webkit-animation: hue 60s infinite linear;
 }
 
 @media (min-width: 650px) {
@@ -188,7 +205,7 @@ html {
     background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-animation: hue 60s infinite linear;
+
   }
 
 .site__content {
@@ -410,7 +427,6 @@ navbar-default .navbar-nav>li>a:active {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
   margin-bottom: 10px;
   color: inherit;
-  -webkit-animation: hue 60s infinite linear;
 }
 
 .card-main:hover{
@@ -440,4 +456,10 @@ navbar-default .navbar-nav>li>a:active {
     color: #fff;
     background-color: #E82C0C;
     border-color: #d43f3a;
+}
+
+footer {
+    background-color: #001B5B;
+    color: white;
+    height: 30px;
 }

@@ -26,12 +26,12 @@ export default(
     <Route path="/cadastro" component={Cadastro} />
     <Route path="/main" component={requireAuth(Main)} />
     <Route path="/novoEvento" component={requireAuth(NovoPedido)} />
-    <Route path="/pedidos" component={requireAuth(MeusPedidos)} />
+    <Route path="/pedidos" component={requireAuth(MeusPedidos)} authorize={['primeira_secretaria','admin']} />
     <Route path="/evento/:id" component={requireAuth(EventoDetail)} />
     <Route path="/faq" component={Faq} />
     <Route path="/evento/editar/:id" component={requireAuth(EditarPedido)} />
     <Route path="/configuracoes" component={requireAuth(Configuracoes)} />
-    <Route path="/admin" component={requireAuth(Admin_Area)} authorize={['primeira_secretaria','admin']} />
+    <Route path="/admin/:id" component={requireAuth(Admin_Area)} authorize={['primeira_secretaria','admin']} />
     <Route path="/not-found" component={NotFound} />
   </Route>
 );

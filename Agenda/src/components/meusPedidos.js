@@ -5,8 +5,21 @@ import { Link } from 'react-router';
 import { getPedidos, getPedidoEvento, deletarPedido }
 from '../actions/pedido-evento/pedido';
 import { getUsuario } from '../actions';
+import { RoleAwareComponent } from 'react-router-role-authorization';
+import Cookies from 'js-cookie';
 
-class MeusPedidos extends Component {
+class MeusPedidos extends RoleAwareComponent {
+  constructor(props) {
+   super(props);
+
+   this.allowedRoles = ['admin','primeira_secretaria'];
+   this.userRoles = (((Cookies.get('roles') === undefined) ||
+   ((Cookies.get('roles') === null))) ? [] :
+   JSON.parse(Cookies.get('roles')));
+   console.log(this.userRoles);
+   this.notAuthorizedPath = '/not-found';
+ }
+
   componentWillMount() {
     this.props.getUsuario();
     this.props.getPedidos();
@@ -65,7 +78,6 @@ class MeusPedidos extends Component {
 
   render() {
     if(this.props.pedidos){
-      console.log(this.props.pedidos);
 
       const renderButtons =
         (val, row) => {
@@ -92,6 +104,40 @@ class MeusPedidos extends Component {
           );
         };
 
+        const renderButtonsAdmin =
+          (val, row) => {
+            return (
+              <div>
+                <button
+                  className="btn btn-primary btn-sm space"
+                  onClick={() => {
+                    this.props.getPedidoEvento(row['id']);
+                    this.context.router.replace(`/admin/${row['id']}`);
+                  }}
+                >
+                  Tramitar Pedido
+                </button>
+                <button
+                  className="btn btn-default btn-sm space"
+                  onClick={() => {
+                    this.props.getPedidoEvento(row['id']);
+                    this.context.router.replace(`/evento/editar/${row['id']}`);
+                  }}
+                >
+                  Editar Pedido
+                </button>
+                <button
+                  className="btn btn-danger btn-sm space"
+                  onClick={() => {
+                    this.deletePedido(row['id']);
+                  }}
+                >
+                  Deletar Pedido
+                </button>
+              </div>
+            );
+          };
+
       const renderLink =
       (val, row) =>{
         return(
@@ -105,7 +151,7 @@ class MeusPedidos extends Component {
         { title: 'Status', prop: 'status', className: 'text-center' },
         { title: 'Data de Criação', prop: 'data', className: 'text-center'},
         { title: 'Hora de Criação', prop: 'hora', className: 'text-center'},
-        { title: 'Opções', render: renderButtons, className: 'text-center' },
+        { title: 'Opções', render: this.rolesMatched() ? renderButtonsAdmin : renderButtons , className: 'text-center' },
       ];
 
       var data = this.props.pedidos.map((pedido) => {
