@@ -461,10 +461,15 @@ navbar-default .navbar-nav>li>a:active {
 footer {
     background-color: #001B5B;
     color: white;
-    height: 30px;
+    top: 110px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    position: absolute;
 }
 
-.center-div input,label{
+.center-div input, .center-div label{
   display: table;
   margin: 0 auto;
 }

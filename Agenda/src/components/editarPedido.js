@@ -387,6 +387,7 @@ function mapStateToProps(state) {
       "hora_fim": state.pedido_detail.evento_id.hora_fim,
       "legislativo": state.pedido_detail.evento_id.legislativo,
       "observacao": state.pedido_detail.evento_id.observacao,
+      "publicado_agenda": false,
       "video_conferencia": state.pedido_detail.evento_id.video_conferencia,
       "nome_responsavel": state.pedido_detail.evento_id.responsavel.nome,
       "email_responsavel": state.pedido_detail.evento_id.responsavel.email,

@@ -1,7 +1,10 @@
 body {
-	margin-top: 60px;
 	font-size: 14px;
 	font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
+   position: relative;
+   margin: 0;
+   padding-bottom: 6rem;
+   min-height: 100%;
 }
 .btn:hover,
 .btn:focus,
@@ -210,12 +213,20 @@ body {
     text-transform: uppercase;
     margin: 0;
 }
+.space-15{
+	height: 15px;
+	display: block;
+}
 .space-30{
 	height: 30px;
 	display: block;
 }
 .space-50{
     height: 50px;
+    display: block;
+}
+.space-100{
+    height: 100px;
     display: block;
 }
 .space-200{

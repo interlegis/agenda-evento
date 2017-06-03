@@ -56,7 +56,6 @@ class EventoSerializer(serializers.ModelSerializer):
                   'data_fim', 'hora_fim', 'legislativo','observacao',
                   'cancelado','causa_cancelamento','publicado_agenda',
                   'video_conferencia','responsavel',)
-        read_only_fields = ('publicado_agenda',)
 
     def update(self, instance, validated_data):
         responsavel_data = validated_data.pop('responsavel')
@@ -66,10 +65,7 @@ class EventoSerializer(serializers.ModelSerializer):
         instance.descricao = validated_data.get('descricao',
                                                 instance.descricao)
         instance.local = validated_data.get('local', instance.local)
-        if instance.publicado_agenda is True:
-            if validated_data.get('data_inicio') > \
-               dias_uteis(validated_data.get('data_inicio'),3,-1):
-                raise serializers.ValidationError('Data com antecedencia menor que 3 dias uteis')
+
         instance.data_inicio = validated_data.get('data_inicio',
                                                   instance.data_inicio)
         instance.hora_inicio = validated_data.get('hora_inicio',
@@ -105,25 +101,6 @@ class EventoSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if (attrs['data_inicio'] - datetime.datetime.now().date()).days < 3:
             raise serializers.ValidationError('Evento fora do periodo de editar')
-        elif self.instance is not None:
-            if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
-            evento__hora_fim__gte=attrs['hora_inicio'],
-            evento__data_inicio__range=(attrs['data_inicio'], attrs['data_fim']),
-            evento__local=attrs['local'],
-            status=u'R').exclude(pk=self.instance.pk) or \
-            Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
-            evento__hora_fim__gte=attrs['hora_inicio'],
-            evento__data_fim__range=(attrs['data_inicio'], attrs['data_fim']),
-            evento__local=attrs['local'],
-            status=u'R').exclude(pk=self.instance.pk):
-                raise serializers.ValidationError('Evento no mesmo dia: horario \
-                ja reservado')
-            if Reserva.objects.filter(
-            evento__data_inicio__lte=attrs['data_inicio'],
-            evento__data_fim__gte=attrs['data_fim'],
-            status=u'R').exclude(pk=self.instance.pk):
-                raise serializers.ValidationError('Evento no mesmo dia: horario \
-                ja reservado')
         elif attrs['data_inicio'] < datetime.datetime.now().date():
             raise serializers.ValidationError('Data de inicio deve ser maior \
             igual a de hoje')
@@ -134,6 +111,25 @@ class EventoSerializer(serializers.ModelSerializer):
             if attrs['hora_fim'] < attrs['hora_inicio']:
                 raise serializers.ValidationError('Evento no mesmo dia: hora \
                 final tem que ser maior do que a hora inicial')
+            if self.instance is not None:
+                if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
+                evento__hora_fim__gte=attrs['hora_inicio'],
+                evento__data_inicio__range=(attrs['data_inicio'], attrs['data_fim']),
+                evento__local=attrs['local'],
+                status=u'R').exclude(pk=self.instance.pk) or \
+                Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
+                evento__hora_fim__gte=attrs['hora_inicio'],
+                evento__data_fim__range=(attrs['data_inicio'], attrs['data_fim']),
+                evento__local=attrs['local'],
+                status=u'R').exclude(pk=self.instance.pk):
+                    raise serializers.ValidationError('Evento no mesmo dia: horario \
+                    ja reservado')
+                if Reserva.objects.filter(
+                evento__data_inicio__lte=attrs['data_inicio'],
+                evento__data_fim__gte=attrs['data_fim'],
+                status=u'R').exclude(pk=self.instance.pk):
+                    raise serializers.ValidationError('Evento no mesmo dia: horario \
+                    ja reservado')
         return attrs
 
 class ReservaEventoSerializer(serializers.ModelSerializer):

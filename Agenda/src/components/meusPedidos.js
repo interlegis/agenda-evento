@@ -151,7 +151,9 @@ class MeusPedidos extends RoleAwareComponent {
         { title: 'Status', prop: 'status', className: 'text-center' },
         { title: 'Data de Criação', prop: 'data', className: 'text-center'},
         { title: 'Hora de Criação', prop: 'hora', className: 'text-center'},
-        { title: 'Opções', render: this.rolesMatched() ? renderButtonsAdmin : renderButtons , className: 'text-center' },
+        { title: 'Opções',
+        render: this.rolesMatched() ? renderButtonsAdmin : renderButtons ,
+        className: 'text-center' },
       ];
 
       var data = this.props.pedidos.map((pedido) => {
@@ -173,8 +175,8 @@ class MeusPedidos extends RoleAwareComponent {
         const ano = d.getFullYear();
         const data = mes + '/' + dia + '/' + ano;
         const scale = d.getTimezoneOffset() / 60;
-        const hora = d.getUTCHours() - scale;
-        const minutos = this.addZero(d.getUTCMinutes());
+        const hora = this.addZero(d.getUTCHours() - scale);
+        const minutos = this.addZero(d.getUTCMinutes()) ;
         const hora_criacao =  hora + ':' + minutos;
 
         return {
@@ -207,7 +209,11 @@ class MeusPedidos extends RoleAwareComponent {
 }
 
 function mapStateToProps(state){
-  return {pedidos: state.pedidos.pedidos }
+  return {
+    pedidos: state.pedidos.pedidos,
+    reserva: state.pedido_detail.reserva_id,
+    evento: state.pedido_detail.evento_id
+  }
 }
 
 export default connect(mapStateToProps,

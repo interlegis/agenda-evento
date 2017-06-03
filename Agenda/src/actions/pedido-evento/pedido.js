@@ -41,6 +41,7 @@ export function cadastroPedido(props) {
           "hora_fim": props.hora_fim,
           "legislativo": props.legislativo,
           "observacao": props.observacao,
+          "publicado_agenda": false,
           "video_conferencia": props.video_conferencia,
           "responsavel": {
               "nome": props.nome_responsavel,
@@ -60,7 +61,7 @@ export function cadastroPedido(props) {
             text: "Aguarde Confirmação",
             type: "success",
             animation: "slide-from-top",
-            timer: 4000,
+            timer: 2000,
             showConfirmButton: false
           }, () => {
             // Redirect the user
@@ -145,11 +146,9 @@ export function getPedidoEvento(id){
     axios.get(`${ROOT_URL}api/pedido/${id}/`, config_user)
       .then(response => {
         dispatch({ type: RESERVA_GET, payload: response.data});
-        dispatch(ErrorMessage(''));
         axios.get(`${ROOT_URL}api/pedido/${id}/evento/`, config_user)
           .then(response => {
             dispatch({ type: EVENTO_GET, payload: response.data});
-            dispatch(ErrorMessage(''));
           })
           .catch(() => {
             dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
@@ -190,7 +189,6 @@ export function updatePedido(props, id){
           'Authorization': 'token ' + localStorage.token
       }
     };
-
     const data = {
       "nome": props.nome,
       "descricao": props.descricao,
@@ -201,6 +199,7 @@ export function updatePedido(props, id){
       "hora_fim": props.hora_fim,
       "legislativo": props.legislativo,
       "observacao": props.observacao,
+      "publicado_agenda": props.publicado_agenda,
       "video_conferencia": props.video_conferencia,
       "responsavel": {
           "nome": props.nome_responsavel,
@@ -215,14 +214,14 @@ export function updatePedido(props, id){
         dispatch({ type: EVENTO_GET, payload: response.data});
         dispatch(ErrorMessage(''));
         swal(
-            { title: "Sucesso!",
-            text: "Pedido Atualizado.",
-            imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
+            { title: "Aprovado",
+            text: "Pedido Atualizado!",
+            type: "success",
             timer: 2000,
             showConfirmButton: false
           }, () => {
             // Redirect the user
-            window.location.href = "/main";
+            window.location.href = "/pedidos";
           }
         );
       })
@@ -235,16 +234,68 @@ export function updatePedido(props, id){
 
 export function formalizarPedido(id) {
   return function(dispatch){
-    axios.post(`${ROOT_URL}api/pedido/id/edit/recebido/`)
+    const config_user = {
+      headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json',
+          'Authorization': 'token ' + localStorage.token
+      }
+    };
+
+    const data = {
+      "recebido": true
+    };
+
+    axios.post(`${ROOT_URL}api/pedido/${id}/edit/recebido/`, data, config_user)
       .then(response => {
-        dispatch({type: PEDIDO_RECEBIDO, payload: "Pedido Tramitado com Sucesso"})
+        dispatch(ErrorMessage(''));
+        swal(
+         { title: "Aprovado",
+         text: "O pedido foi formalizado!",
+         type: "success",
+         timer: 2000,
+         showConfirmButton: false
+       }, () => {
+         // Redirect the user
+         window.location.href = "/pedidos";
+       });
       })
       .catch((err) => {
-        if (err.status_code == 400) {
-          dispatch({type: PEDIDO_NEGADO}, payload: "Pedido fora do prazo para formalização")
-        }else{
-          dispatch({type: ERRO_TRAMITAR_PEDIDO}, payload: "Erro ao tramitar pedido! Tente mais tarde!")
-        }
+        dispatch(ErrorMessage(`${err.response.data.message}`));
+      });
+  }
+}
+
+export function reservarPedido(id) {
+  return function(dispatch){
+    const config_user = {
+      headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json',
+          'Authorization': 'token ' + localStorage.token
+      }
+    };
+
+    const data = {
+      "reservado": 'R'
+    };
+
+    axios.post(`${ROOT_URL}api/pedido/${id}/edit/reservado/`, data, config_user)
+      .then(response => {
+        dispatch(ErrorMessage(''));
+        swal(
+         { title: "Aprovado",
+         text: "O pedido foi reservado!",
+         type: "success",
+         timer: 2000,
+         showConfirmButton: false
+       }, () => {
+         // Redirect the user
+         window.location.href = "/pedidos";
+       });
+      })
+      .catch((err) => {
+        dispatch(ErrorMessage(`${err.response.data.message}`));
       });
   }
 }

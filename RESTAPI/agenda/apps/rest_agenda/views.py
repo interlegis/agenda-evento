@@ -94,7 +94,7 @@ class ReservaEdit(generics.ListCreateAPIView):
             elif comando == "recebido" and datetime.datetime.now().date() > \
                  reserva.validade_pre_reserva:
                 data['status'] = u'I'
-                return Response({"message": "Pedido fora do prazo para formalizacao"},
+                return Response({"message": "Pedido fora do prazo para ser formalizado"},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response({"message": "Comando nao e valido"},
@@ -176,7 +176,8 @@ class AgendaView(generics.ListAPIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class EventoLastestListView(generics.ListAPIView):
-    queryset = Reserva.objects.filter(status=u'R').exclude(
+    queryset = Reserva.objects.filter(status=u'R',
+                                      evento__publicado_agenda=True).exclude(
     evento__data_inicio__lt=datetime.datetime.now().date()).order_by(
     'evento__data_inicio', 'evento__nome').values('evento__data_fim',
     'evento__data_inicio', 'evento__hora_inicio', 'evento__hora_fim',
@@ -189,9 +190,11 @@ class EventoLastestListView(generics.ListAPIView):
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class EventoListView(generics.ListAPIView):
-    queryset = Reserva.objects.filter(status=u'R').values('evento__data_fim',
-    'evento__data_inicio', 'evento__hora_inicio', 'evento__hora_fim',
-    'evento__descricao','evento__id','evento__local','evento__nome')
+    queryset = Reserva.objects.filter(status=u'R',
+                                      evento__publicado_agenda=True).values(
+    'evento__data_fim','evento__data_inicio', 'evento__hora_inicio',
+    'evento__hora_fim','evento__descricao','evento__id','evento__local',
+    'evento__nome')
     serializer_class = EventoSerializerAgenda
     permission_classes = (AllowAny,)
 

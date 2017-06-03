@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL, UPDATE_USUARIO } from '../types';
+import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL, UPDATE_USUARIO }
+from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 
@@ -67,6 +68,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
             };
             axios.get(`${ROOT_URL}api/users/i/`, config_user)
               .then(response => {
+                dispatch(ErrorMessage(''));
                 dispatch({ type: USUARIO, payload: response.data})
               })
               .catch(() => {
@@ -100,8 +102,8 @@ export function getUsuario(){
 
     axios.get(`${ROOT_URL}api/users/i/`, config_user)
       .then(response => {
-        dispatch({ type: USUARIO, payload: response.data});
         dispatch(ErrorMessage(''));
+        dispatch({ type: USUARIO, payload: response.data});
       })
       .catch(() => {
           dispatch(signoutUser());
@@ -131,6 +133,9 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
             timer: 2000,
             showConfirmButton: false
+          }, () => {
+          // Redirect the user
+          window.location.href = "/main";
           }
         );
       })
