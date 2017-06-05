@@ -12,6 +12,7 @@ django-crontab==0.7.1
 django-debug-toolbar==1.2.2
 django-extensions==1.7.6
 djangorestframework==3.5.4
+django-url-filter==0.3.2
 entrypoints==0.2.2
 enum34==1.1.6
 functools32==3.2.3.post2

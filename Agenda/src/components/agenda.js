@@ -55,7 +55,7 @@ class Agenda extends Component {
   render() {
     return (
     <div className="calendar-page col-md-12">
-      <h2 className="title">Agenda de Eventos Intergelis</h2>
+      <h2 className="title">Agenda de Eventos Interlegis</h2>
       <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
       <div className="space-30"></div>
         <BigCalendar

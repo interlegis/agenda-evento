@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         ROOT_URL, RESERVA_GET, EVENTO_GET,
-        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, AVISO_ALERT } from '../types';
+        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, AVISO_ALERT, GET_PEDIDOS_CONCORRENTES } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
@@ -218,10 +218,12 @@ export function updatePedido(props, id){
             text: "Pedido Atualizado!",
             type: "success",
             timer: 2000,
-            showConfirmButton: false
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#001B5B"
           }, () => {
             // Redirect the user
-            window.location.href = "/pedidos";
+            window.location.href = `/admin/${id}`;
           }
         );
       })
@@ -254,10 +256,12 @@ export function formalizarPedido(id) {
          text: "O pedido foi formalizado!",
          type: "success",
          timer: 2000,
-         showConfirmButton: false
+         showConfirmButton: true,
+         confirmButtonText: 'OK',
+         confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.href = "/pedidos";
+         window.location.href = `/admin/${id}`;
        });
       })
       .catch((err) => {
@@ -287,15 +291,26 @@ export function reservarPedido(id) {
          { title: "Aprovado",
          text: "O pedido foi reservado!",
          type: "success",
-         timer: 2000,
-         showConfirmButton: false
+         timer: 1000,
+         showConfirmButton: true,
+         confirmButtonText: 'OK',
+         confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.href = "/pedidos";
+         window.location.href = `/admin/${id}`;
        });
       })
       .catch((err) => {
         dispatch(ErrorMessage(`${err.response.data.message}`));
+      });
+  }
+}
+
+export function checkDatasEvento(data_inicio, data_fim) {
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}api/eventos/pesquisa/?status__contains=P&evento__data_fim__lte=${data_fim}&evento__data_inicio__gte=${data_inicio}`)
+      .then( response => {
+        dispatch({ type: GET_PEDIDOS_CONCORRENTES, payload: response.data});
       });
   }
 }

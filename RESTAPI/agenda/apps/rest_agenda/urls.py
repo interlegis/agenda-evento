@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^api/pedido/user', views.PedidosUserView.as_view(),name='pedido-user'),
     url(r'^api/eventos/agenda/news', views.EventoLastestListView.as_view(),
     name='agenda-evento-last'),
-    url(r'^api/eventos/agenda', views.EventoListView.as_view(), name='agenda-evento')
+    url(r'^api/eventos/agenda', views.EventoListView.as_view(), name='agenda-evento'),
+    url(r'^api/eventos/pesquisa', views.PesquisaAgenda.as_view(), name='pesquisa-evento')
 ]

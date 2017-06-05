@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario } from '../../actions';
+import { getUsuario, checkDatasEvento } from '../../actions';
 import { AuthorizedComponent } from 'react-router-role-authorization';
+import TabelaPedidosConcorrentes from './tabelaPedidosConcorrentes'
 import Cookies from 'js-cookie';
 
 class TramitacaoFormalizacao extends AuthorizedComponent {
@@ -33,6 +34,7 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
     (Cookies.get('roles') === null)) {
       this.context.router.push(`${this.notAuthorizedPath}`);
     }
+    this.props.checkDatasEvento(this.props.evento.data_inicio,this.props.evento.data_fim);
   }
 
   handleSubmit(e){
@@ -47,7 +49,7 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
 
   render() {
     return (
-      <div>
+      <div className="padding-top-5">
         <div className="row bs-wizard">
               <div className="col-xs-3 bs-wizard-step complete">
                 <div className="text-center bs-wizard-stepnum">Pedido Realizado</div>
@@ -92,10 +94,15 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
               </div>
           </div>
           <div className="center-div">
+            <div>
+              <h3>Esse evento está com status de pré-reservado. Verifique os eventos pré-reservados nessas datas abaixo:</h3>
+              <TabelaPedidosConcorrentes pedidos={this.props.eventosConcorrentes} id_={this.props.id_}/>
+            </div>
+          <br/>
             <form onSubmit={this.handleSubmit}>
-              <div className="padding-top-5">
+              <div className="padding-top-5 margin-20">
                 <div className="space-15"></div>
-                <label>Declaro que o pedido foi formalizado oficilamente.</label>
+                <label>Desejo aprovar a reserva desse evento para publicação na Agenda.</label>
                 <div className="space-15"></div>
                 <input type="checkbox" name="aceito" onChange={
                   (event) =>
@@ -112,5 +119,11 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
   }
 }
 
-export default connect(null,
-  { getUsuario })(TramitacaoFormalizacao);
+function mapStateToProps(state) {
+  console.log(state.pedidos.eventosConcorrentes);
+  return {
+    eventosConcorrentes: state.pedidos.eventosConcorrentes
+  };
+}
+export default connect(mapStateToProps,
+  { getUsuario, checkDatasEvento })(TramitacaoFormalizacao);

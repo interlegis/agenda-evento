@@ -48,7 +48,7 @@ class TramitacaoAprovado extends AuthorizedComponent {
   render() {
     console.log(this.props);
     return (
-      <div>
+      <div className="padding-top-5">
         <div className="row bs-wizard">
               <div className="col-xs-3 bs-wizard-step complete">
                 <div className="text-center bs-wizard-stepnum">
@@ -98,7 +98,7 @@ class TramitacaoAprovado extends AuthorizedComponent {
             <form onSubmit={this.handleSubmit}>
               <div className="padding-top-5">
                 <div className="space-15"></div>
-                <label>Declaro que o pedido foi formalizado oficilamente.</label>
+                <label>Declaro que o pedido foi aprovado e deve ser publicado na agenda.</label>
                 <div className="space-15"></div>
                 <input type="checkbox" name="aceito" onChange={
                   (event) =>

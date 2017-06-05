@@ -1,4 +1,4 @@
-.bs-wizard {margin-top: 40px;}
+.bs-wizard {margin-top: 160px;}
 
 /*Form Wizard*/
 .bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;}
@@ -476,4 +476,13 @@ footer {
 
 .padding-top-5{
   padding-top: 15px;
+}
+
+.margin-20{
+  margin-top: 20%;
+}
+
+.center{
+  margin: 0 auto;
+  display: table;
 }

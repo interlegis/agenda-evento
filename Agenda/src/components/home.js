@@ -89,7 +89,7 @@ class Home extends Component {
 
       return (
         <div className="row">
-        <h1 className="title">Agenda de Eventos Intergelis</h1>
+        <h1 className="title">Agenda de Eventos Interlegis</h1>
         <h3>
         Sistema para agendamento de eventos a serem realizados no prédio Interlegis
         </h3>
@@ -102,7 +102,7 @@ class Home extends Component {
     } else {
       return (
         <div className="row">
-        <h1 className="title">Agenda de Eventos Intergelis</h1>
+        <h1 className="title">Agenda de Eventos Interlegis</h1>
         <h3>
         Sistema para agendamento de eventos a serem realizados no prédio Interlegis
         </h3>

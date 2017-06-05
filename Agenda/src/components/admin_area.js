@@ -75,6 +75,19 @@ class Admin_Area extends AuthorizedComponent {
     this.props.updatePedido(data, this.props.params.id);
   }
 
+  ReservaSatatus(status){
+      switch (status) {
+        case 'P':
+          return 'Pre-Reservado';
+        break;
+        case 'R':
+          return 'Reservado';
+        break;
+        case 'C':
+          return 'Cancelado';
+        break;
+      };
+  }
   addZero(i) {
       if (i < 10) {
           i = "0" + i;
@@ -108,6 +121,27 @@ class Admin_Area extends AuthorizedComponent {
 
   render() {
     if (this.props.reserva && this.props.evento){
+      const status = this.ReservaSatatus(this.props.reserva.status);
+      const legislativo = this.TrueFalseSimNao(this.props.evento.legislativo);
+      const video_conferencia = this.TrueFalseSimNao(this.props.evento.video_conferencia);
+      const data_criacao = this.DataFormat(this.props.reserva.data_criacao);
+      const hora_criacao = this.DataHoraFormat(this.props.reserva.data_criacao);
+      const data_inicio = this.DataFormat(this.props.evento.data_inicio);
+      const hora_inicio = this.props.evento.hora_inicio;
+      const data_fim = this.DataFormat(this.props.evento.data_fim);
+      const hora_fim = this.props.evento.hora_fim;
+      var recebido;
+      if (this.props.reserva.recebido) {
+        recebido = 'Oficializado'
+      }else{
+        recebido = 'Não oficializado'
+      }
+      var local;
+      if (this.props.evento.local == 'SR') {
+        local = 'Sala de Reuniões'
+      }else{
+        local = 'Auditório Interlegis'
+      }
       switch (this.props.reserva.status) {
         case 'P':
             if (this.props.reserva.recebido) {
@@ -116,15 +150,35 @@ class Admin_Area extends AuthorizedComponent {
                   <h1 className="title" aling="center">
                     Pedido - {this.props.reserva.nr_referencia}
                   </h1>
+                  <h3>Pedido feito em <strong>{data_criacao}</strong></h3>
                   <hr/>
-                  <div>
-                    <h1 className="title">Reserva</h1>
+                  <div className="padding-top-15">
+                    <h1 className="title">Detalhes do Evento</h1>
                     <hr/>
-                  </div>
+                      <table className="col-md-12 text-reserva">
+                        <tbody>
+                          <tr>
+                            <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
+                            <td><h4><strong>Local: </strong>{local}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
+                            <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
+                            <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
+                            <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
+                            <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   <TramitacaoFormalizacao
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                     onReservar={this.pedidoReservar}
+                    id_={this.props.params.id}
                   />
                   {this.renderAlert()}
         	       </div>
@@ -135,11 +189,30 @@ class Admin_Area extends AuthorizedComponent {
                   <h1 className="title" aling="center">
                     Pedido - {this.props.reserva.nr_referencia}
                   </h1>
+                  <h3>Pedido feito em <strong>{data_criacao}</strong></h3>
                   <hr/>
                   <div>
-                    <h1 className="title">Reserva</h1>
+                    <h1 className="title">Detalhes do Evento</h1>
                     <hr/>
-                  </div>
+                      <table className="col-md-12 text-reserva">
+                        <tbody>
+                          <tr>
+                            <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
+                            <td><h4><strong>Local: </strong>{local}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
+                            <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
+                            <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
+                            <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
+                            <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   <TramitacaoPedidoRealizado
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
@@ -157,11 +230,30 @@ class Admin_Area extends AuthorizedComponent {
                   <h1 className="title" aling="center">
                     Pedido - {this.props.reserva.nr_referencia}
                   </h1>
+                  <h3>Pedido feito em <strong>{data_criacao}</strong></h3>
                   <hr/>
-                  <div>
-                    <h1 className="title">Reserva</h1>
+                  <div className="padding-top-15">
+                    <h1 className="title">Detalhes do Evento</h1>
                     <hr/>
-                  </div>
+                      <table className="col-md-12 text-reserva">
+                        <tbody>
+                          <tr>
+                            <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
+                            <td><h4><strong>Local: </strong>{local}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
+                            <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
+                            <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
+                            <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
+                            <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   <TramitacaoPublicacaoAgenda
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
@@ -173,12 +265,31 @@ class Admin_Area extends AuthorizedComponent {
                 <div key="TramitAprov" className="col-md-10">
                   <h1 className="title" aling="center">
                     Pedido - {this.props.reserva.nr_referencia}
+                    <h3>Pedido feito em <strong>/strong>{data_criacao}</strong></h3>
                   </h1>
                   <hr/>
-                  <div>
-                    <h1 className="title">Reserva</h1>
+                  <div className="padding-top-15">
+                    <h1 className="title">Detalhes do Evento</h1>
                     <hr/>
-                  </div>
+                      <table className="col-md-12 text-reserva">
+                        <tbody>
+                          <tr>
+                            <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
+                            <td><h4><strong>Local: </strong>{local}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
+                            <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
+                            <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
+                          </tr>
+                          <tr>
+                            <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
+                            <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
+                            <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   <TramitacaoAprovado
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}

@@ -7,6 +7,7 @@ from .serializers import (ReservaEventoSerializer, ReservaSerializer,
                          EventoSerializer, EventoSerializerAgenda )
 from .utils import check_datas, checkEventoDatas
 import datetime
+from url_filter.integrations.drf import DjangoFilterBackend
 
 class ReservaViewSet(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
@@ -201,3 +202,10 @@ class EventoListView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         serializer = EventoSerializerAgenda(self.get_queryset(), many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+class PesquisaAgenda(generics.ListAPIView):
+    queryset = Reserva.objects.all()
+    serializer_class = ReservaEventoSerializer
+    permission_classes = (AllowAny,)
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['status','evento']

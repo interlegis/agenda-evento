@@ -49,7 +49,7 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
 
   render() {
     const jsx = (
-      <div>
+      <div className="padding-top-5">
         <div className="row bs-wizard">
               <div className="col-xs-3 bs-wizard-step complete">
                 <div className="text-center bs-wizard-stepnum">

@@ -40,7 +40,7 @@ class Login extends Component{
        fields: { username, password }} = this.props;
     return(
       <div className="row">
-        <h2 className="title">Agenda de Eventos Intergelis</h2>
+        <h2 className="title">Agenda de Eventos Interlegis</h2>
         <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
         <div className="col-sm-10 col-sm-offset-4">
           <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
