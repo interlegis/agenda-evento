@@ -337,7 +337,7 @@ function validate(values) {
   const errors = {};
   var re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   var re_tel = /^\([0-9]{3}\)[0-9]{4,5}-[0-9]{4}$/;
-  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0][0]$/;
+  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]?:?[0]?[0]$/;
 
   _.each(FIELD_PEDIDO, (fieldConfig, field) => {
     if (!values[field] && fieldConfig.type != 'select' &&
