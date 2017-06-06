@@ -314,3 +314,39 @@ export function checkDatasEvento(data_inicio, data_fim) {
       });
   }
 }
+
+export function cancelarPedido(id){
+  return function(dispatch){
+    const config_user = {
+      headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json',
+          'Authorization': 'token ' + localStorage.token
+      }
+    };
+
+    const data = {
+      "reservado": 'C'
+    };
+
+    axios.post(`${ROOT_URL}api/pedido/${id}/edit/cancelado/`, data, config_user)
+      .then(response => {
+        dispatch(ErrorMessage(''));
+        swal(
+         { title: "Cancelado",
+         text: "O pedido foi cancelado!",
+         type: "error",
+         timer: 1000,
+         showConfirmButton: true,
+         confirmButtonText: 'OK',
+         confirmButtonColor: "#001B5B",
+       }, () => {
+         // Redirect the user
+         window.location.href = `/admin/${id}`;
+       });
+      })
+      .catch((err) => {
+        dispatch(ErrorMessage(`${err.response.data.message}`));
+      });
+  }
+}

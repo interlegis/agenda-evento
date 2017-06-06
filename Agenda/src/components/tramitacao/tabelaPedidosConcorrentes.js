@@ -6,7 +6,7 @@ export default class TabelaPedidosConcorrentes extends Component{
       return (
         <div className="col-md-10 col-md-offset-1">
               <h1 className="center">Eventos Pré-Reservados Concorrentes</h1>
-              <h4 className="center">Nenhum evento pré-reservado nessas datas.</h4>
+              <h4 className="center margin-20">Nenhum evento pré-reservado nessas datas.</h4>
         </div>
       );
     }

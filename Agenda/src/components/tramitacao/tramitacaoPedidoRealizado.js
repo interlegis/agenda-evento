@@ -114,6 +114,7 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
                 <div className="space-15"></div>
               </div>
               <input type="submit" value="Formalizar" className="btn btn-primary"/>
+              <input type="button" value="Cancelar Reserva" className="btn btn-danger" onClick={(event) => {this.props.onCancelar()}}/>
             </form>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario, updatePedido, getPedidoEvento, formalizarPedido, reservarPedido }
+import { getUsuario, updatePedido, getPedidoEvento,formalizarPedido,
+        reservarPedido, cancelarPedido }
 from '../actions';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
@@ -9,6 +10,7 @@ import TramitacaoFormalizacao from './tramitacao/tramitacaoFormalizacao';
 import TramitacaoPublicacaoAgenda from './tramitacao/tramitacaoPublicacaoAgenda';
 import TramitacaoAprovado from './tramitacao/tramitacaoAprovado';
 import TramitacaoPedidoRealizado from './tramitacao/tramitacaoPedidoRealizado';
+import TramitacaoPedidoCancelado from './tramitacao/tramitacaoPedidoCancelado';
 
 class Admin_Area extends AuthorizedComponent {
   constructor(props) {
@@ -22,6 +24,7 @@ class Admin_Area extends AuthorizedComponent {
     this.pedidoRecebido = this.pedidoRecebido.bind(this);
     this.updatePedido = this.updatePedido.bind(this);
     this.pedidoReservar = this.pedidoReservar.bind(this);
+    this.cancelarPedido = this.cancelarPedido.bind(this);
   }
 
   static contextTypes = {
@@ -51,6 +54,10 @@ class Admin_Area extends AuthorizedComponent {
 
   pedidoReservar(){
     this.props.reservarPedido(this.props.params.id);
+  }
+
+  cancelarPedido(){
+      this.props.cancelarPedido(this.props.params.id);
   }
 
   updatePedido(){
@@ -175,6 +182,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoFormalizacao
+                    onCancelar={this.cancelarPedido}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                     onReservar={this.pedidoReservar}
@@ -214,6 +222,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoPedidoRealizado
+                    onCancelar={this.cancelarPedido}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                     onPedidoRecebido={this.pedidoRecebido}
@@ -255,6 +264,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoPublicacaoAgenda
+                    onCancelar={this.cancelarPedido}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                   />
@@ -265,8 +275,8 @@ class Admin_Area extends AuthorizedComponent {
                 <div key="TramitAprov" className="col-md-10">
                   <h1 className="title" aling="center">
                     Pedido - {this.props.reserva.nr_referencia}
-                    <h3>Pedido feito em <strong>/strong>{data_criacao}</strong></h3>
                   </h1>
+                  <h3>Pedido feito em <strong>{data_criacao}</strong></h3>
                   <hr/>
                   <div className="padding-top-15">
                     <h1 className="title">Detalhes do Evento</h1>
@@ -291,6 +301,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoAprovado
+                    onCancelar={this.cancelarPedido}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                     onUpdate={this.updatePedido}
@@ -301,7 +312,43 @@ class Admin_Area extends AuthorizedComponent {
             }
           break;
         case 'C':
-
+          return(
+            <div key="TramitAprov" className="col-md-10">
+              <h1 className="title" aling="center">
+                Pedido - {this.props.reserva.nr_referencia}
+              </h1>
+              <h3>Pedido feito em <strong>{data_criacao}</strong></h3>
+              <hr/>
+              <div className="padding-top-15">
+                <h1 className="title">Detalhes do Evento</h1>
+                <hr/>
+                  <table className="col-md-12 text-reserva">
+                    <tbody>
+                      <tr>
+                        <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
+                        <td><h4><strong>Local: </strong>{local}</h4></td>
+                      </tr>
+                      <tr>
+                        <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
+                        <td><h4><strong>Data Inicio: </strong>{data_inicio}</h4></td>
+                        <td><h4><strong>Hora Inicio: </strong>{hora_inicio}</h4></td>
+                      </tr>
+                      <tr>
+                        <td><h4><strong>Video Conferência: </strong>{video_conferencia}</h4></td>
+                        <td><h4><strong>Data Fim: </strong>{data_fim}</h4></td>
+                        <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              <TramitacaoPedidoCancelado
+                onCancelar={this.cancelarPedido}
+                authorize={['primeira_secretaria','admin']}
+                reserva={this.props.reserva} evento={this.props.evento}
+              />
+              {this.renderAlert()}
+            </div>
+          );
           break;
         default:
       }
@@ -336,4 +383,4 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps,
-  { getPedidoEvento, updatePedido, getUsuario, formalizarPedido, reservarPedido })(Admin_Area);
+  { getPedidoEvento, updatePedido, getUsuario, formalizarPedido, reservarPedido, cancelarPedido })(Admin_Area);

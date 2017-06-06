@@ -99,7 +99,7 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
               <TabelaPedidosConcorrentes pedidos={this.props.eventosConcorrentes} id_={this.props.id_}/>
             </div>
           <br/>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className="center">
               <div className="padding-top-5 margin-20">
                 <div className="space-15"></div>
                 <label>Desejo aprovar a reserva desse evento para publicação na Agenda.</label>
@@ -112,6 +112,7 @@ class TramitacaoFormalizacao extends AuthorizedComponent {
               </div>
               <div className="space-15"></div>
               <input type="submit" value="Formalizar" className="btn btn-primary"/>
+              <input type="button" value="Cancelar Reserva" className="btn btn-danger" onClick={() => {this.props.onCancelar()}}/>
             </form>
           </div>
       </div>

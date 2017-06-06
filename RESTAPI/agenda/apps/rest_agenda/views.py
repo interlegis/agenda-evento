@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Reserva, Evento
+from .models import Reserva, Evento, EventoTramitacaoLog
 from .serializers import (ReservaEventoSerializer, ReservaSerializer,
                          EventoSerializer, EventoSerializerAgenda )
 from .utils import check_datas, checkEventoDatas
@@ -88,9 +88,18 @@ class ReservaEdit(generics.ListCreateAPIView):
                 data['status'] = u'I'
                 #send email
             elif comando == "reservado":
-                data['status'] = u'R'
+                if Reserva.objects.filter(status=u'R',
+                                          evento__data_fim__lte=reserva.evento.data_fim,
+                                          evento__data_inicio__gte=reserva.evento.data_inicio,
+                                          evento__hora_inicio__gte=reserva.evento.hora_inicio,
+                                          evento__hora_fim__lte=reserva.evento.hora_fim):
+                    return Response({"message": "Ja existem reservas nesse periodo."},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    data['status'] = u'R'
             elif comando == "recebido" and datetime.datetime.now().date() < \
                  reserva.validade_pre_reserva:
+                import ipdb; ipdb.set_trace()
                 data['recebido'] = True
             elif comando == "recebido" and datetime.datetime.now().date() > \
                  reserva.validade_pre_reserva:
@@ -101,6 +110,10 @@ class ReservaEdit(generics.ListCreateAPIView):
                 return Response({"message": "Comando nao e valido"},
                                 status=status.HTTP_404_NOT_FOUND)
             data['data_modificacao'] = datetime.datetime.now()
+            log =  EventoTramitacaoLog(reserva=reserva,
+                                       usuario=request.user,
+                                       log="Mudanca de status:"+ comando)
+            log.save()
             serializer = ReservaSerializer(reserva, data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()

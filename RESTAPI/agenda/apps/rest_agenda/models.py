@@ -83,3 +83,16 @@ class Reserva(models.Model):
 
     def __unicode__(self):
         return "Reserva %s %s" % (self.id, self.status)
+
+class EventoTramitacaoLog(models.Model):
+    reserva = models.ForeignKey(Reserva, verbose_name=u'Reserva')
+    usuario = models.ForeignKey(User, verbose_name=u'Usuario')
+    log = models.CharField(blank=True, max_length=100)
+    data_modificacao = models.DateTimeField(default=timezone.localtime(timezone.now()), blank=True)
+
+    class Meta:
+        verbose_name = u"Log Eventos Tramitados"
+        verbose_name_plural = u"Log Eventos Tramitados"
+
+    def __unicode__(self):
+        return "Log Eventos %s %s" % (self.id, self.log)
