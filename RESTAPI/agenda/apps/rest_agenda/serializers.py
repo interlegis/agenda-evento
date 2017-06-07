@@ -57,9 +57,17 @@ class EventoSerializer(serializers.ModelSerializer):
                   'cancelado','causa_cancelamento','publicado_agenda',
                   'video_conferencia','responsavel',)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data,):
         responsavel_data = validated_data.pop('responsavel')
         responsavel = instance.responsavel
+
+        responsavel.nome = responsavel_data.get('nome', responsavel.nome)
+        responsavel.email = responsavel_data.get('email', responsavel.email)
+        responsavel.telefone = responsavel_data.get('telefone',
+                                                    responsavel.telefone)
+        responsavel.lotacao = responsavel_data.get('lotacao',
+                                                   responsavel.lotacao)
+        responsavel.save()
 
         instance.nome = validated_data.get('nome', instance.nome)
         instance.descricao = validated_data.get('descricao',
@@ -87,15 +95,6 @@ class EventoSerializer(serializers.ModelSerializer):
         instance.causa_cancelamento = validated_data.get('causa_cancelamento',
                                                   instance.causa_cancelamento)
         instance.save()
-
-        responsavel.nome = responsavel_data.get('nome', responsavel.nome)
-        responsavel.email = responsavel_data.get('email', responsavel.email)
-        responsavel.telefone = responsavel_data.get('telefone',
-                                                    responsavel.telefone)
-        responsavel.lotacao = responsavel_data.get('lotacao',
-                                                   responsavel.lotacao)
-        responsavel.save()
-
         return instance
 
     def validate(self, attrs):
