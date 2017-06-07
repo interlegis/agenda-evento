@@ -223,7 +223,7 @@ export function updatePedido(props, id){
             confirmButtonColor: "#001B5B"
           }, () => {
             // Redirect the user
-            window.location.href = `/admin/${id}`;
+            window.location.href = `/evento/${id}`;
           }
         );
       })

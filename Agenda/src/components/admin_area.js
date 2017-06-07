@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario, updatePedido, getPedidoEvento,formalizarPedido,
+import { getUsuario, getPedidoEvento,formalizarPedido,
         reservarPedido, cancelarPedido }
 from '../actions';
 import { AuthorizedComponent } from 'react-router-role-authorization';
@@ -22,7 +22,6 @@ class Admin_Area extends AuthorizedComponent {
 
     this.notAuthorizedPath = '/not-found';
     this.pedidoRecebido = this.pedidoRecebido.bind(this);
-    this.updatePedido = this.updatePedido.bind(this);
     this.pedidoReservar = this.pedidoReservar.bind(this);
     this.cancelarPedido = this.cancelarPedido.bind(this);
   }
@@ -58,28 +57,6 @@ class Admin_Area extends AuthorizedComponent {
 
   cancelarPedido(){
       this.props.cancelarPedido(this.props.params.id);
-  }
-
-  updatePedido(){
-    const data = {
-      "nome": this.props.evento.nome,
-      "descricao": this.props.evento.descricao,
-      "local": this.props.evento.local,
-      "data_inicio": DataFormat(this.props.evento.data_inicio),
-      "hora_inicio": this.props.evento.hora_inicio,
-      "data_fim": DataFormat(this.props.evento.data_fim),
-      "hora_fim": this.props.evento.hora_fim,
-      "legislativo": this.props.evento.legislativo,
-      "observacao": this.props.evento.observacao,
-      "publicado_agenda": true,
-      "video_conferencia": this.props.evento.video_conferencia,
-      "nome_responsavel": this.props.evento.responsavel.nome,
-      "email_responsavel": this.props.evento.responsavel.email,
-      "telefone_responsavel": this.props.evento.responsavel.telefone,
-      "lotacao_responsavel": this.props.evento.responsavel.lotacao
-    }
-
-    this.props.updatePedido(data, this.props.params.id);
   }
 
   ReservaSatatus(status){
@@ -304,7 +281,6 @@ class Admin_Area extends AuthorizedComponent {
                     onCancelar={this.cancelarPedido}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
-                    onUpdate={this.updatePedido}
                   />
                   {this.renderAlert()}
         	       </div>
@@ -383,4 +359,4 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps,
-  { getPedidoEvento, updatePedido, getUsuario, formalizarPedido, reservarPedido, cancelarPedido })(Admin_Area);
+  { getPedidoEvento, getUsuario, formalizarPedido, reservarPedido, cancelarPedido })(Admin_Area);
