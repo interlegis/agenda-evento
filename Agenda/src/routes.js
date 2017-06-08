@@ -32,6 +32,7 @@ export default(
     <Route path="/evento/editar/:id" component={requireAuth(EditarPedido)} />
     <Route path="/configuracoes" component={requireAuth(Configuracoes)} />
     <Route path="/admin/:id" component={requireAuth(Admin_Area)} authorize={['primeira_secretaria','admin']} />
-    <Route path="/not-found" component={NotFound} />
+    <Route path="/not-found" component={NotFound} notUrl={false}/>
+    <Route path='*' component={NotFound} notUrl={true}/>
   </Route>
 );

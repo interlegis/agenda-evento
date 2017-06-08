@@ -493,3 +493,7 @@ footer {
   margin: 0 auto;
   display: table;
 }
+
+.padding-5{
+  padding-bottom: 10%;
+}
