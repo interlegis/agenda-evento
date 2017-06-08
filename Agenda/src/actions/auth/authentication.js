@@ -144,7 +144,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
           dispatch(ErrorMessage('Erro Interno - Usuario nao Encontrado, erro no servidor'));
           swal({
             title: "Oops...",
-            text: "Usuario Indisponivel. Try Again Later ¯\\_(ツ)_/¯",
+            text: "Usuario Indisponivel. ",
             type: "error",
             animation: "slide-from-top",
             timer: 2000,
@@ -156,4 +156,17 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
           throw err;
       });
   }
+}
+
+export function recuperarSenha(email){
+    swal({
+      title: "Recuperar Senha",
+      text: "Uma nova senha foi enviada para o seu email.",
+      type: "success",
+      animation: "slide-from-top",
+      timer: 2000,
+    }, () => {
+    // Redirect the user
+    window.location.href = "/login";
+    });
 }

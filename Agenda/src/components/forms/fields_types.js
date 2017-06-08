@@ -6,6 +6,14 @@ export const FIELD_USUARIO_UPDATE = {
   password:''
 };
 
+export const FIELD_ESQUECI_SENHA = {
+  email: {
+    type:'email',
+    titulo:'Email:',
+    label:'seu email'
+  },
+};
+
 export const FIELD_USUARIO_CADASTRO = {
   first_name: {
     type:'text',
@@ -19,7 +27,7 @@ export const FIELD_USUARIO_CADASTRO = {
   },
   username: {
     type:'text',
-    titulo:'Usuario:',
+    titulo:'Nome de Usuario:',
     label:'o nome do usuario'
   },
   email: {

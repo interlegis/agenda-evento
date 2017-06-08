@@ -16,7 +16,7 @@ export default () => {
         </div>
 
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <h2 className="faqh">Our Strength</h2>
+          <h2 className="faqh">Pedidos</h2>
 
           <div className="panel-group" id="accordion-1">
             <div className="panel panel-default">
@@ -143,7 +143,7 @@ export default () => {
         </div>
 
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <h2 className="faqh">Question about us</h2>
+          <h2 className="faqh">Agenda</h2>
           <div className="panel-group" id="accordion-2">
             <div className="panel panel-default">
               <div className="panel-heading">

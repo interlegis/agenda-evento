@@ -16,6 +16,7 @@ import EditarPedido from './components/editarPedido';
 import Admin_Area from './components/admin_area';
 import NotFound from './components/notFound';
 import Faq from './components/faq';
+import EsqueciSenha from './components/esqueciSenha';
 
 export default(
   <Route path="/" component={App} location="history">
@@ -32,6 +33,7 @@ export default(
     <Route path="/evento/editar/:id" component={requireAuth(EditarPedido)} />
     <Route path="/configuracoes" component={requireAuth(Configuracoes)} />
     <Route path="/admin/:id" component={requireAuth(Admin_Area)} authorize={['primeira_secretaria','admin']} />
+    <Route path="/esquecisenha" component={EsqueciSenha} />
     <Route path="/not-found" component={NotFound} notUrl={false}/>
     <Route path='*' component={NotFound} notUrl={true}/>
   </Route>

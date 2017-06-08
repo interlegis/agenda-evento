@@ -497,3 +497,36 @@ footer {
 .padding-5{
   padding-bottom: 10%;
 }
+
+.center-div-flex{
+  display: flex;
+  justify-content: center;
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;
+}
+
+:-ms-input-placeholder {
+   text-align: center;
+}
+
+.panel-primary{
+  padding-right: 0px;
+  padding-left: 0px;
+  border-color: #001B5B;
+}
+
+.panel-primary > .panel-heading {
+    color: #ffffff;
+    background-color: #001B5B;
+    border-color: #001B5B;
+}

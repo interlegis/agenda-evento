@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
-import { signinUser } from '../actions';
+import { recuperarSenha } from '../actions';
 import { Link } from 'react-router';
-import { FIELD_USUARIO_LOGIN } from './forms/fields_types';
+import { FIELD_ESQUECI_SENHA } from './forms/fields_types';
 
-class Login extends Component{
-  handleSubmitForm({ username, password }){
-    this.props.signinUser({username, password});
+class EsqueciSenha extends Component{
+  handleSubmitForm({ email}){
+    this.props.recuperarSenha({email});
   }
 
   renderAlert(){
@@ -29,7 +29,7 @@ class Login extends Component{
         key={`${fieldConfig.type}\_${fieldConfig.label}`}>
         <label className="control-label center">{fieldConfig.titulo}</label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Por favor, insira ${fieldConfig.label}`}/>
+        placeholder={`Coloque ${fieldConfig.label}`}/>
         {fieldHelper.touched && fieldHelper.error &&
           <div className="help-block">{fieldHelper.error}</div>}
       </fieldset>
@@ -38,7 +38,7 @@ class Login extends Component{
 
   render(){
     const { error, handleSubmit, pristine, resetForm, submitting,
-       fields: { username, password }} = this.props;
+       fields: { email}} = this.props;
     return(
       <div>
       <div>
@@ -47,28 +47,20 @@ class Login extends Component{
       </div>
       <div className="center-div-flex">
         <div className="panel panel-primary col-md-5 center">
-          <div className="panel-heading text-center">Login</div>
+          <div className="panel-heading text-center">Esqueci minha Senha</div>
               <div className="panel-body center col-md-12">
                 <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
                   className="center col-md-12" style={{paddingBottom: 10}}>
-                  {_.map(FIELD_USUARIO_LOGIN, this.renderField.bind(this))}
+                  {_.map(FIELD_ESQUECI_SENHA, this.renderField.bind(this))}
                   {this.renderAlert()}
                 <div className="login-button">
                   <button type="submit" disabled={submitting}
-                      className={((username.touched && username.invalid) ||
-                        (password.touched && password.invalid)) ?
+                      className={(email.touched && email.invalid)?
                          "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
-                        Entrar
-                  </button>
-                  <button type="button" className="btn btn-default btn-md"
-                      disabled={pristine || submitting} onClick={resetForm}>
-                      Limpar
+                        Recuperar Senha
                   </button>
                 </div>
-                <Link to="/esquecisenha" className="btn btn-danger btn-md center">Esqueci Senha</Link>
               </form>
-              <p className="center" style={{color: 'grey'}}>Ainda não possui cadastro?</p>
-              <Link to="/cadastro" className="btn btn-primary btn-sm center">Cadastre-se</Link>
             </div>
         </div>
       </div>
@@ -80,7 +72,7 @@ class Login extends Component{
 function validate(values) {
   const errors = {};
 
-  _.each(FIELD_USUARIO_LOGIN, (type, field) => {
+  _.each(FIELD_ESQUECI_SENHA, (type, field) => {
     if (!values[field]) {
       errors[field] = `Por favor, insira ${type.label}...`;
     }
@@ -94,6 +86,6 @@ function mapStateToProps(state){
 
 export default reduxForm({
   form: 'login',
-  fields: _.keys(FIELD_USUARIO_LOGIN),
+  fields: _.keys(FIELD_ESQUECI_SENHA),
   validate
-}, mapStateToProps, { signinUser })(Login);
+}, mapStateToProps, { recuperarSenha })(EsqueciSenha);

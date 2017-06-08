@@ -37,9 +37,9 @@ class Cadastro extends Component{
     return(
       <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
         ? "form-group has-error has-feedback" : "form-group"} key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-        <label className="control-label">{fieldConfig.titulo}</label>
+        <label className="control-label center-div-flex">{fieldConfig.titulo}</label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Coloque ${fieldConfig.label}`} />
+        placeholder={`Por favor, insira ${fieldConfig.label}`} />
         {fieldHelper.touched && fieldHelper.error &&
            <div className="help-block">{fieldHelper.error}</div>}
       </fieldset>
@@ -51,26 +51,39 @@ class Cadastro extends Component{
       fields: { first_name ,last_name ,username ,email, password }} = this.props;
 
     return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
-        className="div-pedido">
-        {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
-        {this.renderAlert()}
-        <div className="btn-group" role="group">
-            <button type="submit" disabled={submitting}
-              className={((first_name.touched && first_name.invalid) ||
-                (last_name.touched && last_name.invalid) ||
-                (username.touched && username.invalid) ||
-                (email.touched && email.invalid) ||
-                (password.touched && password.invalid)) ?
-                 "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
-                Cadastre-se
-            </button>
-            <button type="button" className="btn btn-default btn-md"
-              disabled={pristine || submitting} onClick={resetForm}>
-              Limpar
-            </button>
+      <div>
+        <div>
+          <h2 className="title">Agenda de Eventos Interlegis</h2>
+          <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
+        </div>
+        <div className="center-div-flex col-md-12">
+        <div className="panel panel-primary col-md-5">
+          <div className="panel-heading text-center">Cadastro</div>
+          <div className="panel-body center col-md-12">
+            <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+              className="center col-md-12">
+              {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
+              {this.renderAlert()}
+              <div className="btn-group center-div-flex" role="group">
+                  <button type="submit" disabled={submitting}
+                    className={((first_name.touched && first_name.invalid) ||
+                      (last_name.touched && last_name.invalid) ||
+                      (username.touched && username.invalid) ||
+                      (email.touched && email.invalid) ||
+                      (password.touched && password.invalid)) ?
+                       "btn btn-primary btn-md disabled" : "btn btn-primary btn-md"}>
+                      Cadastre-se
+                  </button>
+                  <button type="button" className="btn btn-default btn-md"
+                    disabled={pristine || submitting} onClick={resetForm}>
+                    Limpar
+                  </button>
+                </div>
+            </form>
           </div>
-      </form>
+        </div>
+      </div>
+      </div>
     );
   }
 }
@@ -81,7 +94,7 @@ function validate(values) {
 
   _.each(FIELD_USUARIO_CADASTRO, (fieldConfig, field) => {
     if (!values[field]) {
-      errors[field] = `Por favor, insira ${fieldConfig.label}...`;
+      errors[field] = `Por favor, insira ${fieldConfig.label}.`;
     }
 
     if (values[field] && fieldConfig.type == 'email' && !re_email.test(values[field])) {
