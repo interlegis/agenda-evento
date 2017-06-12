@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from rest_framework import serializers
 from .models import Reserva, Evento, Responsavel
 import random
@@ -99,7 +101,7 @@ class EventoSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if (attrs['data_inicio'] - datetime.datetime.now().date()).days < 3:
-            raise serializers.ValidationError('Evento fora do periodo de editar')
+            raise serializers.ValidationError('Evento fora do período de editar')
         if self.instance is not None:
             if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
             evento__hora_fim__gte=attrs['hora_inicio'],
@@ -142,7 +144,7 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
         evento_data = self.data.pop('evento')
         if not checkEventoDatas(evento_data):
             raise serializers.ValidationError('Eventos ja reservados nesse \
-            periodo')
+            período')
         responsavel = Responsavel.objects.create(**evento_data.pop('responsavel'))
         evento =  Evento.objects.create(responsavel=responsavel,**evento_data)
         ano = str(datetime.datetime.now().year)

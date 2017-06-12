@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 from .models import Reserva
 
@@ -13,20 +15,20 @@ def dias_uteis(data_atual, dias, plus_minus):
 def check_datas(data_inicio,data_fim,hora_inicio,hora_fim):
     aviso = {}
     if Reserva.objects.filter(evento__data_inicio=data_inicio, status=u'P'):
-        aviso['DataInicio'] = 'Evento Pre-Reservado na mesma data de inicio, \
+        aviso['DataInicio'] = 'Evento Pré-Reservado na mesma data de início, \
         aguarde confirmacao'
     if Reserva.objects.filter(evento__data_fim=data_fim, status=u'P'):
-        aviso['DataFim'] = 'Evento Pre-Reservado na mesma data de termino, \
+        aviso['DataFim'] = 'Evento Pré-Reservado na mesma data de término, \
         aguarde confirmacao'
     if Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim),
        status=u'P'):
-        aviso['EntreDatas'] = 'O periodo escolhido possui outros eventos \
-         pre-reservado, aguarde confirmacao'
+        aviso['EntreDatas'] = 'O período escolhido possui outros eventos \
+         pré-reservado, aguarde confirmacao'
     if Reserva.objects.filter(evento__data_inicio=data_inicio,
        evento__hora_inicio__gte=hora_inicio, status=u'P') or \
        Reserva.objects.filter(evento__data_fim=data_fim,
        evento__hora_inicio__lte=hora_fim, status=u'P'):
-        aviso['ConflitoHorario'] = 'Existe(m) evento(s) pre-reservado(s) \
+        aviso['ConflitoHorario'] = 'Existe(m) evento(s) pré-reservado(s) \
         com conflito de horario, aguarde confirmacao'
     return aviso
 

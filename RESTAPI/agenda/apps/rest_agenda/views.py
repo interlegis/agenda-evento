@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
@@ -93,7 +94,7 @@ class ReservaEdit(generics.ListCreateAPIView):
                                           evento__data_inicio__gte=reserva.evento.data_inicio,
                                           evento__hora_inicio__gte=reserva.evento.hora_inicio,
                                           evento__hora_fim__lte=reserva.evento.hora_fim):
-                    return Response({"message": "Ja existem reservas nesse periodo."},
+                    return Response({"message": "Ja existem reservas nesse período."},
                                     status=status.HTTP_400_BAD_REQUEST)
                 else:
                     data['status'] = u'R'

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -60,11 +62,11 @@ class ReservaTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         response = self.client.post(self.url, self.data)
         avisos_esperados = {
-            'DataInicio' : 'Evento Pre-Reservado na mesma data de inicio, \
+            'DataInicio' : 'Evento Pré-Reservado na mesma data de inicio, \
             aguarde confirmacao',
-            'DataFim' : 'Evento Pre-Reservado na mesma data de termino, \
+            'DataFim' : 'Evento Pré-Reservado na mesma data de termino, \
             aguarde confirmacao',
-            'EntreDatas' : 'O periodo escolhido possui outros eventos \
+            'EntreDatas' : 'O período escolhido possui outros eventos \
             pre-reservado, aguarde confirmacao',
             'ConflitoHorario' : 'Existe(m) evento(s) pre-reservado(s) \
             com conflito de horario, aguarde con  firmacao'
