@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         ROOT_URL, RESERVA_GET, EVENTO_GET,
-        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, AVISO_ALERT, GET_PEDIDOS_CONCORRENTES } from '../types';
+        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, AVISO_ALERT, GET_PEDIDOS_CONCORRENTES,
+        GET_TODOS_PEDIDOS, GET_LOG_PEDIDO } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
 import _ from 'lodash';
@@ -107,6 +108,46 @@ export function getAgendaPedidos(){
     axios.get(`${ROOT_URL}api/eventos/agenda`, config_user)
       .then(response => {
         dispatch({ type: SAVE_CALENDAR, payload: response.data });
+        dispatch(ErrorMessage(''));
+      })
+      .catch(() => {
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function getTodosPedidos(){
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
+  return function(dispatch){
+    axios.get(`${ROOT_URL}api/pedido/`, config_user)
+      .then(response => {
+        dispatch({ type: GET_TODOS_PEDIDOS, payload: response.data });
+        dispatch(ErrorMessage(''));
+      })
+      .catch(() => {
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function getLog(){
+  const config_user = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + localStorage.token
+    }
+  };
+  return function(dispatch){
+    axios.get(`${ROOT_URL}api/pedido/log`, config_user)
+      .then(response => {
+        dispatch({ type: GET_LOG_PEDIDO, payload: response.data });
         dispatch(ErrorMessage(''));
       })
       .catch(() => {

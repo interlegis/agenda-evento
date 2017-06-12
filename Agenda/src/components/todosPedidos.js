@@ -2,27 +2,25 @@ import React, { Component, PropTypes } from 'react';
 import { DataTable } from 'react-data-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { getPedidos, getPedidoEvento, deletarPedido }
+import { getTodosPedidos, getPedidoEvento, deletarPedido }
 from '../actions/pedido-evento/pedido';
 import { getUsuario } from '../actions';
-import { RoleAwareComponent } from 'react-router-role-authorization';
+import { AuthorizedComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
 
-class MeusPedidos extends RoleAwareComponent {
+class TodosPedidos extends AuthorizedComponent {
   constructor(props) {
    super(props);
 
-   this.allowedRoles = ['admin','primeira_secretaria'];
    this.userRoles = (((Cookies.get('roles') === undefined) ||
    ((Cookies.get('roles') === null))) ? [] :
    JSON.parse(Cookies.get('roles')));
-   console.log(this.userRoles);
    this.notAuthorizedPath = '/not-found';
  }
 
   componentWillMount() {
     this.props.getUsuario();
-    this.props.getPedidos();
+    this.props.getTodosPedidos();
   }
 
   static contextTypes = {
@@ -78,32 +76,6 @@ class MeusPedidos extends RoleAwareComponent {
 
   render() {
     if(this.props.pedidos){
-
-      const renderButtons =
-        (val, row) => {
-          return (
-            <div>
-              <button
-                className="btn btn-default btn-sm space"
-                onClick={() => {
-                  this.props.getPedidoEvento(row['id']);
-                  this.context.router.replace(`/evento/editar/${row['id']}`);
-                }}
-              >
-                Editar Pedido
-              </button>
-              <button
-                className="btn btn-danger btn-sm space"
-                onClick={() => {
-                  this.deletePedido(row['id']);
-                }}
-              >
-                Deletar Pedido
-              </button>
-            </div>
-          );
-        };
-
         const renderButtonsAdmin =
           (val, row) => {
             return (
@@ -152,7 +124,7 @@ class MeusPedidos extends RoleAwareComponent {
         { title: 'Data de Criação', prop: 'data', className: 'text-center'},
         { title: 'Hora de Criação', prop: 'hora', className: 'text-center'},
         { title: 'Opções',
-        render: this.rolesMatched() ? renderButtonsAdmin : renderButtons ,
+        render: renderButtonsAdmin ,
         className: 'text-center' },
       ];
 
@@ -191,20 +163,19 @@ class MeusPedidos extends RoleAwareComponent {
 
       return(
         <div>
-          <h1 className="center-div title">Meus Pedidos</h1>
-            <DataTable
-             className="container"
-             keys="id"
-             columns={tableColumns}
-             initialData={data}
-             initialPageLength={5}
-             initialSortBy={{ prop: 'data', order: 'descending' }}
-             pageLengthOptions={[ 5, 10, 15 ]}
-             />
-         </div>
+          <h1 className="center-div title">Pedidos e Tramitações</h1>
+          <DataTable
+           className="container"
+           keys="id"
+           columns={tableColumns}
+           initialData={data}
+           initialPageLength={10}
+           initialSortBy={{ prop: 'data', order: 'descending' }}
+           pageLengthOptions={[ 5, 10, 15 ]}
+           />
+       </div>
       );
     }
-
     return (
       <h2 className="title">Carregando...</h2>
     );
@@ -213,11 +184,9 @@ class MeusPedidos extends RoleAwareComponent {
 
 function mapStateToProps(state){
   return {
-    pedidos: state.pedidos.pedidos,
-    reserva: state.pedido_detail.reserva_id,
-    evento: state.pedido_detail.evento_id
+    pedidos: state.pedidos.todosPedidos,
   }
 }
 
 export default connect(mapStateToProps,
-  { getPedidos, getPedidoEvento, deletarPedido, getUsuario })(MeusPedidos);
+  { getTodosPedidos, getPedidoEvento, deletarPedido, getUsuario })(TodosPedidos);

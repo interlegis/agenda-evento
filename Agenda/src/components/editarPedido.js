@@ -39,10 +39,10 @@ class editarPedido extends Component{
   }
 
   renderAlert(){
-    if (this.props.errorMessage === 'Evento fora do periodo de editar') {
+    if (this.props.errorMessage === 'Evento fora do período de editar') {
       swal(
           { title: "Cancelado",
-          text: "Evento fora do periodo de editar!",
+          text: "Evento fora do período de editar!",
           type: "error",
           timer: 2000,
           showConfirmButton: false

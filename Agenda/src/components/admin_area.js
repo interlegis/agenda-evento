@@ -62,7 +62,7 @@ class Admin_Area extends AuthorizedComponent {
   ReservaSatatus(status){
       switch (status) {
         case 'P':
-          return 'Pre-Reservado';
+          return 'Pré-Reservado';
         break;
         case 'R':
           return 'Reservado';

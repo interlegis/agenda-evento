@@ -15,7 +15,7 @@ class EventoDatail extends Component {
   ReservaSatatus(status){
       switch (status) {
         case 'P':
-          return 'Pre-Reservado';
+          return 'Pré-Reservado';
         break;
         case 'R':
           return 'Reservado';
@@ -108,7 +108,6 @@ class EventoDatail extends Component {
                   <tr>
                     <td><h4><strong>Nome: </strong>{this.props.evento.nome}</h4></td>
                     <td><h4><strong>Local: </strong>{local}</h4></td>
-                    <td><h4><strong>Descrição: </strong>{this.props.evento.descricao}</h4></td>
                   </tr>
                   <tr>
                     <td><h4><strong>Legislativo: </strong>{legislativo}</h4></td>
@@ -121,6 +120,15 @@ class EventoDatail extends Component {
                     <td><h4><strong>Hora Fim: </strong>{hora_fim}</h4></td>
                   </tr>
                 </tbody>
+              </table>
+              <table className="col-md-12 text-reserva">
+                <thead>
+                  <tr>
+                    <td>
+                      <h4><strong>Descrição: </strong>{this.props.evento.descricao}</h4>
+                    </td>
+                  </tr>
+                  </thead>
               </table>
             </div>
               <div className="div-evento-responsavel">
