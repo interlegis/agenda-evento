@@ -23,7 +23,7 @@ class Admin_Area extends AuthorizedComponent {
     this.notAuthorizedPath = '/not-found';
     this.pedidoRecebido = this.pedidoRecebido.bind(this);
     this.pedidoReservar = this.pedidoReservar.bind(this);
-    this.cancelarPedido = this.cancelarPedido.bind(this);
+    this.cancelarPedidoTramitacao = this.cancelarPedidoTramitacao.bind(this);
   }
 
   static contextTypes = {
@@ -55,8 +55,49 @@ class Admin_Area extends AuthorizedComponent {
     this.props.reservarPedido(this.props.params.id);
   }
 
-  cancelarPedido(){
-      this.props.cancelarPedido(this.props.params.id);
+  cancelarPedidoTramitacao(){
+    var causa;
+    swal({
+      title: "Deletar Pedido",
+      text: "Deseja realmente deletar o Pedido?",
+      type: "warning",
+      animation: "slide-from-top",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      closeOnConfirm: false,
+      closeOnCancel: true,
+      confirmButtonText: "Deletar"
+    }, (isConfirm) =>
+      {
+        if (isConfirm) {
+          swal({
+            title: "Insira o motivo do cancelamento:",
+            type: 'input',
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnConfirm: false,
+            inputPlaceholder: 'Escreva o motivo do cancelamento',
+            confirmButtonText: "Deletar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            },
+            function(causa_cancelamento) {
+              if (causa_cancelamento === false) return false;
+              if (causa_cancelamento === '') {
+                swal.showInputError("Por favor, insira o motivo do cancelamento.");
+                return false;
+              }
+              causa = causa_cancelamento;
+              console.log(this.props);
+              swal("Pedido Cancelado", "Pedido cancelado com sucesso", "success");
+            }
+          );
+        }
+      }
+    );
   }
 
   ReservaSatatus(status){
@@ -159,7 +200,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoFormalizacao
-                    onCancelar={this.cancelarPedido}
+                    onCancelar={this.cancelarPedidoTramitacao}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                     onReservar={this.pedidoReservar}
@@ -199,7 +240,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoPedidoRealizado
-                    onCancelar={this.cancelarPedido}
+                    onCancelar={this.cancelarPedidoTramitacao}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                     onPedidoRecebido={this.pedidoRecebido}
@@ -241,7 +282,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoPublicacaoAgenda
-                    onCancelar={this.cancelarPedido}
+                    onCancelar={this.cancelarPedidoTramitacao}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                   />
@@ -278,7 +319,7 @@ class Admin_Area extends AuthorizedComponent {
                       </table>
                     </div>
                   <TramitacaoAprovado
-                    onCancelar={this.cancelarPedido}
+                    onCancelar={this.cancelarPedidoTramitacao}
                     authorize={['primeira_secretaria','admin']}
                     reserva={this.props.reserva} evento={this.props.evento}
                   />
@@ -318,7 +359,7 @@ class Admin_Area extends AuthorizedComponent {
                   </table>
                 </div>
               <TramitacaoPedidoCancelado
-                onCancelar={this.cancelarPedido}
+                onCancelar={this.cancelarPedidoTramitacao}
                 authorize={['primeira_secretaria','admin']}
                 reserva={this.props.reserva} evento={this.props.evento}
               />

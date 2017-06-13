@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUsuario } from '../../actions';
-import { AuthorizedComponent } from 'react-router-role-authorization';
+import { RoleAwareComponent } from 'react-router-role-authorization';
 import { Link } from 'react-router';
 import Cookies from 'js-cookie';
 
-class tramitacaoPublicacaoAgenda extends AuthorizedComponent {
+class tramitacaoPublicacaoAgenda extends RoleAwareComponent {
   constructor(props) {
     super(props);
+
+    this.allowedRoles = ['admin','primeira_secretaria'];
 
     this.userRoles = (((Cookies.get('roles') === undefined) ||
     ((Cookies.get('roles') === null))) ? [] :
@@ -16,6 +18,7 @@ class tramitacaoPublicacaoAgenda extends AuthorizedComponent {
     console.log(this.userRoles);
 
     this.notAuthorizedPath = '/not-found';
+
   }
 
   static contextTypes = {

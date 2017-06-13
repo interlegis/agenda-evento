@@ -50,7 +50,7 @@ class MeusPedidos extends RoleAwareComponent {
           this.props.deletarPedido(id);
           swal(
             {
-            title: "Sweet!",
+            title: "Operação realizada com sucesso",
             text: "Pedido deletado.",
             type: "success",
             timer: 2000,

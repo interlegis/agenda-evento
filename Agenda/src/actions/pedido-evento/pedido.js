@@ -370,6 +370,8 @@ export function cancelarPedido(id){
       "reservado": 'C'
     };
 
+    console.log(data);
+
     axios.post(`${ROOT_URL}api/pedido/${id}/edit/cancelado/`, data, config_user)
       .then(response => {
         dispatch(ErrorMessage(''));

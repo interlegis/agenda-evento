@@ -14,6 +14,14 @@ export const FIELD_ESQUECI_SENHA = {
   },
 };
 
+export const FIELD_RECUPERAR_SENHA = {
+  password: {
+    type:'password',
+    titulo:'Nova Senha:',
+    label:'sua senha'
+  }
+};
+
 export const FIELD_USUARIO_CADASTRO = {
   first_name: {
     type:'text',

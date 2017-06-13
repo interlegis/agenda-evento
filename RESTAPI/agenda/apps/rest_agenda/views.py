@@ -100,7 +100,6 @@ class ReservaEdit(generics.ListCreateAPIView):
                     data['status'] = u'R'
             elif comando == "recebido" and datetime.datetime.now().date() < \
                  reserva.validade_pre_reserva:
-                import ipdb; ipdb.set_trace()
                 data['recebido'] = True
             elif comando == "recebido" and datetime.datetime.now().date() > \
                  reserva.validade_pre_reserva:

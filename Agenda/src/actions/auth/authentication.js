@@ -135,7 +135,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             showConfirmButton: false
           }, () => {
           // Redirect the user
-          window.location.href = "/main";
+          browserHistory.push('/main');
           }
         );
       })
@@ -151,22 +151,66 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             showConfirmButton: false
           }, () => {
           // Redirect the user
-          window.location.href = "/main";
+          browserHistory.push('/main');
           });
           throw err;
       });
   }
 }
 
-export function recuperarSenha(email){
-    swal({
-      title: "Recuperar Senha",
-      text: "Uma nova senha foi enviada para o seu email.",
-      type: "success",
-      animation: "slide-from-top",
-      timer: 2000,
-    }, () => {
-    // Redirect the user
-    window.location.href = "/login";
+export function recuperarSenha({ email }){
+  const config = {
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json'
+    }
+  };
+  axios.post(`${ROOT_URL}api/users/recupearSenha/`,{email}, config)
+    .then(response => {
+      dispatch(ErrorMessage(''));
+      swal({
+        title: "Recuperar Senha",
+        text: "Uma nova senha foi enviada para o seu email.",
+        type: "success",
+        animation: "slide-from-top",
+        timer: 2000,
+      }, () => {
+      // Redirect the user
+      browserHistory.push('/login');
+      });
+    })
+    .catch(() => {
+        dispatch(signoutUser());
+        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
     });
+
+}
+
+export function atualizarSenha({password, token}){
+  return function(dispatch){
+    const config = {
+      headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json'
+      }
+    };
+    axios.post(`${ROOT_URL}api/users/i/atualizarSenha/`,{password, token}, config)
+      .then(response => {
+        dispatch(ErrorMessage(''));
+        swal({
+          title: "Senha Atualizada com sucesso",
+          text: "Realize o login com a nova senha.",
+          type: "success",
+          animation: "slide-from-top",
+          timer: 2000,
+        }, () => {
+        // Redirect the user
+        browserHistory.push('/login');
+        });
+      })
+      .catch(() => {
+          dispatch(signoutUser());
+          dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
 }
