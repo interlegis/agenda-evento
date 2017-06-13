@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-
+from decouple import config
+from dj_database_url import parse as db_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,14 +21,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gghx1tkz+&a1bq&w=0-f@-h%w&_!9d8nba(i(ue)l(4udl=fjh'
+SECRET_KEY = config('SECRET_KEY', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # Application definition
 INSTALLED_APPS = [
     'apps.authentication',
@@ -85,12 +86,19 @@ CORS_ORIGIN_ALLOW_ALL = True
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': config('DATABASE_URL',
+                      default='sqlite://agenda.db',
+                      cast=db_url,)
 }
 
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
+EMAIL_SEND_USER = config('EMAIL_SEND_USER', cast=str, default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', cast=str, default='')
+SERVER_EMAIL = config('SERVER_EMAIL', cast=str, default='')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

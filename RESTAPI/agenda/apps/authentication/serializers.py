@@ -18,6 +18,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
                         'is_staff': {'write_only': True}}
 
     def validate_email(self, attrs):
-        if User.objects.filter(email=attrs['email']).exists():
+        if User.objects.filter(email=attrs).exists():
             raise serializers.ValidationError('Usuários já cadastrados com esse email!')
         return attrs
