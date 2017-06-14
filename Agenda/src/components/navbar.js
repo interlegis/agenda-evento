@@ -4,6 +4,7 @@ import { signoutUser } from '../actions';
 import { Link } from 'react-router';
 import { RoleAwareComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
+import { ROOT_URL } from '../actions/types';
 
 class Navbar extends RoleAwareComponent {
   constructor(props) {
@@ -15,6 +16,9 @@ class Navbar extends RoleAwareComponent {
    JSON.parse(Cookies.get('roles')));
    console.log(this.userRoles);
    this.notAuthorizedPath = '/not-found';
+   this.state = {
+     roles: Cookies.get('roles')
+   }
  }
 
   static contextTypes = {
@@ -48,6 +52,33 @@ class Navbar extends RoleAwareComponent {
     }
 
     if (this.rolesMatched()) {
+      if (this.state.roles.includes('admin')) {
+        const url = `${ROOT_URL}admin/`
+        return (
+          <div className="collapse navbar-collapse">
+            <ul className="nav navbar-nav navbar-right">
+              <li><Link to="/main">Inicio</Link></li>
+              <li><Link to="/agenda">Agenda</Link></li>
+              <li><Link to="/pedidos">Meus Pedidos</Link></li>
+              <li><Link to="/todosPedidos">Tramitação</Link></li>
+              <li><Link to="/novoEvento">Novo Evento</Link></li>
+              <li><a href={url}>Área do Administrador</a></li>
+              <li><Link to="/faq">FAQ</Link></li>
+              <li className ="dropdown navbar-right">
+                  <Link to="" className="dropdown-toggle" data-toggle="dropdown"
+                    role="button" aria-haspopup="true" aria-expanded="false">
+                    Bem-Vindo, {perfil}<span className="caret"></span>
+                  </Link>
+                  <ul className="dropdown-menu">
+                    <li><Link to="/configuracoes">Configurações</Link></li>
+                    <li role="separator" className="divider"></li>
+                    <li><a onClick={this.logout.bind(this)}>Sair</a></li>
+                  </ul>
+              </li>
+            </ul>
+          </div>
+        );
+      }
       return (
         <div className="collapse navbar-collapse">
           <ul className="nav navbar-nav navbar-right">

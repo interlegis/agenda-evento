@@ -24,11 +24,13 @@ def populate_models(sender, instance=None, **kwargs):
             if usuario == 'admin':
                 novo_usuario = User.objects.create_superuser(username=usuario,
                                                              password='interlegis',
-                                                             email='')
+                                                             email='',
+                                                             first_name='Administrador')
                 novo_usuario.groups.add(Group.objects.get(name=groups[0]))
             else:
                 novo_usuario = User.objects.create(username=usuario,
-                                                   password='interlegis')
+                                                   password='interlegis',
+                                                   first_name='Primeira Secretaria')
                 if usuario == 'operador_primeira_secretaria':
                     novo_usuario.groups.add(Group.objects.get(name=groups[1]))
 
