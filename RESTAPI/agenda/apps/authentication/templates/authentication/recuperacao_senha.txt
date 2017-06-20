@@ -1,0 +1,3 @@
+Interlegis - Agenda de Eventos
+Para redefinir uma nova senha, por favor clique no link abaixo:
+{{link}}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getUsuario, getPedidoEvento,formalizarPedido,
         reservarPedido, cancelarPedido }
 from '../actions';
+import { ROOT_URL, ID_URL } from '../actions/types';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
 
@@ -11,6 +12,9 @@ import TramitacaoPublicacaoAgenda from './tramitacao/tramitacaoPublicacaoAgenda'
 import TramitacaoAprovado from './tramitacao/tramitacaoAprovado';
 import TramitacaoPedidoRealizado from './tramitacao/tramitacaoPedidoRealizado';
 import TramitacaoPedidoCancelado from './tramitacao/tramitacaoPedidoCancelado';
+import axios from 'axios';
+
+var ID;
 
 class Admin_Area extends AuthorizedComponent {
   constructor(props) {
@@ -24,6 +28,7 @@ class Admin_Area extends AuthorizedComponent {
     this.pedidoRecebido = this.pedidoRecebido.bind(this);
     this.pedidoReservar = this.pedidoReservar.bind(this);
     this.cancelarPedidoTramitacao = this.cancelarPedidoTramitacao.bind(this);
+    ID = this.props.params.id;
   }
 
   static contextTypes = {
@@ -56,47 +61,64 @@ class Admin_Area extends AuthorizedComponent {
   }
 
   cancelarPedidoTramitacao(){
-    var causa;
+    const id = this.props.params.id;
+    console.log(id);
     swal({
       title: "Deletar Pedido",
-      text: "Deseja realmente deletar o Pedido?",
-      type: "warning",
-      animation: "slide-from-top",
-      cancelButtonText: "Cancelar",
+      text: "Insira o motivo do cancelamento:",
+      type: 'input',
       showCancelButton: true,
+      showConfirmButton: true,
+      closeOnConfirm: false,
+      inputPlaceholder: 'Escreva o motivo do cancelamento',
+      confirmButtonText: "Deletar",
+      cancelButtonText: "Cancelar",
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      closeOnConfirm: false,
-      closeOnCancel: true,
-      confirmButtonText: "Deletar"
-    }, (isConfirm) =>
-      {
-        if (isConfirm) {
-          swal({
-            title: "Insira o motivo do cancelamento:",
-            type: 'input',
-            showCancelButton: true,
-            showConfirmButton: true,
-            closeOnConfirm: false,
-            inputPlaceholder: 'Escreva o motivo do cancelamento',
-            confirmButtonText: "Deletar",
-            cancelButtonText: "Cancelar",
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            },
-            function(causa_cancelamento) {
-              if (causa_cancelamento === false) return false;
-              if (causa_cancelamento === '') {
-                swal.showInputError("Por favor, insira o motivo do cancelamento.");
-                return false;
-              }
-              causa = causa_cancelamento;
-              console.log(this.props);
-              swal("Pedido Cancelado", "Pedido cancelado com sucesso", "success");
-            }
-          );
+    },
+    function(causa_cancelamento){
+      const config_user = {
+        headers: {
+            'X-CSRFToken': Cookies.get('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'token ' + localStorage.token
         }
-      }
+      };
+
+      const data = {
+        "reservado": 'C',
+        "causa_cancelamento": causa_cancelamento
+      };
+      console.log(data);
+      console.log(id);
+
+      axios.post(`${ROOT_URL}api/pedido/${ID}/edit/cancelado/`, data, config_user)
+        .then(response => {
+          swal(
+           { title: "Cancelado",
+           text: "O pedido foi cancelado!",
+           type: "error",
+           timer: 1000,
+           showConfirmButton: true,
+           confirmButtonText: 'OK',
+           confirmButtonColor: "#001B5B",
+         }, () => {
+           // Redirect the user
+           window.location.href = `/admin/${id}`;
+         });
+        })
+        .catch((err) => {
+          swal(
+           { title: "Cancelado",
+           text: "O pedido não foi cancelado!",
+           type: "error",
+           timer: 1000,
+           showConfirmButton: true,
+           confirmButtonText: 'OK',
+           confirmButtonColor: "#001B5B",
+         });
+       });
+    }
     );
   }
 

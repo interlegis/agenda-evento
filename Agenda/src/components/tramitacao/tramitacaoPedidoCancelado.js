@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUsuario } from '../../actions';
-import { AuthorizedComponent } from 'react-router-role-authorization';
+import { RoleAwareComponent } from 'react-router-role-authorization';
 import { Link } from 'react-router';
 import Cookies from 'js-cookie';
 
-class TramitacaoPedidoCancelado extends AuthorizedComponent {
+class TramitacaoPedidoCancelado extends RoleAwareComponent {
   constructor(props) {
     super(props);
+
+    this.allowedRoles = ['admin','primeira_secretaria'];
 
     this.userRoles = (((Cookies.get('roles') === undefined) ||
     ((Cookies.get('roles') === null))) ? [] :

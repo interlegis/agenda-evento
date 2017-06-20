@@ -356,7 +356,7 @@ export function checkDatasEvento(data_inicio, data_fim) {
   }
 }
 
-export function cancelarPedido(id){
+export function cancelarPedido(id, causa_cancelamento){
   return function(dispatch){
     const config_user = {
       headers: {
@@ -367,7 +367,8 @@ export function cancelarPedido(id){
     };
 
     const data = {
-      "reservado": 'C'
+      "reservado": 'C',
+      "causa_cancelamento": causa_cancelamento
     };
 
     console.log(data);

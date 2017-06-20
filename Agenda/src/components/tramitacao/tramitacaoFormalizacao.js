@@ -1,19 +1,19 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUsuario, checkDatasEvento } from '../../actions';
-import { AuthorizedComponent } from 'react-router-role-authorization';
+import { RoleAwareComponent } from 'react-router-role-authorization';
 import TabelaPedidosConcorrentes from './tabelaPedidosConcorrentes'
 import Cookies from 'js-cookie';
 
-class TramitacaoFormalizacao extends AuthorizedComponent {
+class TramitacaoFormalizacao extends RoleAwareComponent {
   constructor(props) {
     super(props);
+
+    this.allowedRoles = ['admin','primeira_secretaria'];
 
     this.userRoles = (((Cookies.get('roles') === undefined) ||
     ((Cookies.get('roles') === null))) ? [] :
     JSON.parse(Cookies.get('roles')));
-
-    console.log(this.userRoles);
 
     this.notAuthorizedPath = '/not-found';
 

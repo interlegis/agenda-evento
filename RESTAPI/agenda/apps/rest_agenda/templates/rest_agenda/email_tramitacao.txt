@@ -1,0 +1,3 @@
+Interlegis - Agenda de Eventos
+O pedido {{nr_referencia}} foi alterado para status: {{status}}
+Acompanhe o seu pedido na nossa Agenda

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
@@ -83,6 +84,16 @@ class Reserva(models.Model):
 
     def __unicode__(self):
         return "Reserva %s %s" % (self.id, self.status)
+
+    def return_status(self):
+        if self.status == "P":
+            return u"Pré-Reservado"
+        elif self.status == "R":
+            return u"Reservado"
+        elif self.status == "C":
+            return u"Cancelado"
+        else:
+            return u"Impedido"
 
 class EventoTramitacaoLog(models.Model):
     reserva = models.ForeignKey(Reserva, verbose_name=u'Reserva')

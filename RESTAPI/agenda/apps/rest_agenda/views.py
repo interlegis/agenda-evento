@@ -9,6 +9,7 @@ from .serializers import (ReservaEventoSerializer, ReservaSerializer,
 from .utils import check_datas, checkEventoDatas
 import datetime
 from url_filter.integrations.drf import DjangoFilterBackend
+from .emails import enviar_email_tramitacao
 
 class ReservaViewSet(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
@@ -85,6 +86,7 @@ class ReservaEdit(generics.ListCreateAPIView):
                 data['status'] = u'P'
             elif comando == "cancelado":
                 data['status'] = u'C'
+                data['causa_cancelamento'] = request.data['causa_cancelamento']
             elif comando == "impedido":
                 data['status'] = u'I'
                 #send email
@@ -117,6 +119,11 @@ class ReservaEdit(generics.ListCreateAPIView):
             serializer = ReservaSerializer(reserva, data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            if comando == 'cancelado':
+                evento = reserva.evento
+                evento.causa_cancelamento = data['causa_cancelamento']
+                evento.save()
+            enviar_email_tramitacao(reserva,reserva.return_status)
             return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response({"message": "Registro inexistente"},
