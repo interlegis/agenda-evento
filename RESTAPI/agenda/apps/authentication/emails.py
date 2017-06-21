@@ -10,7 +10,7 @@ def enviar_email_redefinr_senha(usuario,link):
     send_mail(
     u'Redefinição de Senha',
     msg_plain,
-    'nopley@agenda.interlegis.leg.br',
+    'sapl-test@interlegis.leg.br',
     [usuario.email],
     fail_silently=False,
     html_message=msg_html

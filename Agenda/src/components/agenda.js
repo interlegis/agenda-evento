@@ -46,7 +46,6 @@ class Agenda extends Component {
         }
       evento['title'] = evento['title'] + ' - ' + local
       return evento;
-      
     });
 
     this.setState({neweventos: events});

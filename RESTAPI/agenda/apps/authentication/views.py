@@ -97,7 +97,6 @@ class UsuarioRecuperarSenha(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         if User.objects.filter(email=request.data['email']).exists():
-            import ipdb; ipdb.set_trace()
             user = User.objects.get(email=request.data['email'])
             user.set_password('')
             user.save()
