@@ -149,7 +149,7 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
             if reserva.evento.publicado_agenda:
                 pass
                 #nova agenda
-            #email
+            enviar_email_tramitacao(reserva,reserva.return_status)
             reserva.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
@@ -158,12 +158,12 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
-            serializer = EventoSerializer(reserva.evento, request.data)
+            serializer = EventoSerializer(reserva.evento, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
