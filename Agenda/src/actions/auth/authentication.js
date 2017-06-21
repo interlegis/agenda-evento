@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL, UPDATE_USUARIO }
+import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL, UPDATE_USUARIO, ROOT_URL_AGENDA }
 from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
@@ -159,13 +159,14 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
 }
 
 export function recuperarSenha({ email }){
+  return function(dispatch){
   const config = {
     headers: {
         'X-CSRFToken': Cookies.get('csrftoken'),
         'Content-Type': 'application/json'
     }
   };
-  axios.post(`${ROOT_URL}api/users/recupearSenha/`,{email}, config)
+  axios.post(`${ROOT_URL}api/users/recupearSenha/`,{ email, ROOT_URL_AGENDA }, config)
     .then(response => {
       dispatch(ErrorMessage(''));
       swal({
@@ -183,7 +184,7 @@ export function recuperarSenha({ email }){
         dispatch(signoutUser());
         dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
     });
-
+  }
 }
 
 export function atualizarSenha({password, token}){

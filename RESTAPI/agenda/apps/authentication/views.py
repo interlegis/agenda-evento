@@ -97,11 +97,14 @@ class UsuarioRecuperarSenha(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         if User.objects.filter(email=request.data['email']).exists():
+            import ipdb; ipdb.set_trace()
             user = User.objects.get(email=request.data['email'])
+            user.set_password('')
+            user.save()
             token = ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(50)])
             nova_senha = RecuperarSenha.objects.create(usuario=user,token=token)
             nova_senha.save()
-            enviar_email_redefinr_senha(user,'http://127.0.0.1:8080/recuperarsenha/'+token)
+            enviar_email_redefinr_senha(user,request.data['ROOT_URL_AGENDA']+'recuperarsenha/'+token)
             return Response("Verifique seu email!",status=status.HTTP_200_OK)
         else:
             return Response("Usuário não encontrado.", status=status.HTTP_404_NOT_FOUND)

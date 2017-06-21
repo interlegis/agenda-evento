@@ -64,15 +64,15 @@ class Admin_Area extends AuthorizedComponent {
     const id = this.props.params.id;
     console.log(id);
     swal({
-      title: "Deletar Pedido",
+      title: "Cancelar Pedido",
       text: "Insira o motivo do cancelamento:",
       type: 'input',
       showCancelButton: true,
       showConfirmButton: true,
       closeOnConfirm: false,
       inputPlaceholder: 'Escreva o motivo do cancelamento',
-      confirmButtonText: "Deletar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: "Cancelar",
+      cancelButtonText: "Sair",
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
     },
