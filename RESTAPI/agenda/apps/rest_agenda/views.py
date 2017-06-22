@@ -9,7 +9,7 @@ from .serializers import (ReservaEventoSerializer, ReservaSerializer,
 from .utils import check_datas, checkEventoDatas
 import datetime
 from url_filter.integrations.drf import DjangoFilterBackend
-from .emails import enviar_email_tramitacao
+from .emails import enviar_email_tramitacao, enviar_notificacao_video_conferencia,enviar_email_formalizacao
 
 class ReservaViewSet(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
@@ -21,11 +21,15 @@ class ReservaViewSet(generics.ListCreateAPIView):
         if serializer.is_valid():
             try:
                 if checkEventoDatas(serializer.data['evento']):
+                    import ipdb; ipdb.set_trace()
                     aviso = check_datas(serializer.data['evento']['data_inicio'],
                                         serializer.data['evento']['data_fim'],
                                         serializer.data['evento']['hora_inicio'],
                                         serializer.data['evento']['hora_fim'])
                     serializer.save(request)
+                    if not serializer.data['local'] == u'SR' and \
+                       not request.user.groups.filter(name='primeira_secretaria').exists():
+                       enviar_email_formalizacao(Reserva.objects.last())
                     return Response({'Reserva-Evento': serializer.data,
                                     'avisos': aviso},
                                     status=status.HTTP_201_CREATED)
@@ -119,6 +123,8 @@ class ReservaEdit(generics.ListCreateAPIView):
             serializer = ReservaSerializer(reserva, data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            if reserva.evento.video_conferencia is True and comando == u'reservado':
+                enviar_notificacao_video_conferencia(reserva,request.user)
             if comando == 'cancelado':
                 evento = reserva.evento
                 evento.causa_cancelamento = data['causa_cancelamento']
@@ -146,11 +152,10 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
-            if reserva.evento.publicado_agenda:
-                pass
-                #nova agenda
             enviar_email_tramitacao(reserva,reserva.return_status)
+            evento = reserva.evento
             reserva.delete()
+            evento.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -158,12 +163,16 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
-            serializer = EventoSerializer(reserva.evento, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
+            if not reserva.evento.publicado_agenda and (reserva.evento.data_inicio \
+            - datetime.datetime.now().date()).days > 3 :
+                serializer = EventoSerializer(reserva.evento, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": "Evento não está habilitado para alterações nesse período."},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response(status=status.HTTP_404_NOT_FOUND)
 

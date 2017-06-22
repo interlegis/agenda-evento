@@ -53,6 +53,12 @@ class Evento(models.Model):
     def __unicode__(self):
         return "Evento %s %s" % (self.nome, self.local)
 
+    def return_local(self):
+        if self.local == 'SR':
+            return u"Sala de Reunioes"
+        else:
+            return u"Auditorio Interlegis"
+
 
 class Reserva(models.Model):
     STATUS = (

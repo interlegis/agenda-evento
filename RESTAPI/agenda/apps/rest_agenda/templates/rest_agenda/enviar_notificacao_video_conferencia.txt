@@ -1,0 +1,5 @@
+Interlegis - Agenda de Eventos
+O pedido <a href="">{{nr_referencia}}</a> foi alterado para status:
+{{status}} e será necessário o auxílio da equipe de Vídeo Conferência no(a) '{{local_evento}}'.Na data entre
+{{data_inicio}} ({{hora_inicio}}) e {{data_fim}} ({{hora_fim}}).
+Acompanhe o pedido em nossa Agenda.

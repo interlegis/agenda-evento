@@ -132,6 +132,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_FORMAT = 'd/m/Y'
+SHORT_DATE_FORMAT = 'd/m/Y'
+DATETIME_FORMAT = 'd/m/Y H:i:s'
+TIME_FORMAT = '%H:%M'
 
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',

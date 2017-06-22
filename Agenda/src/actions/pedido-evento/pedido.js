@@ -71,6 +71,7 @@ export function cadastroPedido(props) {
         );
       })
       .catch((err) => {
+        console.log(err);
         console.log(err.response.data.non_field_errors);
         dispatch(ErrorMessage(`${err.response.data.non_field_errors}`));
       });
@@ -269,8 +270,12 @@ export function updatePedido(props, id){
         );
       })
       .catch((err) => {
-          console.log(err.response.data.non_field_errors[0]);
-          dispatch(ErrorMessage(`${err.response.data.non_field_errors[0]}`));
+          console.log(err);
+          if (typeof err.response.data.non_field_errors !== 'undefined') {
+            dispatch(ErrorMessage(`${err.response.data.non_field_errors[0]}`));
+          }else{
+            dispatch(ErrorMessage(`${err.response.data.message}`));
+          }
       });
   }
 }

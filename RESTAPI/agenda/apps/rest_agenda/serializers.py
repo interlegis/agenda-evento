@@ -5,6 +5,7 @@ from .models import Reserva, Evento, Responsavel
 import random
 import datetime
 from .utils import dias_uteis, checkEventoDatas
+from .emails import enviar_notificacao_video_conferencia
 
 class ResponsavelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,7 +102,7 @@ class EventoSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if (attrs['data_inicio'] - datetime.datetime.now().date()).days < 3:
-            raise serializers.ValidationError('Evento fora do período de edição')
+            raise serializers.ValidationError('Evento fora do período para criação ou alteração')
         if self.instance is not None:
             if Reserva.objects.filter(evento__hora_inicio__lte=attrs['hora_inicio'],
             evento__hora_fim__gte=attrs['hora_inicio'],
@@ -152,8 +153,6 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
         validade = dias_uteis(datetime.datetime.now().date(),5,1)
         if evento_data['local'] == u'SR' and \
            request.user.groups.filter(name='primeira_secretaria').exists():
-            if evento_data['video_conferencia'] is True:
-                pass
             status = u'R'
         else:
             status = u'P'
@@ -161,6 +160,9 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
                                          nr_referencia=nr_referencia, ano=ano,
                                          status=status,
                                          validade_pre_reserva=validade)
+        if evento_data['video_conferencia'] is True and status == u'R':
+            enviar_notificacao_video_conferencia(reserva,request.user)
+
         return evento
 
 class ReservaSerializer(serializers.ModelSerializer):

@@ -1,0 +1,4 @@
+Interlegis - Agenda de Eventos
+O pedido {{nr_referencia}} foi criado e possui o status: {{status}}. O pedido
+precisa ser formalizado nos próximos dois dias junto á Primeira Secretária.
+Acompanhe o seu pedido na nossa Agenda
