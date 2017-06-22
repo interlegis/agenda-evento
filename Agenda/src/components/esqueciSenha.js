@@ -6,8 +6,8 @@ import { Link } from 'react-router';
 import { FIELD_ESQUECI_SENHA } from './forms/fields_types';
 
 class EsqueciSenha extends Component{
-  handleSubmitForm({ email}){
-    this.props.recuperarSenha({email});
+  handleSubmitForm({ email }){
+    this.props.recuperarSenha({ email });
   }
 
   renderAlert(){
@@ -38,7 +38,7 @@ class EsqueciSenha extends Component{
 
   render(){
     const { error, handleSubmit, pristine, resetForm, submitting,
-       fields: { email}} = this.props;
+       fields: { email }} = this.props;
     return(
       <div>
       <div>
