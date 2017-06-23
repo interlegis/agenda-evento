@@ -12,10 +12,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password', 'first_name', 'last_name'
-                  , 'is_superuser', 'email', 'is_staff', 'groups')
+                  , 'is_superuser', 'email', 'is_staff', 'is_active', 'groups')
         extra_kwargs = {'password': {'write_only': True},
                         'is_superuser': {'write_only': True},
-                        'is_staff': {'write_only': True}}
+                        'is_staff': {'write_only': True},
+                        'is_active': {'write_only': True}}
 
     def validate_email(self, attrs):
         if User.objects.filter(email=attrs).exclude(pk=self.instance.pk).exists():

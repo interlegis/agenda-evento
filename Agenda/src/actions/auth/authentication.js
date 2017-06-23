@@ -121,7 +121,6 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
           'Authorization': 'token ' + localStorage.token
       }
     };
-    console.log(localStorage.token);
 
     axios.put(`${ROOT_URL}api/users/i/`,
       { first_name ,last_name ,username ,email, password } ,config_user)
