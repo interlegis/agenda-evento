@@ -121,6 +121,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
           'Authorization': 'token ' + localStorage.token
       }
     };
+    console.log(localStorage.token);
 
     axios.put(`${ROOT_URL}api/users/i/`,
       { first_name ,last_name ,username ,email, password } ,config_user)
@@ -132,7 +133,9 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             text: "Usuario Atualizado.",
             imageUrl: "http://www.clker.com/cliparts/7/0/5/4/1436615856967074484thumbs-up.jpg",
             timer: 2000,
-            showConfirmButton: false
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#001B5B",
           }, () => {
           // Redirect the user
           browserHistory.push('/main');
@@ -148,7 +151,9 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             type: "error",
             animation: "slide-from-top",
             timer: 2000,
-            showConfirmButton: false
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#001B5B",
           }, () => {
           // Redirect the user
           browserHistory.push('/main');
@@ -166,7 +171,7 @@ export function recuperarSenha({ email }){
         'Content-Type': 'application/json'
     }
   };
-  axios.post(`${ROOT_URL}api/users/recupearSenha/`,{ email, ROOT_URL_AGENDA }, config)
+  axios.post(`${ROOT_URL}api/users/recuperaSenha/`,{ email, ROOT_URL_AGENDA }, config)
     .then(response => {
       dispatch(ErrorMessage(''));
       swal({

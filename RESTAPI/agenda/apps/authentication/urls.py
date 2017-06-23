@@ -8,7 +8,7 @@ urlpatterns = [
         name='detail-usuario'),
     url(r'^api/users/([i-i])/atualizarSenha/', views.UsuarioNovaSenha.as_view(),
         name='atualizar-senha-usuario'),
-    url(r'^api/users/recupearSenha/', views.UsuarioRecuperarSenha.as_view(),
+    url(r'^api/users/recuperaSenha/', views.UsuarioRecuperarSenha.as_view(),
         name='recupear-senha-usuario'),
     url(r'^api/auth/', obtain_auth_token,name='token'),
 ]

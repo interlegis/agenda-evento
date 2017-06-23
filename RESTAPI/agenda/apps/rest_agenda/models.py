@@ -108,7 +108,7 @@ class EventoTramitacaoLog(models.Model):
     data_modificacao = models.DateTimeField(default=timezone.localtime(timezone.now()), blank=True)
 
     class Meta:
-        verbose_name = u"Log Eventos Tramitados"
+        verbose_name = u"Log Evento Tramitado"
         verbose_name_plural = u"Log Eventos Tramitados"
 
     def __unicode__(self):

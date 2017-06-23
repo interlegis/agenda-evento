@@ -21,14 +21,13 @@ class ReservaViewSet(generics.ListCreateAPIView):
         if serializer.is_valid():
             try:
                 if checkEventoDatas(serializer.data['evento']):
-                    import ipdb; ipdb.set_trace()
                     aviso = check_datas(serializer.data['evento']['data_inicio'],
                                         serializer.data['evento']['data_fim'],
                                         serializer.data['evento']['hora_inicio'],
                                         serializer.data['evento']['hora_fim'])
                     serializer.save(request)
-                    if not serializer.data['local'] == u'SR' and \
-                       not request.user.groups.filter(name='primeira_secretaria').exists():
+                    if not request.data['evento']['local'] == u'SR' and \
+                       not Reserva.objects.last().usuario.groups.filter(name='primeira_secretaria').exists():
                        enviar_email_formalizacao(Reserva.objects.last())
                     return Response({'Reserva-Evento': serializer.data,
                                     'avisos': aviso},

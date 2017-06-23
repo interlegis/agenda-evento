@@ -30,20 +30,21 @@ export function cadastroPedido(props) {
         'Authorization': 'token ' + localStorage.token
     }
   };
+  console.log(props);
   return function(dispatch){
     const data = {
       "evento": {
           "nome": props.nome,
           "descricao": props.descricao,
-          "local": props.local,
+          "local": (props.local === undefined ? 'AI' : props.local),
           "data_inicio": DataFormat(props.data_inicio),
           "hora_inicio": props.hora_inicio,
           "data_fim": DataFormat(props.data_fim),
           "hora_fim": props.hora_fim,
-          "legislativo": props.legislativo,
+          "legislativo": (props.legislativo === undefined ? false : props.legislativo),
           "observacao": props.observacao,
           "publicado_agenda": false,
-          "video_conferencia": props.video_conferencia,
+          "video_conferencia": (props.video_conferencia === undefined ? false : props.video_conferencia),
           "responsavel": {
               "nome": props.nome_responsavel,
               "email": props.email_responsavel,
@@ -63,7 +64,9 @@ export function cadastroPedido(props) {
             type: "success",
             animation: "slide-from-top",
             timer: 2000,
-            showConfirmButton: false
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#001B5B",
           }, () => {
             // Redirect the user
             window.location.href = "/main";
@@ -232,22 +235,24 @@ export function updatePedido(props, id){
       }
     };
     const data = {
-      "nome": props.nome,
-      "descricao": props.descricao,
-      "local": props.local,
-      "data_inicio": DataFormat(props.data_inicio),
-      "hora_inicio": props.hora_inicio,
-      "data_fim": DataFormat(props.data_fim),
-      "hora_fim": props.hora_fim,
-      "legislativo": props.legislativo,
-      "observacao": props.observacao,
-      "publicado_agenda": props.publicado_agenda,
-      "video_conferencia": props.video_conferencia,
-      "responsavel": {
-          "nome": props.nome_responsavel,
-          "email": props.email_responsavel,
-          "telefone": props.telefone_responsavel,
-          "lotacao": props.lotacao_responsavel
+      "evento": {
+          "nome": props.nome,
+          "descricao": props.descricao,
+          "local": (props.local === undefined ? 'AI' : props.local),
+          "data_inicio": DataFormat(props.data_inicio),
+          "hora_inicio": props.hora_inicio,
+          "data_fim": DataFormat(props.data_fim),
+          "hora_fim": props.hora_fim,
+          "legislativo": (props.legislativo === undefined ? false : props.legislativo),
+          "observacao": props.observacao,
+          "publicado_agenda": false,
+          "video_conferencia": (props.video_conferencia === undefined ? false : props.video_conferencia),
+          "responsavel": {
+              "nome": props.nome_responsavel,
+              "email": props.email_responsavel,
+              "telefone": props.telefone_responsavel,
+              "lotacao": props.lotacao_responsavel
+          }
       }
     }
     axios.put(`${ROOT_URL}api/pedido/${id}/evento/`,
