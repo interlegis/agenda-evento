@@ -58,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 CRONJOBS = [
-    ('*/30 * * * *', 'apps.rest_agenda.cron.my_scheduled_job')
+    ('0 16 * * * 3', 'apps.rest_agenda.cron.my_scheduled_job')
 ]
 
 ROOT_URLCONF = 'agenda.urls'

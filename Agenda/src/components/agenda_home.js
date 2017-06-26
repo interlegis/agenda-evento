@@ -42,9 +42,10 @@ class AgendaHome extends Component {
         }else{
           local = 'Auditório Interlegis'
         }
-      evento['title'] = evento['title'] + ' - ' + local
-      
-      return evento;
+        evento['title'] = evento['title'] + ' - ' + local + ' ('
+        + time_inicial[0] + ':' + time_inicial[1] + ' - '
+        + time_fim[0] + ':' + time_fim[1] + ')';
+        return evento;
     });
     this.setState({neweventos: events});
   }
