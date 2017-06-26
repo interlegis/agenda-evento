@@ -13,7 +13,7 @@ import { mask } from 'jquery-mask-plugin';
 
 moment.locale("pt-br");
 
-$('#maskTelForm').find('[name="telefone"]').mask('(099)99999-9999');
+$('#maskTelForm').find('[name="telefone"]').mask('(099)9999-9999');
 $('.form-group').find('[name="hora_inicio"]').mask('99:99:99');
 $('.form-group').find('[name="hora_fim"]').mask('99:99:99');
 
