@@ -13,10 +13,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 from decouple import config
 from dj_database_url import parse as db_url
+from unipath import Path
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
+PROJECT_DIR = Path(__file__).ancestor(2)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -25,6 +26,16 @@ SECRET_KEY = config('SECRET_KEY', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
+
+SESSION_COOKIE_SECURE=config('SESSION_COOKIE_SECURE', default=False, cast=bool)
+
+CSRF_COOKIE_SECURE=config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+
+SECURE_BROWSER_XSS_FILTER=config('SECURE_BROWSER_XSS_FILTER', default=False, cast=bool)
+
+SECURE_CONTENT_TYPE_NOSNIFF=config('SECURE_CONTENT_TYPE_NOSNIFF', default=False, cast=bool)
+
+X_FRAME_OPTIONS=config('X_FRAME_OPTIONS', default='', cast=str)
 
 ALLOWED_HOSTS = ['*']
 
@@ -149,10 +160,11 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    #This lets Django's collectstatic store our bundles
-    os.path.join(BASE_DIR, 'main'),
+STATIC_ROOT = PROJECT_DIR.child("collected_static")
+STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 SHELL_PLUS = "ipython"

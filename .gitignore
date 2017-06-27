@@ -91,3 +91,6 @@ ENV/
 /node_modules
 
 node_modules/
+
+agenda_data/
+agenda_media/
