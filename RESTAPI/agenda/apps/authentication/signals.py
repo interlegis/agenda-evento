@@ -1,13 +1,21 @@
 from django.conf import settings
-from django.db.models.signals import post_save, post_init
+from django.db.models.signals import pre_save, post_save, post_init
+from django.contrib.auth.models import User
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+
+@receiver(pre_save, sender=User)
+def set_new_user_inactive(sender, instance=None, **kwargs):
+    if instance._state.adding is True:
+        print("Creating Inactive User")
+        instance.is_active = False
+    else:
+        print("Updating User Record")
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
 
 def populate_models(sender, instance=None, **kwargs):
     from django.contrib.auth.models import Group, User

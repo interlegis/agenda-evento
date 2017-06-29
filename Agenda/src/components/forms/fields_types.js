@@ -33,15 +33,15 @@ export const FIELD_USUARIO_CADASTRO = {
     titulo:'Sobrenome:',
     label:'seu sobrenome'
   },
-  username: {
-    type:'text',
-    titulo:'Nome de Usuario:',
-    label:'o nome do usuario'
-  },
   email: {
     type:'email',
     titulo:'Email:',
     label:'o email'
+  },
+  username: {
+    type:'text',
+    titulo:'Nome de Usuario:',
+    label:'o nome do usuario'
   },
   password: {
     type:'password',

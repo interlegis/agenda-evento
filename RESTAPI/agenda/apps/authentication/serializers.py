@@ -19,6 +19,12 @@ class UsuarioSerializer(serializers.ModelSerializer):
                         'is_active': {'write_only': True}}
 
     def validate_email(self, attrs):
-        if User.objects.filter(email=attrs).exclude(pk=self.instance.pk).exists():
-            raise serializers.ValidationError('Usuário(s) já cadastrado(s) com esse email!')
+        if self.instance is not None:
+            if User.objects.filter(email=attrs).exclude(pk=self.instance.pk).exists():
+                raise serializers.ValidationError('Usuário já cadastrado \
+                 com esse email!')
+        else:
+            if User.objects.filter(email=attrs).exists():
+                raise serializers.ValidationError('Usuário já cadastrado \
+                 com esse email!')
         return attrs

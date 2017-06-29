@@ -45,7 +45,10 @@ export function signinUser({ username, password }) {
         browserHistory.push('/main');
       })
       .catch(() => {
-        dispatch(ErrorMessage('Usuario ou senha Invalidos'));
+        dispatch(
+          ErrorMessage(
+            'Usuario ou senha Invalidos. Veja seu email se o usuario acabou de ser criado.'
+          ));
       });
   }
 }
@@ -54,32 +57,32 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
   return function(dispatch){
     axios.post(`${ROOT_URL}api/users/`, { first_name ,last_name ,username ,email, password })
       .then(response => {
-        axios.post(`${ROOT_URL}api/auth/`, { username, password }, config)
-          .then(response => {
-            dispatch({ type: AUTH_USUARIO });
-            dispatch(ErrorMessage(''));
-            localStorage.setItem('token', response.data.token);
-            const config_user = {
-              headers: {
-                  'X-CSRFToken': Cookies.get('csrftoken'),
-                  'Content-Type': 'application/json',
-                  'Authorization': 'token ' + response.data.token
-              }
-            };
-            axios.get(`${ROOT_URL}api/users/i/`, config_user)
-              .then(response => {
-                dispatch(ErrorMessage(''));
-                dispatch({ type: USUARIO, payload: response.data})
-              })
-              .catch(() => {
-                  dispatch(signoutUser());
-                  dispatch(ErrorMessage('Erro Interno - Usuario Criado, erro no servidor'));
-              })
-            browserHistory.push('/main');
-          })
+        dispatch(ErrorMessage(''));
+        swal(
+            { title: "Sucesso!",
+            text: "Usuario Criado. Verifique seu email para ser autenticado",
+            type: "success",
+            timer: 2000,
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            confirmButtonColor: "#001B5B",
+          }, () => {
+          // Redirect the user
+          browserHistory.push('/login');
+          }
+        );
       })
-      .catch(() => {
-        dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      .catch((err) => {
+        if ((err.response.data.username !== undefined) &&
+          (err.response.data.email !== undefined)){
+              dispatch(ErrorMessage('Usuario e email já estão sendo usados.'));
+          } else if (err.response.data.email !== undefined) {
+            dispatch(ErrorMessage(`${err.response.data.email[0]}`));
+        } else if (err.response.data.username !== undefined) {
+            dispatch(ErrorMessage(`${err.response.data.username[0]}`));
+        } else {
+            dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+        }
       });
     }
 }
