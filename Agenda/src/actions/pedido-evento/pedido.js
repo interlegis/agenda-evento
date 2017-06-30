@@ -30,7 +30,6 @@ export function cadastroPedido(props) {
         'Authorization': 'token ' + localStorage.token
     }
   };
-  console.log(props);
   return function(dispatch){
     const data = {
       "evento": {
@@ -53,6 +52,7 @@ export function cadastroPedido(props) {
           }
       }
     }
+    console.log(data);
     axios.post(`${ROOT_URL}api/pedido/`, data, config_user)
       .then(response => {
         dispatch({ type: CRIA_PEDIDO });
@@ -74,9 +74,11 @@ export function cadastroPedido(props) {
         );
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response.data.non_field_errors);
-        dispatch(ErrorMessage(`${err.response.data.non_field_errors}`));
+        if (err.response.data.evento !== undefined) {
+          dispatch(ErrorMessage(`${err.response.data.evento.non_field_errors[0]}`));
+        } else {
+          dispatch(ErrorMessage(`${err.response.data.non_field_errors}`));
+        }
       });
   }
 }
@@ -196,11 +198,11 @@ export function getPedidoEvento(id){
             dispatch({ type: EVENTO_GET, payload: response.data});
           })
           .catch(() => {
-            dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+            dispatch(ErrorMessage('Usuario não autenticado. Log in.'));
           });
       })
       .catch(() => {
-        dispatch(ErrorMessage('Usuario não autenticado.'));
+        dispatch(ErrorMessage('Usuario não autenticado. Log in.'));
       });
   }
 }

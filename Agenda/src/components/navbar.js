@@ -3,24 +3,9 @@ import { connect } from 'react-redux';
 import { signoutUser } from '../actions';
 import { Link } from 'react-router';
 import { RoleAwareComponent } from 'react-router-role-authorization';
-import Cookies from 'js-cookie';
 import { ROOT_URL } from '../actions/types';
 
 class Navbar extends RoleAwareComponent {
-  constructor(props) {
-   super(props);
-
-   this.allowedRoles = ['admin','primeira_secretaria'];
-   this.userRoles = (((Cookies.get('roles') === undefined) ||
-   ((Cookies.get('roles') === null))) ? [] :
-   JSON.parse(Cookies.get('roles')));
-   console.log(this.userRoles);
-   this.notAuthorizedPath = '/not-found';
-   this.state = {
-     roles: Cookies.get('roles')
-   }
- }
-
   static contextTypes = {
     router: React.PropTypes.object
   }
@@ -51,8 +36,8 @@ class Navbar extends RoleAwareComponent {
       perfil = this.props.user.first_name;
     }
 
-    if (this.rolesMatched()) {
-      if (this.state.roles.includes('admin')) {
+    if (this.props.roles) {
+      if (this.props.roles.includes('admin')) {
         const url = `${ROOT_URL}admin/`
         return (
           <div className="collapse navbar-collapse">
@@ -103,6 +88,7 @@ class Navbar extends RoleAwareComponent {
         </div>
       );
     }
+
     return (
       <div className="collapse navbar-collapse">
         <ul className="nav navbar-nav navbar-right">
@@ -156,7 +142,8 @@ class Navbar extends RoleAwareComponent {
 function mapStateToProps(state){
   return {
     authenticated: state.authentication.authenticated,
-    user: state.user.usuario
+    user: state.user.usuario,
+    roles: state.user.roles
   };
 }
 

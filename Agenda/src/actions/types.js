@@ -3,6 +3,7 @@ export const USUARIO = 'USUARIO';
 export const UNAUTH_USUARIO = 'UNAUTH_USUARIO';
 export const ERROR = 'ERROR';
 export const CREATE_USUARIO = 'CREATE_USUARIO';
+export const ROLES = 'ROLES';
 export const UPDATE_USUARIO = 'UPDATE_USUARIO';
 export const CRIA_PEDIDO = 'CRIA_PEDIDO';
 export const UPDATE_PEDIDO = 'UPDATE_PEDIDO';

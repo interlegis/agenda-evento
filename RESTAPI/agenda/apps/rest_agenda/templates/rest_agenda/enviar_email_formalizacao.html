@@ -3,10 +3,12 @@
     <img style="margin: 0 auto;display: table;" src="http://www.interlegis.leg.br/produtos_servicos/comunicacao/imprensa/Interlegis_Cor01.png" />
     <div style="margin: 0 auto;display: table;">
       <h1>Interlegis - Agenda de Eventos</h1>
-      <h4>O pedido {{nr_referencia}} foi criado e possui o status: {{status}}. O pedido
+      <h4>O pedido {{nr_referencia}} foi criado e possui o status:
+      {% if status == "P" %} Pré-reservado {% endif %}
+      {% if status == "R" %} Reservado {% endif %}. O pedido
       precisa ser formalizado nos próximos dois dias junto á Primeira Secretária.</h4>
       <h4>Acompanhe o seus pedidos e outros eventos em nossa Agenda</h4>
-      <a href="http://localhost:8080/">Clique no Link</a>
+      <a href="http://localhost:8080/login">Clique no Link</a>
     </br>
     </br>
     </br>

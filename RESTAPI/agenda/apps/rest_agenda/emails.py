@@ -59,7 +59,7 @@ def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria):
     html_message=msg_html
     )
 
-def enviar_email_formalizacao(reserva):
+def enviar_email_formalizacao(reserva, status):
     msg_plain = render_to_string('rest_agenda/enviar_email_formalizacao.txt',
                                 {'nr_referencia': reserva.nr_referencia,
                                  'status': status})

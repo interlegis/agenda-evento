@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL, UPDATE_USUARIO, ROOT_URL_AGENDA }
+import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL,
+  UPDATE_USUARIO, ROOT_URL_AGENDA, ROLES }
 from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
@@ -35,6 +36,7 @@ export function signinUser({ username, password }) {
                 array_roles.push(response.data.groups[i].name);
               }
               Cookies.set('roles',array_roles);
+              dispatch({ type: ROLES, payload: array_roles});
             }
             dispatch(ErrorMessage(''));
           })
@@ -107,11 +109,19 @@ export function getUsuario(){
     axios.get(`${ROOT_URL}api/users/i/`, config_user)
       .then(response => {
         dispatch(ErrorMessage(''));
+        if (response.data.groups.length > 0) {
+          var array_roles = [];
+          for (var i = 0; i < response.data.groups.length; i++) {
+            array_roles.push(response.data.groups[i].name);
+          }
+          Cookies.set('roles', array_roles);
+          dispatch({ type: ROLES, payload: array_roles});
+        }
         dispatch({ type: USUARIO, payload: response.data});
       })
       .catch(() => {
           dispatch(signoutUser());
-          dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+          dispatch(ErrorMessage('Usuario não autenticado. Tente novamente.'));
       });
   }
 }

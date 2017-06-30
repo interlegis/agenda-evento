@@ -33,7 +33,7 @@ class Evento(models.Model):
     hora_inicio = models.TimeField(blank=False, null=False)
     data_fim = models.DateField(blank=False, null=False)
     hora_fim = models.TimeField(blank=False, null=False)
-    nome = models.CharField(blank=False, max_length=500, null=False)
+    nome = models.CharField(blank=False, max_length=500, null=False, unique=True)
     descricao = models.TextField(blank=False, null=False)
     observacao = models.TextField(blank=True)
     local = models.CharField(blank=False, max_length=100, choices=LOCAIS,

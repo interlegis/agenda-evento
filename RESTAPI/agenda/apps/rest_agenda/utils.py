@@ -38,13 +38,16 @@ def checkEventoDatas(evento_data):
     hora_inicio = evento_data['hora_inicio']
     hora_fim = evento_data['hora_fim']
     local = evento_data['local']
+    
     if Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim),
-       evento__hora_inicio__lte=hora_inicio, evento__hora_fim__gte=hora_fim,
+       evento__data_fim__range=(data_inicio,data_fim),
+       evento__hora_inicio__lte=hora_inicio,evento__hora_fim__gte=hora_fim,
+       status=u'R', evento__local=local) or \
+       Reserva.objects.filter(evento__data_inicio__range=(data_inicio,data_fim),
+       evento__hora_inicio__lte=hora_fim,evento__hora_inicio__gte=hora_inicio,
+       status=u'R', evento__local=local) or \
+       Reserva.objects.filter(evento__data_fim__range=(data_inicio,data_fim),
+       evento__hora_fim__lte=hora_fim,evento__hora_fim__gte=hora_inicio,
        status=u'R', evento__local=local):
-       return False
-    if Reserva.objects.filter(evento__data_inicio=data_inicio,
-       evento__hora_inicio__lte=hora_inicio, status=u'R', evento__local=local) or \
-       Reserva.objects.filter(evento__data_fim=data_fim,
-       evento__hora_inicio__lte=hora_fim, status=u'R', evento__local=local):
        return False
     return True
