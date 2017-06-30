@@ -16,18 +16,18 @@ class MeusPedidos extends RoleAwareComponent {
    this.userRoles = (((Cookies.get('roles') === undefined) ||
    ((Cookies.get('roles') === null))) ? [] :
    JSON.parse(Cookies.get('roles')));
-   console.log(this.userRoles);
-   this.notAuthorizedPath = '/not-found';
- }
 
-  componentWillMount() {
-    this.props.getUsuario();
-    this.props.getPedidos();
+   this.notAuthorizedPath = '/not-found';
   }
 
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
+
+  componentWillMount() {
+    this.props.getUsuario();
+    this.props.getPedidos();
+  }
 
   deletePedido(id) {
     swal({
@@ -46,7 +46,6 @@ class MeusPedidos extends RoleAwareComponent {
     }, (isConfirm) =>
       {
         if (isConfirm) {
-          console.log('deletar');
           this.props.deletarPedido(id);
           swal(
             {

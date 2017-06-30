@@ -28,7 +28,6 @@ class ReservaViewSet(generics.ListCreateAPIView):
                     serializer.save(request)
                     if not request.data['evento']['local'] == u'SR' and \
                        not Reserva.objects.get(evento__nome=request.data['evento']['nome']).usuario.groups.filter(name='primeira_secretaria').exists():
-                       import ipdb; ipdb.set_trace()
                        enviar_email_formalizacao(
                                                  Reserva.objects.get(evento__nome=request.data['evento']['nome']),
                                                  Reserva.objects.get(evento__nome=request.data['evento']['nome']).status

@@ -20,7 +20,7 @@ class Main extends Component {
 
   render() {
     const { user } = this.props;
-    console.log(user);
+
     if (user) {
       return (
         <div className="col-md-12 col-xs-12 ">

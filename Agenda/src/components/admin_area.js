@@ -41,7 +41,6 @@ class Admin_Area extends AuthorizedComponent {
   }
 
   renderAlert(){
-    console.log(this.props.errorMessage);
     if (this.props.errorMessage) {
       return(
         <div className="alert alert-danger">
@@ -62,7 +61,6 @@ class Admin_Area extends AuthorizedComponent {
 
   cancelarPedidoTramitacao(){
     const id = this.props.params.id;
-    console.log(id);
     swal({
       title: "Cancelar Pedido",
       text: "Insira o motivo do cancelamento:",
@@ -89,8 +87,6 @@ class Admin_Area extends AuthorizedComponent {
         "reservado": 'C',
         "causa_cancelamento": causa_cancelamento
       };
-      console.log(data);
-      console.log(id);
 
       axios.post(`${ROOT_URL}api/pedido/${ID}/edit/cancelado/`, data, config_user)
         .then(response => {

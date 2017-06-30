@@ -6,26 +6,16 @@ import { getTodosPedidos, getPedidoEvento, deletarPedido }
 from '../actions/pedido-evento/pedido';
 import { getUsuario } from '../actions';
 import { AuthorizedComponent } from 'react-router-role-authorization';
-import Cookies from 'js-cookie';
 
 class TodosPedidos extends AuthorizedComponent {
-  constructor(props) {
-   super(props);
-
-   this.userRoles = (((Cookies.get('roles') === undefined) ||
-   ((Cookies.get('roles') === null))) ? [] :
-   JSON.parse(Cookies.get('roles')));
-   this.notAuthorizedPath = '/not-found';
- }
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
 
   componentWillMount() {
     this.props.getUsuario();
     this.props.getTodosPedidos();
   }
-
-  static contextTypes = {
-    router: PropTypes.object.isRequired
-  };
 
   deletePedido(id) {
     swal({
@@ -44,7 +34,6 @@ class TodosPedidos extends AuthorizedComponent {
     }, (isConfirm) =>
       {
         if (isConfirm) {
-          console.log('deletar');
           this.props.deletarPedido(id);
           swal(
             {

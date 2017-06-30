@@ -52,7 +52,7 @@ export function cadastroPedido(props) {
           }
       }
     }
-    console.log(data);
+
     axios.post(`${ROOT_URL}api/pedido/`, data, config_user)
       .then(response => {
         dispatch({ type: CRIA_PEDIDO });
@@ -277,7 +277,6 @@ export function updatePedido(props, id){
         );
       })
       .catch((err) => {
-          console.log(err);
           if (typeof err.response.data.non_field_errors !== 'undefined') {
             dispatch(ErrorMessage(`${err.response.data.non_field_errors[0]}`));
           }else{
@@ -382,8 +381,6 @@ export function cancelarPedido(id, causa_cancelamento){
       "reservado": 'C',
       "causa_cancelamento": causa_cancelamento
     };
-
-    console.log(data);
 
     axios.post(`${ROOT_URL}api/pedido/${id}/edit/cancelado/`, data, config_user)
       .then(response => {
