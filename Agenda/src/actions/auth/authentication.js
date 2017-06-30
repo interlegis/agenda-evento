@@ -55,7 +55,8 @@ export function signinUser({ username, password }) {
 
 export function cadastroUsuario({ first_name ,last_name ,username ,email, password }) {
   return function(dispatch){
-    axios.post(`${ROOT_URL}api/users/`, { first_name ,last_name ,username ,email, password })
+    axios.post(`${ROOT_URL}api/users/`,
+      { ROOT_URL_AGENDA, first_name ,last_name ,username ,email, password })
       .then(response => {
         dispatch(ErrorMessage(''));
         swal(
@@ -208,6 +209,35 @@ export function atualizarSenha({password, token}){
         swal({
           title: "Senha Atualizada com sucesso",
           text: "Realize o login com a nova senha.",
+          type: "success",
+          animation: "slide-from-top",
+          timer: 2000,
+        }, () => {
+        // Redirect the user
+        browserHistory.push('/login');
+        });
+      })
+      .catch(() => {
+          dispatch(signoutUser());
+          dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function cadastroAutenticado({ token }){
+  return function(dispatch){
+    const config = {
+      headers: {
+          'X-CSRFToken': Cookies.get('csrftoken'),
+          'Content-Type': 'application/json'
+      }
+    };
+    axios.post(`${ROOT_URL}api/users/i/autenticaCadastro/`,{ token }, config)
+      .then(response => {
+        dispatch(ErrorMessage(''));
+        swal({
+          title: "Usuario Autenticado com sucesso",
+          text: "Realize o seu login.",
           type: "success",
           animation: "slide-from-top",
           timer: 2000,

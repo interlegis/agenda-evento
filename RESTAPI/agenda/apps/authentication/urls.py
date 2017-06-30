@@ -6,6 +6,8 @@ urlpatterns = [
     url(r'^api/users/$', views.UsuarioListCreate.as_view(), name='usuario'),
     url(r'^api/users/([i-i])/$', views.UsuarioDetail.as_view(),
         name='detail-usuario'),
+    url(r'^api/users/([i-i])/autenticaCadastro/', views.ValidarCadastro.as_view(),
+        name='validar-cadastro'),
     url(r'^api/users/([i-i])/atualizarSenha/', views.UsuarioNovaSenha.as_view(),
         name='atualizar-senha-usuario'),
     url(r'^api/users/recuperaSenha/', views.UsuarioRecuperarSenha.as_view(),

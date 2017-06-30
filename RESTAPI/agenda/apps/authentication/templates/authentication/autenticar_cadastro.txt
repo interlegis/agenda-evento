@@ -1,0 +1,3 @@
+Interlegis - Agenda de Eventos
+Para autenticar seu cadastro, por favor clique no link abaixo:
+{{link}}

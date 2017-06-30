@@ -5,9 +5,9 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from .permissions import IsAuthenticatedListCreateUser
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import RecuperarSenha
-import random
-from .emails import enviar_email_redefinr_senha
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .emails import enviar_email_redefinr_senha, enviar_email_autenticar_cadastro
 
 class UsuarioListCreate(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticatedListCreateUser,)
@@ -15,6 +15,8 @@ class UsuarioListCreate(generics.ListCreateAPIView):
     serializer_class = UsuarioSerializer
 
     def create(self, request):
+        url_agenda = request.data['ROOT_URL_AGENDA']
+        del request.data['ROOT_URL_AGENDA']
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
             try:
@@ -22,6 +24,10 @@ class UsuarioListCreate(generics.ListCreateAPIView):
                 user = User.objects.get(username=serializer.data['username'])
                 user.set_password(request.data['password'])
                 user.save()
+                token = urlsafe_base64_encode(force_bytes(
+                                                User.objects.get(username=serializer.data['username']).id))
+                enviar_email_autenticar_cadastro(user,
+                                                 url_agenda+'autenticarcadastro/'+token)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except:
                 return Response("Created Error",
@@ -75,14 +81,30 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class ValidarCadastro(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsuarioSerializer
+    permission_classes = (AllowAny,)
+
+    def create(self, request, *args, **kwargs):
+        token = urlsafe_base64_decode(request.data['token'])
+        if User.objects.filter(id=token).exists():
+            user = User.objects.get(id=token)
+            user.is_active = True
+            user.save()
+            return Response("Usuario Autenticado com sucesso.", status=status.HTTP_200_OK)
+        else:
+            return Response("Erro ao recuperar a senha.", status=status.HTTP_404_NOT_FOUND)
+
 class UsuarioNovaSenha(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
     permission_classes = (AllowAny,)
 
     def create(self, request, *args, **kwargs):
-        if RecuperarSenha.objects.filter(token=request.data['token']):
-            user = RecuperarSenha.objects.get(token=request.data['token']).usuario
+        token = urlsafe_base64_decode(request.data['token'])
+        if User.objects.filter(id=token).exists():
+            user = User.objects.get(id=token)
             user.set_password(request.data['password'])
             user.save()
             return Response("Senha alterada com sucesso.", status=status.HTTP_200_OK)
@@ -99,9 +121,8 @@ class UsuarioRecuperarSenha(generics.CreateAPIView):
             user = User.objects.get(email=request.data['email'])
             user.set_password('')
             user.save()
-            token = ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789') for i in range(50)])
-            nova_senha = RecuperarSenha.objects.create(usuario=user,token=token)
-            nova_senha.save()
+            token = urlsafe_base64_encode(force_bytes(
+                                          User.objects.get(email=request.data['email']).id))
             enviar_email_redefinr_senha(user,
                                         request.data['ROOT_URL_AGENDA']+'recuperarsenha/'+token)
             return Response("Verifique seu email!",status=status.HTTP_200_OK)

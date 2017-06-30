@@ -7,7 +7,7 @@ import { FIELD_RECUPERAR_SENHA } from './forms/fields_types';
 
 class RecuperarSenha extends Component{
   handleSubmitForm({ password}){
-    const token = this.props.params.token
+    const token = this.props.params.token;
     this.props.atualizarSenha({password, token});
   }
 

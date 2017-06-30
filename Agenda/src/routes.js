@@ -18,7 +18,8 @@ import NotFound from './components/notFound';
 import Faq from './components/faq';
 import EsqueciSenha from './components/esqueciSenha';
 import TodosPedidos from './components/todosPedidos';
-import RecuperarSenha from './components/recuperarSenha'
+import RecuperarSenha from './components/recuperarSenha';
+import AutenticarCadastro from './components/autenticar_cadastro';
 
 export default(
   <Route path="/" component={App} location="history">
@@ -38,6 +39,7 @@ export default(
     <Route path="/todosPedidos" component={TodosPedidos} authorize={['primeira_secretaria','admin']} />
     <Route path="/esquecisenha" component={EsqueciSenha} />
     <Route path="/recuperarsenha/:token" component={RecuperarSenha} />
+    <Route path="/autenticarcadastro/:token" component={AutenticarCadastro} />
     <Route path="/not-found" component={NotFound} notUrl={false}/>
     <Route path='*' component={NotFound} notUrl={true}/>
   </Route>
