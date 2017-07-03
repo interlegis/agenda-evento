@@ -6,8 +6,8 @@ from rest_framework.authtoken.models import Token
 
 @receiver(pre_save, sender=User)
 def set_new_user_inactive(sender, instance=None, **kwargs):
-    if instance._state.adding is True and (instance.username != 'admin') and \
-    (instance.username != 'primeira_secretaria'):
+    if (instance._state.adding is True) and (instance.username != 'admin') and \
+    (instance.username != 'operador_primeira_secretaria'):
         print("Creating Inactive User")
         instance.is_active = False
     else:
