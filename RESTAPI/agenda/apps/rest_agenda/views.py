@@ -26,11 +26,33 @@ class ReservaViewSet(generics.ListCreateAPIView):
                                         serializer.data['evento']['hora_inicio'],
                                         serializer.data['evento']['hora_fim'])
                     serializer.save(request)
+                    import ipdb; ipdb.set_trace()
                     if not request.data['evento']['local'] == u'SR' and \
-                       not Reserva.objects.get(evento__nome=request.data['evento']['nome']).usuario.groups.filter(name='primeira_secretaria').exists():
+                       not Reserva.objects.get(
+                           evento=Evento.objects.get(
+                                                     nome=request.data['evento']['nome'],
+                                                     local=request.data['evento']['local'],
+                                                     data_inicio=request.data['evento']['data_inicio'],
+                                                     data_fim=request.data['evento']['data_fim'],
+                                                     hora_inicio=request.data['evento']['hora_inicio'],
+                                                     hora_fim=request.data['evento']['hora_fim'])).usuario.groups.filter(name='primeira_secretaria').exists():
                        enviar_email_formalizacao(
-                                                 Reserva.objects.get(evento__nome=request.data['evento']['nome']),
-                                                 Reserva.objects.get(evento__nome=request.data['evento']['nome']).status
+                                                 Reserva.objects.get(
+                                                     evento=Evento.objects.get(
+                                                                               nome=request.data['evento']['nome'],
+                                                                               local=request.data['evento']['local'],
+                                                                               data_inicio=request.data['evento']['data_inicio'],
+                                                                               data_fim=request.data['evento']['data_fim'],
+                                                                               hora_inicio=request.data['evento']['hora_inicio'],
+                                                                               hora_fim=request.data['evento']['hora_fim'])),
+                                                 Reserva.objects.get(
+                                                     evento=Evento.objects.get(
+                                                                               nome=request.data['evento']['nome'],
+                                                                               local=request.data['evento']['local'],
+                                                                               data_inicio=request.data['evento']['data_inicio'],
+                                                                               data_fim=request.data['evento']['data_fim'],
+                                                                               hora_inicio=request.data['evento']['hora_inicio'],
+                                                                               hora_fim=request.data['evento']['hora_fim'])).status
                                                  )
                     return Response({'Reserva-Evento': serializer.data,
                                     'avisos': aviso},

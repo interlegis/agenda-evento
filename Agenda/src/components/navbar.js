@@ -35,7 +35,6 @@ class Navbar extends RoleAwareComponent {
     }else{
       perfil = this.props.user.first_name;
     }
-
     if (this.props.roles) {
       if (this.props.roles.includes('admin')) {
         const url = `${ROOT_URL}admin/`
@@ -64,29 +63,31 @@ class Navbar extends RoleAwareComponent {
           </div>
         );
       }
-      return (
-        <div className="collapse navbar-collapse">
-          <ul className="nav navbar-nav navbar-right">
-            <li><Link to="/main">Inicio</Link></li>
-            <li><Link to="/agenda">Agenda</Link></li>
-            <li><Link to="/pedidos">Meus Pedidos</Link></li>
-            <li><Link to="/todosPedidos">Tramitação</Link></li>
-            <li><Link to="/novoEvento">Novo Evento</Link></li>
-            <li><Link to="/faq">FAQ</Link></li>
-            <li className ="dropdown navbar-right">
-                <Link to="" className="dropdown-toggle" data-toggle="dropdown"
-                  role="button" aria-haspopup="true" aria-expanded="false">
-                  Bem-Vindo, {perfil}<span className="caret"></span>
-                </Link>
-                <ul className="dropdown-menu">
-                  <li><Link to="/configuracoes">Configurações</Link></li>
-                  <li role="separator" className="divider"></li>
-                  <li><a onClick={this.logout.bind(this)}>Sair</a></li>
-                </ul>
-            </li>
-          </ul>
-        </div>
-      );
+      if (this.props.roles.includes('primeira_secretaria')) {
+        return (
+          <div className="collapse navbar-collapse">
+            <ul className="nav navbar-nav navbar-right">
+              <li><Link to="/main">Inicio</Link></li>
+              <li><Link to="/agenda">Agenda</Link></li>
+              <li><Link to="/pedidos">Meus Pedidos</Link></li>
+              <li><Link to="/todosPedidos">Tramitação</Link></li>
+              <li><Link to="/novoEvento">Novo Evento</Link></li>
+              <li><Link to="/faq">FAQ</Link></li>
+              <li className ="dropdown navbar-right">
+                  <Link to="" className="dropdown-toggle" data-toggle="dropdown"
+                    role="button" aria-haspopup="true" aria-expanded="false">
+                    Bem-Vindo, {perfil}<span className="caret"></span>
+                  </Link>
+                  <ul className="dropdown-menu">
+                    <li><Link to="/configuracoes">Configurações</Link></li>
+                    <li role="separator" className="divider"></li>
+                    <li><a onClick={this.logout.bind(this)}>Sair</a></li>
+                  </ul>
+              </li>
+            </ul>
+          </div>
+        );
+      }
     }
 
     return (

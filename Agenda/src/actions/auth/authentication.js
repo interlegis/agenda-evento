@@ -91,9 +91,13 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
 }
 
 export function signoutUser(){
-  localStorage.removeItem('token');
-  Cookies.remove('roles');
-  return{ type: UNAUTH_USUARIO };
+  return function(dispatch){
+    localStorage.removeItem('token');
+    Cookies.remove('roles');
+    var array_roles = [];
+    dispatch({ type: ROLES, payload: array_roles});
+    dispatch({ type: UNAUTH_USUARIO });
+  }
 }
 
 export function getUsuario(){
