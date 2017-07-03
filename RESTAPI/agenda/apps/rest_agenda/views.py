@@ -26,7 +26,6 @@ class ReservaViewSet(generics.ListCreateAPIView):
                                         serializer.data['evento']['hora_inicio'],
                                         serializer.data['evento']['hora_fim'])
                     serializer.save(request)
-                    import ipdb; ipdb.set_trace()
                     if not request.data['evento']['local'] == u'SR' and \
                        not Reserva.objects.get(
                            evento=Evento.objects.get(
