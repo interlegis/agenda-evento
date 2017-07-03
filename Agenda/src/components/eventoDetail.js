@@ -147,9 +147,9 @@ class EventoDatail extends Component {
                     </tbody>
                   </table>
                 <div className="btn-pedido col-md-12" role="group">
-                    <Link to={`/evento/editar/${this.props.params.id}`}
+                    <Link to={`/pedidos`}
                     className="btn btn-primary btn-lg space">
-                      Editar Pedido
+                      Meus Pedidos
                     </Link>
                     <Link to={`/faq`} className="btn btn-default btn-lg space">
                       Ajuda
