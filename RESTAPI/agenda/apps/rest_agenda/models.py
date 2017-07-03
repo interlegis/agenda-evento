@@ -33,7 +33,7 @@ class Evento(models.Model):
     hora_inicio = models.TimeField(blank=False, null=False)
     data_fim = models.DateField(blank=False, null=False)
     hora_fim = models.TimeField(blank=False, null=False)
-    nome = models.CharField(blank=False, max_length=500, null=False, unique=True)
+    nome = models.CharField(blank=False, max_length=500, null=False)
     descricao = models.TextField(blank=False, null=False)
     observacao = models.TextField(blank=True)
     local = models.CharField(blank=False, max_length=100, choices=LOCAIS,
@@ -79,7 +79,7 @@ class Reserva(models.Model):
                              null=False,default='P')
     data_modificacao = models.DateTimeField(blank=False, auto_now=True,
                                             null=False)
-    nr_referencia = models.CharField(blank=True, max_length=50)
+    nr_referencia = models.CharField(blank=True, max_length=50, unique=True)
     ano = models.CharField(blank=True, max_length=4)
     validade_pre_reserva = models.DateField(blank=True, null=False)
     recebido = models.BooleanField(default=False)
