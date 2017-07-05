@@ -32,6 +32,7 @@
     "axios": "^0.16.1",
     "babel-preset-stage-1": "^6.1.18",
     "css-loader": "^0.28.0",
+    "express": "^4.15.3",
     "jquery-mask-plugin": "^1.14.10",
     "js-cookie": "^2.1.4",
     "lodash": "^3.10.1",
