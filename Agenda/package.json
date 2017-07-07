@@ -6,8 +6,9 @@
   "repository": "git@github.com:interlegis/agenda-evento.git",
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start-server": "node ./node_modules/http-server/bin/http-server -g -p 80",
     "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build",
-    "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",
+    "deploy": "NODE_ENV=production ENV=prod webpack -p --config webpack.production.config.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
@@ -33,6 +34,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "css-loader": "^0.28.0",
     "express": "^4.15.3",
+    "http-server": "^0.10.0",
     "jquery-mask-plugin": "^1.14.10",
     "js-cookie": "^2.1.4",
     "lodash": "^3.10.1",
