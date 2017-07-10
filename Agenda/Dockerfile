@@ -14,5 +14,8 @@ COPY config/nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN cd /var/interlegis/frontend/agenda && npm install && npm run deploy
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+RUN chmod +x /var/interlegis/frontend/agenda/start.sh && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
+
+CMD ["/var/interlegis/frontend/agenda/start.sh"]

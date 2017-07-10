@@ -1,5 +1,4 @@
 agenda_frontend:
   build: .
-  command: "npm run start-server"
   ports:
     - "80:80"
