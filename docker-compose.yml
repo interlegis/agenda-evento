@@ -26,6 +26,5 @@ agenda_backend:
     - "8000:8000"
 agenda_frontend:
   build: ./Agenda/
-  command: "npm run start-server"
   ports:
     - "80:80"
