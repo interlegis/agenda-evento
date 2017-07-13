@@ -9,14 +9,16 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from '../src/reducers';
 
+// Set up testing environment to run like a browser in the command line
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.window = global.document.defaultView;
 global.navigator = global.window.navigator;
 const $ = _$(window);
-
+// Using it with chaiJquery which provides a way for writing ours tests
 chaiJquery(chai, chai.util, $);
-
+// build 'renderComponent' helper that should render a given react class
 function renderComponent(ComponentClass, props = {}, state = {}) {
+  // render it into Provider (High Order Component)
   const componentInstance =  TestUtils.renderIntoDocument(
     <Provider store={createStore(reducers, state)}>
       <ComponentClass {...props} />
@@ -25,8 +27,8 @@ function renderComponent(ComponentClass, props = {}, state = {}) {
 
   return $(ReactDOM.findDOMNode(componentInstance));
 }
-
-$.fn.simulate = function(eventName, value) {
+// build helper to simulate events
+$.fn.simulate = function(eventName, value = '') {
   if (value) {
     this.val(value);
   }
