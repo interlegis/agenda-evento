@@ -27,16 +27,6 @@ SECRET_KEY = config('SECRET_KEY', default='')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-SESSION_COOKIE_SECURE=config('SESSION_COOKIE_SECURE', default=False, cast=bool)
-
-CSRF_COOKIE_SECURE=config('CSRF_COOKIE_SECURE', default=False, cast=bool)
-
-SECURE_BROWSER_XSS_FILTER=config('SECURE_BROWSER_XSS_FILTER', default=False, cast=bool)
-
-SECURE_CONTENT_TYPE_NOSNIFF=config('SECURE_CONTENT_TYPE_NOSNIFF', default=False, cast=bool)
-
-X_FRAME_OPTIONS=config('X_FRAME_OPTIONS', default='', cast=str)
-
 ALLOWED_HOSTS = ['*']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
