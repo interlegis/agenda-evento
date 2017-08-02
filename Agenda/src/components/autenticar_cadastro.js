@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { cadastroAutenticado } from '../actions';
-import Cookies from 'js-cookie';
 
 class AutenticarCadastro extends Component {
   componentWillMount() {

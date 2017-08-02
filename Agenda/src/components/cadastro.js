@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { Link } from 'react-router';
 import Recaptcha from 'react-recaptcha';
 import _ from 'lodash';
 import { cadastroUsuario, ErrorMessage, getRecaptchaResponse } from '../actions';
