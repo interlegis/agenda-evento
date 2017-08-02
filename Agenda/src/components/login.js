@@ -11,7 +11,6 @@ class Login extends Component{
         this.props.ErrorMessage('');
   }
 
-
   handleSubmitForm({ username, password }){
     this.props.signinUser({username, password});
   }
