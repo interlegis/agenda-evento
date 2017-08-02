@@ -48,7 +48,7 @@
     "react": "^0.14.9",
     "react-addons-test-utils": "^0.14.8",
     "react-addons-update": "^0.14.8",
-    "react-big-calendar": "^0.14.4",
+    "react-big-calendar": "^0.14.0",
     "react-bootstrap": "^0.30.8",
     "react-bootstrap-date-picker": "^5.0.1",
     "react-data-components": "^1.1.0",
