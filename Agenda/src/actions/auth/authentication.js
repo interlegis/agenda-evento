@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL,
-  UPDATE_USUARIO, ROOT_URL_AGENDA, ROLES }
+  UPDATE_USUARIO, ROOT_URL_AGENDA, ROLES, RECAPTCHA, URL_CAPTCHA }
 from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
@@ -263,6 +263,37 @@ export function cadastroAutenticado({ token }){
       .catch(() => {
           dispatch(signoutUser());
           dispatch(ErrorMessage('Erro Interno - Tente novamente mais tarde'));
+      });
+  }
+}
+
+export function getRecaptchaResponse(token){
+  return function(dispatch){
+    const secret = '6LfxDykUAAAAAA49n25MQCnb64xYNTf7oSJ79XMe';
+
+    const config_user = {
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Content-Range, X-Content-Range, Content-Disposition, Content-Description',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS',
+          'Access-Control-Max-Age': '86400'
+      }
+    };
+
+    axios.get(`https://crossorigin.me/${URL_CAPTCHA}?secret=${secret}&response=${token}`, {config_user,
+  	proxy: {
+  	  host: '104.236.174.88',
+  	  port: 3128
+  	}})
+      .then((response) => {
+        console.log(response.data);
+        dispatch({ type: RECAPTCHA, payload: response.data });
+        dispatch(ErrorMessage(''));
+      })
+      .catch((err) => {
+        console.log(err.message);
+        dispatch(ErrorMessage('Erro Interno - No Access-Control-Allow-Origin provided'));
       });
   }
 }

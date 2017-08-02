@@ -24,25 +24,29 @@ module.exports = {
     loaders: [
       {
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-1']
         }
       },
       {
         test: /\.css$/,
+        exclude: /(node_modules|bower_components)/,
         loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss?sourceMap&sourceComments'
+      },
+      {
+        test: /\.json$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'json-loader'
       }
     ]
   },
-  postcss: () => {
-    return [
-      /* eslint-disable global-require */
-      require('postcss-cssnext'),
-      /* eslint-enable global-require */
-    ];
-  },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
+  },
+  devServer: {
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
   }
 };

@@ -10,6 +10,7 @@ def enviar_email_tramitacao(reserva,status):
     msg_html = render_to_string('rest_agenda/email_tramitacao.html',
                                 {'nr_referencia': reserva.nr_referencia,
                                  'status': status})
+
     send_mail(
     u'Tramitação do Pedido -' + reserva.nr_referencia,
     msg_plain,
@@ -22,6 +23,7 @@ def enviar_email_tramitacao(reserva,status):
 def enviar_notificacao_agenda():
     msg_plain = render_to_string('rest_agenda/email_notificacao_agenda.txt')
     msg_html = render_to_string('rest_agenda/email_notificacao_agenda.html')
+
     send_mail(
     u'Notificação - Agenda Atualizada',
     msg_plain,
@@ -50,6 +52,7 @@ def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria):
                                  'hora_fim': reserva.evento.hora_fim,
                                  'local_evento': reserva.evento.return_local()
                                  })
+
     send_mail(
     u'Notificação - Video Conferência',
     msg_plain,
@@ -66,6 +69,7 @@ def enviar_email_formalizacao(reserva, status):
     msg_html = render_to_string('rest_agenda/enviar_email_formalizacao.html',
                                 {'nr_referencia': reserva.nr_referencia,
                                  'status': status})
+                                 
     send_mail(
     u'Tramitação do Pedido -' + reserva.nr_referencia,
     msg_plain,

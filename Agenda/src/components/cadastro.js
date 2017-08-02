@@ -1,11 +1,29 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
+import Recaptcha from 'react-recaptcha';
 import _ from 'lodash';
-import { cadastroUsuario } from '../actions';
+import { cadastroUsuario, ErrorMessage, getRecaptchaResponse } from '../actions';
 import { FIELD_USUARIO_CADASTRO } from './forms/fields_types';
 
+let recaptchaInstance;
+
 class Cadastro extends Component{
+  constructor(props) {
+        super(props);
+        this.state = {
+                       captcha: false,
+                       key: '6LfxDykUAAAAALESJ0piReefePClRZ6xtdTPI_wy'
+                     };
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.recaptcha_response) {
+      console.log(nextProps.recaptcha_response);
+      this.setState({ captcha: nextProps.recaptcha_response.success });
+    }
+  }
+
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -17,8 +35,29 @@ class Cadastro extends Component{
       submitting: PropTypes.bool.isRequired
   };
 
+  // specifying your onload callback function
+  callback(){
+    console.log('Done!!!!');
+    this.props.ErrorMessage('');
+  };
+
+  verifyCallback(response){
+    this.props.getRecaptchaResponse(response);
+    this.props.ErrorMessage('');
+  };
+
+  expiredCallback(){
+    recaptchaInstance.reset();
+    this.props.ErrorMessage('Recaptcha expired');
+  };
+
   handleSubmitForm(formProps){
-    this.props.cadastroUsuario(formProps);
+    if (this.state.captcha == true) {
+      this.props.cadastroUsuario(formProps);
+      this.props.ErrorMessage('');
+    } else {
+      this.props.ErrorMessage('Por favor clique no CAPTCHA');
+    }
   }
 
   renderAlert(){
@@ -36,8 +75,11 @@ class Cadastro extends Component{
 
     return(
       <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
-        ? "form-group has-error has-feedback" : "form-group"} key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-        <label className="control-label center-div-flex">{fieldConfig.titulo}</label>
+        ? "form-group has-error has-feedback" : "form-group"}
+        key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+        <label className="control-label center-div-flex">{
+          fieldConfig.titulo}
+        </label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
         placeholder={`Por favor, insira ${fieldConfig.label}`} />
         {fieldHelper.touched && fieldHelper.error &&
@@ -49,7 +91,6 @@ class Cadastro extends Component{
   render(){
     const { error, handleSubmit, pristine, resetForm, submitting,
       fields: { first_name ,last_name ,username ,email, password }} = this.props;
-
     return(
       <div>
         <div>
@@ -57,13 +98,24 @@ class Cadastro extends Component{
           <h3>Sistema para agendamento de eventos a serem realizados no prédio Interlegis</h3>
         </div>
         <div className="center-div-flex col-md-12">
-        <div className="panel panel-primary col-md-5">
+        <div className="panel panel-primary col-md-6">
           <div className="panel-heading text-center">Cadastro</div>
           <div className="panel-body center col-md-12">
             <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
               className="center col-md-12">
               {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
               {this.renderAlert()}
+              <Recaptcha
+                ref={e => recaptchaInstance = e}
+                sitekey={this.state.key}
+                render="explicit"
+                theme="light"
+                verifyCallback={this.verifyCallback.bind(this)}
+                onloadCallback={this.callback.bind(this)}
+                expiredCallback={this.expiredCallback.bind(this)}
+              />
+              <div className="space-15"></div>
+              <hr/>
               <div className="btn-group center-div-flex" role="group">
                   <button type="submit" disabled={submitting}
                     className={((first_name.touched && first_name.invalid) ||
@@ -105,11 +157,12 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.authentication.error};
+  return { errorMessage: state.authentication.error,
+           recaptcha_response: state.authentication.recaptchaResponse};
 }
 
 export default reduxForm({
   form: 'cadastro',
   fields: _.keys(FIELD_USUARIO_CADASTRO),
   validate
-}, mapStateToProps, { cadastroUsuario })(Cadastro);
+}, mapStateToProps, { cadastroUsuario, ErrorMessage, getRecaptchaResponse })(Cadastro);

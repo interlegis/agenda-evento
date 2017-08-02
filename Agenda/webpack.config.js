@@ -2,6 +2,7 @@ module.exports = {
   entry: [
     './src/index.js'
   ],
+  target: 'web',
   output: {
     path: __dirname,
     publicPath: '/',
@@ -11,29 +12,40 @@ module.exports = {
     loaders: [
       {
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-1']
         }
       },
       {
         test: /\.css$/,
+        exclude: /(node_modules|bower_components)/,
         loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss?sourceMap&sourceComments'
+      },
+      {
+        test: /\.json$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'json-loader'
       }
     ]
   },
-  postcss: () => {
-    return [
-      /* eslint-disable global-require */
-      require('postcss-cssnext'),
-      /* eslint-enable global-require */
-    ];
-  },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.webpack.js', '.web.js', '.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: './',
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
+  },
+  node: {
+    console: true,
+    __filename: true,
+    __dirname: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    crypto: 'empty'
   }
 };

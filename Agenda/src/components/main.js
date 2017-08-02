@@ -24,7 +24,9 @@ class Main extends Component {
     if (user) {
       return (
         <div className="col-md-12 col-xs-12 ">
-          <h1 className="col-md-offset-4 col-md-4 col-xs-12 bottom-space title">Bem Vindo(a), {user.first_name}.</h1>
+          <h1 className="col-md-offset-4 col-md-4 col-xs-12 bottom-space title">
+            Bem Vindo(a), {user.first_name}.
+          </h1>
             <div className="col-md-12 col-xs-12 row cards-section">
               <Link to="/pedidos"><div className="col-md-4 col-xs-12 card-main">
                 <p className="card-text">Meus Pedidos/Eventos</p>
