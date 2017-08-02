@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
-import { signinUser } from '../actions';
+import { signinUser, ErrorMessage } from '../actions';
 import { Link } from 'react-router';
 import { FIELD_USUARIO_LOGIN } from './forms/fields_types';
 
 class Login extends Component{
+  constructor(props) {
+        super(props);
+        this.props.ErrorMessage('');
+  }
+
+
   handleSubmitForm({ username, password }){
     this.props.signinUser({username, password});
   }
@@ -96,4 +102,4 @@ export default reduxForm({
   form: 'login',
   fields: _.keys(FIELD_USUARIO_LOGIN),
   validate
-}, mapStateToProps, { signinUser })(Login);
+}, mapStateToProps, { signinUser, ErrorMessage })(Login);

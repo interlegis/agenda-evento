@@ -14,6 +14,7 @@ class Cadastro extends Component{
                        captcha: false,
                        key: '6LfxDykUAAAAALESJ0piReefePClRZ6xtdTPI_wy'
                      };
+        this.props.ErrorMessage('');
   }
 
   componentWillReceiveProps(nextProps){
@@ -48,6 +49,7 @@ class Cadastro extends Component{
   expiredCallback(){
     recaptchaInstance.reset();
     this.props.ErrorMessage('Recaptcha expired');
+    this.setState({ captcha: false });
   };
 
   handleSubmitForm(formProps){
