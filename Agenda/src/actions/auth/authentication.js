@@ -275,16 +275,17 @@ export function getRecaptchaResponse(token){
       headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
           'Access-Control-Allow-Origin': '*',
+          'Origin': '*',
           'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Content-Range, X-Content-Range, Content-Disposition, Content-Description',
           'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS',
           'Access-Control-Max-Age': '86400'
       }
     };
 
-    axios.get(`https://crossorigin.me/${URL_CAPTCHA}?secret=${secret}&response=${token}`, {config_user,
+    axios.get(`http://cors-anywhere.herokuapp.com/${URL_CAPTCHA}?secret=${secret}&response=${token}`, {config_user,
   	proxy: {
-  	  host: '104.236.174.88',
-  	  port: 3128
+  	  host: '66.70.191.215',
+  	  port: 1080
   	}})
       .then((response) => {
         console.log(response.data);
