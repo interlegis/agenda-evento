@@ -46,6 +46,9 @@ create_env
 
 pwd
 python manage.py migrate --noinput
+echo "Adding Cronjobs."
+python manage.py crontab add
+echo "Cronjobs added."
 
 /bin/sh gunicorn_start.sh no-venv &
 /usr/sbin/nginx -g "daemon off;"
