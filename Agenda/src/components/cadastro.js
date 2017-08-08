@@ -109,7 +109,6 @@ class Cadastro extends Component{
               <Recaptcha
                 ref={e => recaptchaInstance = e}
                 sitekey={this.state.key}
-                render="explicit"
                 theme="light"
                 verifyCallback={this.verifyCallback.bind(this)}
                 onloadCallback={this.callback.bind(this)}
