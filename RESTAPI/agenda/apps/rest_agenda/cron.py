@@ -21,6 +21,7 @@ def my_scheduled_job():
 
         CronLog.objects.create()
         enviar_notificacao_agenda()
+        print('Enviado email!')
         return Response(status=status.HTTP_200_OK)
     except:
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -143,6 +143,7 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
 
     def save(self, request, **kwargs):
         evento_data = self.data.pop('evento')
+        import ipdb; ipdb.set_trace()
         if not checkEventoDatas(evento_data):
             raise serializers.ValidationError('Eventos ja reservados nesse \
             período')

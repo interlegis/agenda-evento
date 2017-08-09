@@ -70,7 +70,7 @@ class Login extends Component{
                       Limpar
                   </button>
                 </div>
-                <Link to="/esquecisenha" className="btn btn-danger btn-md center">Esqueci Senha</Link>
+                <Link to="/esquecisenha" className="center">Esqueci Senha</Link>
               </form>
               <p className="center" style={{color: 'grey'}}>Ainda não possui cadastro?</p>
               <Link to="/cadastro" className="btn btn-primary btn-sm center">Cadastre-se</Link>
