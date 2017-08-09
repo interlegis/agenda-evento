@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import Recaptcha from 'react-recaptcha';
+import Recaptcha from 'react-google-recaptcha';
 import _ from 'lodash';
 import { cadastroUsuario, ErrorMessage, getRecaptchaResponse } from '../actions';
 import { FIELD_USUARIO_CADASTRO } from './forms/fields_types';
 
 let recaptchaInstance;
+
+window.recaptchaOptions = {
+  lang: 'pt-BR'
+}
 
 class Cadastro extends Component{
   constructor(props) {
@@ -35,13 +39,8 @@ class Cadastro extends Component{
       submitting: PropTypes.bool.isRequired
   };
 
-  // specifying your onload callback function
-  callback(){
-    console.log('Done!!!!');
-    this.props.ErrorMessage('');
-  };
-
   verifyCallback(response){
+    console.log('Done!!!!');
     this.props.getRecaptchaResponse(response);
     this.props.ErrorMessage('');
   };
@@ -109,11 +108,10 @@ class Cadastro extends Component{
               <Recaptcha
                 ref={e => recaptchaInstance = e}
                 sitekey={this.state.key}
-                render="explicit"
+                size="normal"
                 theme="light"
-                verifyCallback={this.verifyCallback.bind(this)}
-                onloadCallback={this.callback.bind(this)}
-                expiredCallback={this.expiredCallback.bind(this)}
+                onChange={this.verifyCallback.bind(this)}
+                onExpired={this.expiredCallback.bind(this)}
               />
               <div className="space-15"></div>
               <hr/>
