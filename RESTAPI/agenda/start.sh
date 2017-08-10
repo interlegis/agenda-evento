@@ -28,12 +28,12 @@ create_env() {
     echo "DEBUG = ""${DEBUG-False}" >> $FILENAME
     echo "EMAIL_USE_TLS = ""${USE_TLS-True}" >> $FILENAME
     echo "EMAIL_PORT = ""${EMAIL_PORT-587}" >> $FILENAME
-    echo "EMAIL_HOST = ""${EMAIL_HOST-''}" >> $FILENAME
-    echo "EMAIL_HOST_USER = ""${EMAIL_HOST_USER-''}" >> $FILENAME
-    echo "EMAIL_HOST_PASSWORD = ""${EMAIL_HOST_PASSWORD-''}" >> $FILENAME
-    echo "EMAIL_SEND_USER = ""${EMAIL_HOST_USER-''}" >> $FILENAME
-    echo "DEFAULT_FROM_EMAIL = ""${EMAIL_HOST_USER-''}" >> $FILENAME
-    echo "SERVER_EMAIL = ""${EMAIL_HOST_USER-''}" >> $FILENAME
+    echo "EMAIL_HOST = ""${EMAIL_HOST-'smtp.interlegis.leg.br'}" >> $FILENAME
+    echo "EMAIL_HOST_USER = ""${EMAIL_HOST_USER-'sapl-test@interlegis.leg.br'}" >> $FILENAME
+    echo "EMAIL_HOST_PASSWORD = ""${EMAIL_HOST_PASSWORD-'cV6mkAFQjT'}" >> $FILENAME
+    echo "EMAIL_SEND_USER = ""${EMAIL_SEND_USER-'sapl-test@interlegis.leg.br'}" >> $FILENAME
+    echo "DEFAULT_FROM_EMAIL = ""${DEFAULT_FROM_EMAIL-'sapl-test@interlegis.leg.br'}" >> $FILENAME
+    echo "SERVER_EMAIL = ""${SERVER_EMAIL-'sapl-test@interlegis.leg.br'}" >> $FILENAME
 
     echo "[ENV FILE] done."
 }
@@ -46,7 +46,7 @@ create_env
 
 pwd
 python manage.py migrate --noinput
-echo "Adding Cronjobs."
+echo "Adding Cronjobs..."
 python manage.py crontab add
 echo "Cronjobs added."
 

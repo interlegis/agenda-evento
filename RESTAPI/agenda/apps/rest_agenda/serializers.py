@@ -14,6 +14,7 @@ class ResponsavelSerializer(serializers.ModelSerializer):
 
 class EventoSerializerAgenda(serializers.ModelSerializer):
     _id = serializers.SerializerMethodField('get_id')
+    reserva_id = serializers.SerializerMethodField('get_reser_id')
     title = serializers.SerializerMethodField('get_nome')
     start = serializers.SerializerMethodField('get_data_inicio')
     end = serializers.SerializerMethodField('get_data_fim')
@@ -25,10 +26,13 @@ class EventoSerializerAgenda(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = ('_id', 'title', 'start', 'start_hour', 'end_hour', 'end',
-        'description', 'lugar')
+        'description', 'lugar', 'reserva_id')
 
     def get_id(self, obj):
         return obj['evento__id']
+
+    def get_reser_id(self, obj):
+        return obj['id']
 
     def get_nome(self, obj):
         return obj['evento__nome']
@@ -143,7 +147,6 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
 
     def save(self, request, **kwargs):
         evento_data = self.data.pop('evento')
-        import ipdb; ipdb.set_trace()
         if not checkEventoDatas(evento_data):
             raise serializers.ValidationError('Eventos ja reservados nesse \
             período')

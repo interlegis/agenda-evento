@@ -246,7 +246,7 @@ class EventoLastestListView(generics.ListAPIView):
     evento__data_inicio__lt=datetime.datetime.now().date()).order_by(
     'evento__data_inicio', 'evento__nome').values('evento__data_fim',
     'evento__data_inicio', 'evento__hora_inicio', 'evento__hora_fim',
-    'evento__descricao','evento__id','evento__local','evento__nome')
+    'evento__descricao','evento__id','evento__local','evento__nome', 'id')
     serializer_class = EventoSerializerAgenda
     permission_classes = (AllowAny,)
 
@@ -259,7 +259,7 @@ class EventoListView(generics.ListAPIView):
                                       evento__publicado_agenda=True).values(
     'evento__data_fim','evento__data_inicio', 'evento__hora_inicio',
     'evento__hora_fim','evento__descricao','evento__id','evento__local',
-    'evento__nome')
+    'evento__nome', 'id')
     serializer_class = EventoSerializerAgenda
     permission_classes = (AllowAny,)
 

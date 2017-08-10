@@ -73,7 +73,7 @@ class Agenda extends Component {
             }
            }
           }
-           onSelectEvent={event => this.context.router.push('/evento/'+event._id)}
+           onSelectEvent={event => this.context.router.push('/evento/'+event.reserva_id)}
            culture={moment.locale('pt')}
          />
          <div className="space-50"></div>
