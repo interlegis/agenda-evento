@@ -2,7 +2,7 @@ FROM alpine:3.5
 
 ENV BUILD_PACKAGES postgresql-dev build-base pkgconfig postgresql-client vim
 
-RUN apk add --no-cache python python-dev nginx && \
+RUN apk add --no-cache python python-dev nginx tzdata && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip install --upgrade pip setuptools && \
@@ -23,6 +23,10 @@ COPY config/nginx/nginx.conf /etc/nginx/nginx.conf
 
 RUN pip install -r /var/interlegis/agenda/requirements/dev-requirements.txt --upgrade setuptools && \
     rm -r /root/.cache
+
+# Configura timezone para BRT
+RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
+    echo "America/Sao_Paulo" > /etc/timezone
 
 RUN python manage.py collectstatic --noinput
 

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import 'moment/locale/pt-br';
 import _ from 'lodash';
 import { getAgendaPedidos } from '../actions/pedido-evento/pedido';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
+moment.locale('pt-br');
 
 BigCalendar.momentLocalizer(moment);
 
@@ -71,7 +74,7 @@ class AgendaHome extends Component {
          }
         }
          onSelectEvent={event => this.context.router.push('/evento/'+event.reserva_id)}
-         culture={moment.locale('pt')}
+         culture={moment.locale('pt-br')}
        />
          <div className="space-50"></div>
       </div>

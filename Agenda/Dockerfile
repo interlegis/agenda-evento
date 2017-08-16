@@ -1,6 +1,6 @@
 FROM alpine:3.5
 
-RUN apk add --update --no-cache python3 nginx nodejs && \
+RUN apk add --update --no-cache python3 nginx nodejs tzdata && \
     rm -f /etc/nginx/conf.d/*
 
 RUN mkdir -p /var/interlegis/frontend/agenda
@@ -11,6 +11,10 @@ ADD . /var/interlegis/frontend/agenda
 
 COPY config/nginx/agenda.conf /etc/nginx/conf.d
 COPY config/nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Configura timezone para BRT
+RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
+    echo "America/Sao_Paulo" > /etc/timezone
 
 RUN cd /var/interlegis/frontend/agenda && npm install && npm run deploy
 
