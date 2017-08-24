@@ -13,7 +13,7 @@ agenda:
   build: .
   volumes:
     - ./agenda_data:/var/interlegis/agenda/data
-    - ./agenda_media:/var/interlegis/agenda/media
+    - ./agenda_media:/var/interlegis/agenda/media/pdf
   environment:
     SESSION_COOKIE_SECURE: 'True'
     CSRF_COOKIE_SECURE: 'True'

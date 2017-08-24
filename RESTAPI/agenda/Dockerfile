@@ -2,16 +2,21 @@ FROM alpine:3.5
 
 ENV BUILD_PACKAGES postgresql-dev build-base pkgconfig postgresql-client vim
 
-RUN apk add --no-cache python python-dev nginx tzdata && \
+RUN apk update && \
+    apk add --no-cache python python-dev nginx tzdata build-base ncurses-dev bash --update libmagic && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip install --upgrade pip setuptools && \
+    pip install readline && \
     rm -r /root/.cache && \
     rm -f /etc/nginx/conf.d/*
 
+COPY ./inputrc /etc/inputrc
+
 RUN mkdir -p /var/interlegis/agenda && \
     apk add --update --no-cache $BUILD_PACKAGES && \
-    mkdir -p /var/interlegis/agenda/static
+    mkdir -p /var/interlegis/agenda/static && \
+    mkdir -p /var/interlegis/agenda/media/pdf
 
 WORKDIR /var/interlegis/agenda
 
@@ -34,6 +39,6 @@ RUN chmod +x /var/interlegis/agenda/start.sh && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
-VOLUME ["/var/interlegis/agenda/data", "/var/interlegis/agenda/media"]
+VOLUME ["/var/interlegis/agenda/data", "/var/interlegis/agenda/media/pdf"]
 
 CMD ["/var/interlegis/agenda/start.sh"]

@@ -19,7 +19,8 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
     this.notAuthorizedPath = '/not-found';
 
     this.state = {
-      declaro: ''
+      declaro: '',
+      file: ''
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,7 +42,11 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
      e.preventDefault();
      console.log(this.props);
      if (this.state.declaro == 'on'){
-       this.props.onPedidoRecebido();
+       const file = this.state.file;
+       const data = new FormData();
+       data.append('nome',file.name);
+       data.append('pdf', file);
+       this.props.onPedidoRecebido(data);
      }else{
        alert("Marque a checkbox para formalizar o pedido")
      }
@@ -97,11 +102,11 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
           </div>
           <div className="center-div">
             <h3 align="center">
-              Para confirmar a formalização desse pedido insira o documento(ofício) de confirmação abaixo:
+              Para confirmar a formalização desse pedido insira o documento (ofício) de confirmação abaixo:
             </h3>
             <form onSubmit={this.handleSubmit}>
               <div>
-                <input type="file" name="oficio" accept=".pdf"/>
+                <input type="file" name="oficio" accept=".pdf" onChange={ (event) => this.setState({file: event.target.files[0]}) }/>
               </div>
               <div className="padding-top-5">
                 <input type="checkbox" name="aceito" onChange={

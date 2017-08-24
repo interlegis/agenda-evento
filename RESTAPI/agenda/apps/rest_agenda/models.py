@@ -6,7 +6,13 @@ from django.utils import timezone
 from agenda import settings
 
 class CronLog(models.Model):
-    date = models.DateTimeField(default=timezone.localtime(timezone.now()), blank=True)
+    date = models.DateTimeField(default=timezone.localtime(timezone.now()),
+                                blank=True)
+
+    class Meta:
+        verbose_name = u"Cron Log"
+        verbose_name_plural = u"Cron Logs"
+
     def __unicode__(self):
         return self.date.ctime()
 
@@ -22,7 +28,6 @@ class Responsavel(models.Model):
 
     def __unicode__(self):
         return "Responsavel %s" % self.nome
-
 
 class Evento(models.Model):
     LOCAIS = (
@@ -44,7 +49,7 @@ class Evento(models.Model):
     cancelado = models.BooleanField(default=False)
     causa_cancelamento = models.TextField(blank=True)
     responsavel = models.ForeignKey(Responsavel,
-                                       verbose_name=u'Responsavel-Evento')
+                                      verbose_name=u'Responsavel-Evento')
 
     class Meta:
         verbose_name = u"Evento"
@@ -59,7 +64,6 @@ class Evento(models.Model):
         else:
             return u"Auditorio Interlegis"
 
-
 class Reserva(models.Model):
     STATUS = (
         (u'P', u"Pre-reserva"),
@@ -73,10 +77,10 @@ class Reserva(models.Model):
         null=False
     )
     evento = models.ForeignKey(Evento, verbose_name=u'Evento',
-                                  on_delete=models.CASCADE)
+                               on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, verbose_name=u'Responsavel-Reserva')
     status = models.CharField(blank=False, max_length=100, choices=STATUS,
-                             null=False,default='P')
+                              null=False, default='P')
     data_modificacao = models.DateTimeField(blank=False, auto_now=True,
                                             null=False)
     nr_referencia = models.CharField(blank=True, max_length=50, unique=True)
@@ -101,11 +105,27 @@ class Reserva(models.Model):
         else:
             return u"Impedido"
 
+class Arquivo(models.Model):
+    nome = models.CharField(blank=True, max_length=100)
+    uploaded_at = models.DateTimeField(blank=True,
+                                       default=timezone.localtime(timezone.now()))
+    pdf = models.FileField(blank=False, upload_to='pdf', max_length=None)
+
+    class Meta:
+        verbose_name = u"Arquivo Tramitado"
+        verbose_name_plural = u"Arquivos Tramitados"
+
+    def __unicode__(self):
+        return "Arquivo %s %s" % (self.id, self.nome)
+
 class EventoTramitacaoLog(models.Model):
     reserva = models.ForeignKey(Reserva, verbose_name=u'Reserva')
     usuario = models.ForeignKey(User, verbose_name=u'Usuario')
+    arquivo = models.ForeignKey(Arquivo, verbose_name=u'Arquivo', null=True,
+                                on_delete=models.CASCADE)
     log = models.CharField(blank=True, max_length=100)
-    data_modificacao = models.DateTimeField(default=timezone.localtime(timezone.now()), blank=True)
+    data_modificacao = models.DateTimeField(default=timezone.localtime(timezone.now()),
+                                            blank=True)
 
     class Meta:
         verbose_name = u"Log Evento Tramitado"

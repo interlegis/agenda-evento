@@ -286,7 +286,7 @@ export function updatePedido(props, id){
   }
 }
 
-export function formalizarPedido(id) {
+export function formalizarPedido({ id, data }) {
   return function(dispatch){
     const config_user = {
       headers: {
@@ -294,10 +294,6 @@ export function formalizarPedido(id) {
           'Content-Type': 'application/json',
           'Authorization': 'token ' + localStorage.token
       }
-    };
-
-    const data = {
-      "recebido": true
     };
 
     axios.post(`${ROOT_URL}api/pedido/${id}/edit/recebido/`, data, config_user)

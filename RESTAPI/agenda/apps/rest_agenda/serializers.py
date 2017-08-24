@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework import serializers
-from .models import Reserva, Evento, Responsavel
+from .models import Reserva, Evento, Responsavel, Arquivo
 import random
 import datetime
+import magic
 from .utils import dias_uteis, checkEventoDatas
 from .emails import enviar_notificacao_video_conferencia
 
@@ -168,6 +169,19 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
             enviar_notificacao_video_conferencia(reserva,request.user)
 
         return evento
+
+class ArquivoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Arquivo
+        fields = ('nome','pdf',)
+        readonly_fields = ('uploaded_at',)
+
+    def validate(self, attrs):
+        type_file = magic.from_buffer(attrs['pdf'].read(), mime=True)
+        print type_file
+        if type_file != 'application/pdf':
+            raise serializers.ValidationError('O campo deve ser no formato pdf')
+        return attrs
 
 class ReservaSerializer(serializers.ModelSerializer):
     class Meta:

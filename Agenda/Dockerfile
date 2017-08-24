@@ -1,6 +1,7 @@
 FROM alpine:3.5
 
-RUN apk add --update --no-cache python3 nginx nodejs tzdata && \
+RUN apk update && \
+    apk add --update --no-cache python3 nginx nodejs tzdata ncurses-dev bash --update libmagic && \
     rm -f /etc/nginx/conf.d/*
 
 RUN mkdir -p /var/interlegis/frontend/agenda

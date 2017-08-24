@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from rest_framework import status, generics, viewsets
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Reserva, Evento, EventoTramitacaoLog
+from .models import Reserva, Evento, EventoTramitacaoLog, Arquivo
 from .serializers import (ReservaEventoSerializer, ReservaSerializer,
-                         EventoSerializer, EventoSerializerAgenda )
+                         EventoSerializer, EventoSerializerAgenda,
+                         ArquivoSerializer )
 from .utils import check_datas, checkEventoDatas
 import datetime
 from url_filter.integrations.drf import DjangoFilterBackend
@@ -100,7 +102,7 @@ class ReservaDetail(generics.RetrieveUpdateDestroyAPIView):
     def put(self, request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-class ReservaEdit(generics.ListCreateAPIView):
+class ReservaEdit(APIView):
     queryset = Reserva.objects.all()
     serializer_class = ReservaSerializer
     permission_classes = (IsAuthenticated,)
@@ -139,10 +141,28 @@ class ReservaEdit(generics.ListCreateAPIView):
                 return Response({"message": "Comando nao e valido"},
                                 status=status.HTTP_404_NOT_FOUND)
             data['data_modificacao'] = datetime.datetime.now()
-            log =  EventoTramitacaoLog(reserva=reserva,
-                                       usuario=request.user,
-                                       log="Mudanca de status:"+ comando)
-            log.save()
+            if 'pdf' in request.data and 'nome'in request.data:
+                arq = Arquivo(nome=request.data['nome'],
+                              pdf=request.data['pdf'])
+                file_serializer = ArquivoSerializer(arq, data=request.data)
+                if file_serializer.is_valid(raise_exception=True):
+                    file_serializer.save()
+                else:
+                    return response.Response(serializer.errors,
+                                    status=status.HTTP_400_BAD_REQUEST)
+
+                log =  EventoTramitacaoLog(reserva=reserva,
+                                           usuario=request.user,
+                                           arquivo=arq,
+                                           log="Mudanca de status:"+ comando)
+                log.save()
+            else:
+                log =  EventoTramitacaoLog(reserva=reserva,
+                                           usuario=request.user,
+                                           arquivo=EventoTramitacaoLog.objects.get(reserva__id=pk).arquivo,
+                                           log="Mudanca de status:"+ comando)
+                log.save()
+
             serializer = ReservaSerializer(reserva, data=data)
             serializer.is_valid(raise_exception=True)
             serializer.save()

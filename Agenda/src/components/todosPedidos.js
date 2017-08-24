@@ -134,7 +134,7 @@ class TodosPedidos extends AuthorizedComponent {
         const dia = d.getUTCDate();
         const mes = d.getUTCMonth() + 1;
         const ano = d.getFullYear();
-        const data = mes + '/' + dia + '/' + ano;
+        const data = dia + '/' + mes + '/' + ano;
         const scale = d.getTimezoneOffset() / 60;
         const hora = this.addZero(d.getUTCHours() - scale);
         const minutos = this.addZero(d.getUTCMinutes()) ;

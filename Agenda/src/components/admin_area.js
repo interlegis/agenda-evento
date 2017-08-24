@@ -50,8 +50,10 @@ class Admin_Area extends AuthorizedComponent {
     }
   }
 
-  pedidoRecebido(){
-    this.props.formalizarPedido(this.props.params.id);
+  pedidoRecebido(data){
+    var payload = {'id': this.props.params.id,
+                   data};
+    this.props.formalizarPedido(payload);
     this.props.getPedidoEvento(this.props.params.id);
   }
 
