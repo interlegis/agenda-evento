@@ -44,6 +44,8 @@ create_env
 
 /bin/sh busy-wait.sh $DATABASE_URL
 
+htpasswd -cb /var/interlegis/agenda/.htpasswd admin interlegis
+
 pwd
 python manage.py migrate --noinput
 echo "Adding Cronjobs..."

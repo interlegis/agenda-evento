@@ -3,7 +3,7 @@ FROM alpine:3.5
 ENV BUILD_PACKAGES postgresql-dev build-base pkgconfig postgresql-client vim
 
 RUN apk update && \
-    apk add --no-cache python python-dev nginx tzdata build-base ncurses-dev bash --update libmagic && \
+    apk add --no-cache python python-dev nginx apache2-utils tzdata build-base ncurses-dev bash --update libmagic && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip install --upgrade pip setuptools && \
