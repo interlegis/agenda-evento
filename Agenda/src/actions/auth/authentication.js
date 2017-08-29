@@ -282,7 +282,7 @@ export function getRecaptchaResponse(token){
       }
     };
 
-    axios.get(`http://cors-proxy.htmldriven.com/?url=${URL_CAPTCHA}?secret=${secret}&response=${token}`, {config_user,
+    axios.get(`http://cors-anywhere.herokuapp.com/${URL_CAPTCHA}?secret=${secret}&response=${token}`, {config_user,
   	proxy: {
   	  host: '66.70.191.215',
   	  port: 1080
