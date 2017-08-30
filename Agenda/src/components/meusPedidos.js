@@ -59,7 +59,7 @@ class MeusPedidos extends RoleAwareComponent {
         } else {
           swal({
           title: "Cancelado",
-          text: "Seu pedido nao foi cancelado ",
+          text: "Seu pedido não foi cancelado!",
           type: "error",
           timer: 2000,
           showConfirmButton: false

@@ -37,7 +37,7 @@ class TodosPedidos extends AuthorizedComponent {
           this.props.deletarPedido(id);
           swal(
             {
-            title: "Sweet!",
+            title: "Operação realizada com sucesso",
             text: "Pedido deletado.",
             type: "success",
             timer: 2000,
@@ -47,7 +47,7 @@ class TodosPedidos extends AuthorizedComponent {
         } else {
           swal({
           title: "Cancelado",
-          text: "Seu pedido nao foi cancelado ",
+          text: "Seu pedido não foi cancelado!",
           type: "error",
           timer: 2000,
           showConfirmButton: false
