@@ -69,7 +69,7 @@ export function cadastroPedido(props) {
             confirmButtonColor: "#001B5B",
           }, () => {
             // Redirect the user
-            window.location.href = "/main";
+            window.location.href = "/pedidos";
           }
         );
       })

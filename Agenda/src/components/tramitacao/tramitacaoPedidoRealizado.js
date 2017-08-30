@@ -48,7 +48,18 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
        data.append('pdf', file);
        this.props.onPedidoRecebido(data);
      }else{
-       alert("Marque a checkbox para formalizar o pedido")
+       swal({
+          title: "Confirme sua tramitação",
+          text: "marque a checkbox para formalizar o pedido",
+          type: "warning",
+          showCancelButton: false,
+          showConfirmButton: true,
+          closeOnConfirm: true,
+          animation: "slide-from-top",
+          timer: 2000,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Ok",
+        });
      }
   }
 

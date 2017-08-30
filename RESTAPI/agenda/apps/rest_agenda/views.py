@@ -141,6 +141,7 @@ class ReservaEdit(APIView):
                 return Response({"message": "Comando nao e valido"},
                                 status=status.HTTP_404_NOT_FOUND)
             data['data_modificacao'] = datetime.datetime.now()
+
             if 'pdf' in request.data and 'nome'in request.data:
                 arq = Arquivo(nome=request.data['nome'],
                               pdf=request.data['pdf'])
@@ -159,7 +160,7 @@ class ReservaEdit(APIView):
             else:
                 log =  EventoTramitacaoLog(reserva=reserva,
                                            usuario=request.user,
-                                           arquivo=EventoTramitacaoLog.objects.get(reserva__id=pk).arquivo,
+                                           arquivo=EventoTramitacaoLog.objects.filter(reserva__id=pk).first().arquivo,
                                            log="Mudanca de status:"+ comando)
                 log.save()
 
@@ -170,6 +171,7 @@ class ReservaEdit(APIView):
                 enviar_notificacao_video_conferencia(reserva,request.user)
             if comando == 'cancelado':
                 evento = reserva.evento
+                evento.cancelado = True
                 evento.causa_cancelamento = data['causa_cancelamento']
                 evento.save()
             enviar_email_tramitacao(reserva,reserva.return_status)

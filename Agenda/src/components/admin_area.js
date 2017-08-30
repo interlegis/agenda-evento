@@ -70,13 +70,21 @@ class Admin_Area extends AuthorizedComponent {
       showCancelButton: true,
       showConfirmButton: true,
       closeOnConfirm: false,
+      animation: "slide-from-top",
       inputPlaceholder: 'Escreva o motivo do cancelamento',
-      confirmButtonText: "Cancelar",
+      confirmButtonText: "Continuar",
       cancelButtonText: "Sair",
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
     },
     function(causa_cancelamento){
+      if (causa_cancelamento === false) return false;
+
+      if (causa_cancelamento === "") {
+        swal.showInputError("Escreva a causa do cancelamento!");
+        return false
+      }
+
       const config_user = {
         headers: {
             'X-CSRFToken': Cookies.get('csrftoken'),
@@ -95,7 +103,8 @@ class Admin_Area extends AuthorizedComponent {
           swal(
            { title: "Cancelado",
            text: "O pedido foi cancelado!",
-           type: "error",
+           type: "success",
+           animation: "slide-from-top",
            timer: 1000,
            showConfirmButton: true,
            confirmButtonText: 'OK',

@@ -59,6 +59,7 @@ class EventoDatail extends Component {
 
   render() {
     if (this.props.reserva && this.props.evento){
+      const causa_cancelamento = this.props.evento.causa_cancelamento == '' ? 'Evento não foi cancelado ou causa não informada' : this.props.evento.causa_cancelamento;
       const status = this.ReservaSatatus(this.props.reserva.status);
       const legislativo = this.TrueFalseSimNao(this.props.evento.legislativo);
       const video_conferencia = this.TrueFalseSimNao(this.props.evento.video_conferencia);
@@ -126,6 +127,15 @@ class EventoDatail extends Component {
                   <tr>
                     <td>
                       <h4><strong>Descrição: </strong>{this.props.evento.descricao}</h4>
+                    </td>
+                  </tr>
+                  </thead>
+              </table>
+              <table className="col-md-12 text-reserva">
+                <thead>
+                  <tr>
+                    <td>
+                      <h4><strong>Causa do cancelamento: </strong>{causa_cancelamento}</h4>
                     </td>
                   </tr>
                   </thead>
