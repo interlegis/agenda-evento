@@ -3,7 +3,6 @@ import { connect} from 'react-redux';
 import { getUsuario } from '../../actions';
 import { RoleAwareComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
-import $ from 'jquery';
 
 class TramitacaoPedidoRealizado extends RoleAwareComponent {
   constructor(props) {
