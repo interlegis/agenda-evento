@@ -23,7 +23,6 @@ class Cadastro extends Component{
 
   componentWillReceiveProps(nextProps){
     if (nextProps.recaptcha_response) {
-      console.log(nextProps.recaptcha_response);
       this.setState({ captcha: nextProps.recaptcha_response.success });
     }
   }
@@ -40,7 +39,6 @@ class Cadastro extends Component{
   };
 
   verifyCallback(response){
-    console.log('Done!!!!');
     this.props.getRecaptchaResponse(response);
     this.props.ErrorMessage('');
   };

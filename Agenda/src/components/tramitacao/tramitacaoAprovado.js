@@ -14,8 +14,6 @@ class TramitacaoAprovado extends RoleAwareComponent {
     ((Cookies.get('roles') === null))) ? [] :
     JSON.parse(Cookies.get('roles')));
 
-    console.log(this.userRoles);
-
     this.notAuthorizedPath = '/not-found';
 
   }

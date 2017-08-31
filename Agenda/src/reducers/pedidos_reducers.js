@@ -7,7 +7,6 @@ export default function( state = {} , action) {
     case GET_PEDIDOS_CONCORRENTES:
       return { ...state, eventosConcorrentes: action.payload };
     case GET_TODOS_PEDIDOS:
-    console.log(action.payload);
       return { ...state, todosPedidos: action.payload };
     default:
       return state;

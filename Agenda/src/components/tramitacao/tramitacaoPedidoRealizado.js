@@ -3,6 +3,7 @@ import { connect} from 'react-redux';
 import { getUsuario } from '../../actions';
 import { RoleAwareComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
+import $ from 'jquery';
 
 class TramitacaoPedidoRealizado extends RoleAwareComponent {
   constructor(props) {
@@ -14,12 +15,10 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
     ((Cookies.get('roles') === null))) ? [] :
     JSON.parse(Cookies.get('roles')));
 
-    console.log(this.userRoles);
-
     this.notAuthorizedPath = '/not-found';
 
     this.state = {
-      declaro: '',
+      declaro: false,
       file: ''
     }
 
@@ -40,8 +39,7 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
 
   handleSubmit(e){
      e.preventDefault();
-     console.log(this.props);
-     if (this.state.declaro == 'on'){
+     if (this.state.declaro == true){
        const file = this.state.file;
        const data = new FormData();
        data.append('nome',file.name);
@@ -123,7 +121,7 @@ class TramitacaoPedidoRealizado extends RoleAwareComponent {
                 <input type="checkbox" name="aceito" onChange={
                   (event) =>
                   {
-                    this.setState({declaro: event.target.value})
+                    this.setState({declaro: event.target.checked})
                   }} />
                 <div className="space-15"></div>
                 <label>Declaro que o pedido foi formalizado oficilamente.</label>

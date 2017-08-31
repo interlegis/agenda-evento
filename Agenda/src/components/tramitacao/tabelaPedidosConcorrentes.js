@@ -10,7 +10,6 @@ export default class TabelaPedidosConcorrentes extends Component{
         </div>
       );
     }
-    console.log(this.props.id_);
     if (this.props.pedidos[0].id == this.props.id_) {
       return (
         <div className="col-md-10 col-md-offset-1">

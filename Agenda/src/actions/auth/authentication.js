@@ -288,12 +288,10 @@ export function getRecaptchaResponse(token){
   	  port: 1080
   	}})
       .then((response) => {
-        console.log(response.data);
         dispatch({ type: RECAPTCHA, payload: response.data });
         dispatch(ErrorMessage(''));
       })
       .catch((err) => {
-        console.log(err.message);
         dispatch(ErrorMessage('Erro Interno - No Access-Control-Allow-Origin provided'));
       });
   }

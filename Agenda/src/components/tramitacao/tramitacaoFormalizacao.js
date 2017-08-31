@@ -18,7 +18,7 @@ class TramitacaoFormalizacao extends RoleAwareComponent {
     this.notAuthorizedPath = '/not-found';
 
     this.state = {
-      declaro: ''
+      declaro: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,8 +39,7 @@ class TramitacaoFormalizacao extends RoleAwareComponent {
 
   handleSubmit(e){
      e.preventDefault();
-     console.log(this.state.declaro);
-     if (this.state.declaro == 'on'){
+     if (this.state.declaro == true){
        this.props.onReservar();
      }else{
        swal({
@@ -118,7 +117,7 @@ class TramitacaoFormalizacao extends RoleAwareComponent {
                 <input type="checkbox" name="aceito" onChange={
                   (event) =>
                   {
-                    this.setState({declaro: event.target.value})
+                    this.setState({declaro: event.target.checked})
                   }} />
               </div>
               <div className="space-15"></div>
@@ -132,7 +131,6 @@ class TramitacaoFormalizacao extends RoleAwareComponent {
 }
 
 function mapStateToProps(state) {
-  console.log(state.pedidos.eventosConcorrentes);
   return {
     eventosConcorrentes: state.pedidos.eventosConcorrentes
   };

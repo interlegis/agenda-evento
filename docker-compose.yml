@@ -13,7 +13,7 @@ agenda_backend:
   build: ./RESTAPI/agenda/
   volumes:
     - ./agenda_data:/var/interlegis/agenda/data
-    - ./agenda_media:/var/interlegis/agenda/media
+    - ./agenda_media/pdf:/var/interlegis/agenda/media/pdf
   links:
     - agendadb
   ports:

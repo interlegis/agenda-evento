@@ -23,7 +23,7 @@ class Home extends Component {
         }
 
         return(
-          <div className="col-md-4 col-sm-6 col-xs-7" key={evento.title+local}>
+          <div className="col-md-4 col-sm-6 col-xs-9" key={evento.title+local}>
               <div className="card-container">
                  <div className="card">
                      <div className="front">
