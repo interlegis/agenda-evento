@@ -5,7 +5,6 @@ import 'moment/locale/pt-br';
 import _ from 'lodash';
 import { getAgendaPedidos } from '../actions/pedido-evento/pedido';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 moment.locale('pt-br');
 

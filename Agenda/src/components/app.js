@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getUsuario } from '../actions';
 import Navbar from './navbar';
 
-export default class App extends Component {
+class App extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  componentWillMount() {
+    if (this.props.authenticated) {
+      this.props.getUsuario();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -13,3 +25,11 @@ export default class App extends Component {
     );
   }
 }
+
+function mapStateToProps(state){
+  return {
+    authenticated: state.authentication.authenticated
+  };
+}
+
+export default connect(mapStateToProps, { getUsuario })(App);

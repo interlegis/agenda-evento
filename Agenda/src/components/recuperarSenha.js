@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import { atualizarSenha } from '../actions';
-import { Link } from 'react-router';
 import { FIELD_RECUPERAR_SENHA } from './forms/fields_types';
 
 class RecuperarSenha extends Component{
