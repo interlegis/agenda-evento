@@ -44,11 +44,12 @@ class Configuracoes extends Component{
     const fieldHelper = this.props.fields[field];
     return(
       <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
-        ? "form-group has-error has-feedback" : "form-group"} key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+        ? "form-group has-error has-feedback" : "form-group"}
+        key={`${fieldConfig.type}\_${fieldConfig.label}`}>
         <label className="control-label">{fieldConfig.titulo}</label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Coloque ${fieldConfig.label}`} value={this.state.initialValues[field]}
-        onChange={(event) => {this.state.initialValues[field] = event.target.value;
+        placeholder={`Coloque ${fieldConfig.label}`} value={this.props.user[field]}
+        onChange={(event) => {this.props.user[field] = event.target.value;
           this.forceUpdate();}}/>
         {fieldHelper.touched && fieldHelper.error &&
            <div className="help-block">{fieldHelper.error}</div>}
@@ -57,35 +58,41 @@ class Configuracoes extends Component{
   }
 
   render(){
-    const { handleSubmit, pristine, submitting,
-      fields: { first_name ,last_name ,username ,email, password }} = this.props;
-    return(
-      <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
-        className="div-pedido">
-        {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
-        {this.renderAlert()}
-        <div className="btn-pedido" role="group" align>
-            <button type="submit" disabled={submitting}
-              className={((first_name.touched && first_name.invalid) ||
-                (last_name.touched && last_name.invalid) ||
-                (username.touched && username.invalid) ||
-                (email.touched && email.invalid) ||
-                (password.touched && password.invalid)) ?
-                 "btn btn-primary btn-md disabled space" : "btn btn-primary btn-md space"}>
-                Atualizar
-            </button>
-            <button type="button" className="btn btn-default btn-md space"
-              disabled={pristine || submitting}
-              onClick={() => {
-                this.setState({initialValues: FIELD_USUARIO_UPDATE});}}>
-              Limpar
-            </button>
-            <Link to="/" className="btn btn-danger btn-md space" role="button">
-              Cancelar
-            </Link>
-          </div>
-          <div className="space-50"></div>
-      </form>
+    if (this.props.user) {
+      const { handleSubmit, pristine, submitting,
+        fields: { first_name ,last_name ,username ,email, password }} = this.props;
+      return(
+        <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
+          className="div-pedido">
+          {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
+          {this.renderAlert()}
+          <div className="btn-pedido" role="group" align>
+              <button type="submit" disabled={submitting}
+                className={((first_name.touched && first_name.invalid) ||
+                  (last_name.touched && last_name.invalid) ||
+                  (username.touched && username.invalid) ||
+                  (email.touched && email.invalid) ||
+                  (password.touched && password.invalid)) ?
+                   "btn btn-primary btn-md disabled space" : "btn btn-primary btn-md space"}>
+                  Atualizar
+              </button>
+              <button type="button" className="btn btn-default btn-md space"
+                disabled={pristine || submitting}
+                onClick={() => {
+                  this.setState({initialValues: FIELD_USUARIO_UPDATE});}}>
+                Limpar
+              </button>
+              <Link to="/" className="btn btn-danger btn-md space" role="button">
+                Cancelar
+              </Link>
+            </div>
+            <div className="space-50"></div>
+        </form>
+      );
+    }
+
+    return (
+      <h2 className="title">Carregando...</h2>
     );
   }
 }
