@@ -57,7 +57,7 @@ class Configuracoes extends Component{
   }
 
   render(){
-    const { error, handleSubmit, pristine, submitting,
+    const { handleSubmit, pristine, submitting,
       fields: { first_name ,last_name ,username ,email, password }} = this.props;
     return(
       <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
