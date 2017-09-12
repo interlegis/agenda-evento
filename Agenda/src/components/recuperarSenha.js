@@ -37,8 +37,7 @@ class RecuperarSenha extends Component{
   }
 
   render(){
-    const { error, handleSubmit, pristine, resetForm, submitting,
-       fields: { password}} = this.props;
+    const { handleSubmit, submitting, fields: { password}} = this.props;
     return(
       <div>
       <div>

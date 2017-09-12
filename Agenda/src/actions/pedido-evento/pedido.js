@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         ROOT_URL, RESERVA_GET, EVENTO_GET,
-        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, AVISO_ALERT, GET_PEDIDOS_CONCORRENTES,
+        SAVE_CALENDAR, SAVE_CALENDAR_NEWS, GET_PEDIDOS_CONCORRENTES,
         GET_TODOS_PEDIDOS, GET_LOG_PEDIDO } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
-import _ from 'lodash';
 
 function addZero(i) {
     if (i < 10) {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { signoutUser, getUsuario } from '../actions';
-import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 
 class Main extends Component {

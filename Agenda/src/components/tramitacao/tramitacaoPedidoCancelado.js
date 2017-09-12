@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getUsuario } from '../../actions';
 import { RoleAwareComponent } from 'react-router-role-authorization';
-import { Link } from 'react-router';
 import Cookies from 'js-cookie';
 
 class TramitacaoPedidoCancelado extends RoleAwareComponent {

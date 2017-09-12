@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import { updatePedido, getPedidoEvento, getUsuario } from '../actions';
@@ -287,11 +287,10 @@ class editarPedido extends Component{
 
   render(){
     if (this.props.pedido) {
-      const { error, handleSubmit, pristine, resetForm, submitting,
-        fields: { nome ,descricao ,local ,option ,data_inicio ,hora_inicio ,
-                  data_fim ,hora_fim ,legislativo ,observacao ,video_conferencia,
-                  nome_responsavel ,email_responsavel ,telefone_responsavel
-                  ,lotacao_responsavel}} = this.props;
+      const { handleSubmit, pristine, resetForm, submitting,
+        fields: { nome ,descricao ,local, data_inicio ,hora_inicio ,
+                  data_fim ,hora_fim, nome_responsavel ,email_responsavel ,
+                  telefone_responsavel, lotacao_responsavel}} = this.props;
       return(
         <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
           className="div-pedido">

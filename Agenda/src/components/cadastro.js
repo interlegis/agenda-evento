@@ -87,7 +87,7 @@ class Cadastro extends Component{
   }
 
   render(){
-    const { error, handleSubmit, pristine, resetForm, submitting,
+    const { handleSubmit, pristine, resetForm, submitting,
       fields: { first_name ,last_name ,username ,email, password }} = this.props;
     return(
       <div>

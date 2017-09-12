@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getUsuario, getPedidoEvento,formalizarPedido,
         reservarPedido, cancelarPedido }
 from '../actions';
-import { ROOT_URL, ID_URL } from '../actions/types';
+import { ROOT_URL } from '../actions/types';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 import Cookies from 'js-cookie';
 
@@ -175,20 +175,18 @@ class Admin_Area extends AuthorizedComponent {
 
   render() {
     if (this.props.reserva && this.props.evento){
-      const status = this.ReservaSatatus(this.props.reserva.status);
       const legislativo = this.TrueFalseSimNao(this.props.evento.legislativo);
       const video_conferencia = this.TrueFalseSimNao(this.props.evento.video_conferencia);
       const data_criacao = this.DataFormat(this.props.reserva.data_criacao);
-      const hora_criacao = this.DataHoraFormat(this.props.reserva.data_criacao);
       const data_inicio = this.DataFormat(this.props.evento.data_inicio);
       const hora_inicio = this.props.evento.hora_inicio;
       const data_fim = this.DataFormat(this.props.evento.data_fim);
       const hora_fim = this.props.evento.hora_fim;
       var recebido;
       if (this.props.reserva.recebido) {
-        recebido = 'Oficializado'
+        recebido = 'Oficializado';
       }else{
-        recebido = 'Não oficializado'
+        recebido = 'Não oficializado';
       }
       var local;
       if (this.props.evento.local == 'SR') {

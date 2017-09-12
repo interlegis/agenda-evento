@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, CREATE_USUARIO, ROOT_URL,
-  UPDATE_USUARIO, ROOT_URL_AGENDA, ROLES, RECAPTCHA, URL_CAPTCHA }
+import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, ROOT_URL, UPDATE_USUARIO,
+  ROOT_URL_AGENDA, ROLES, RECAPTCHA, URL_CAPTCHA }
 from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
