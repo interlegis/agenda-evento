@@ -37,7 +37,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "css-loader": "^0.28.0",
     "http-server": "^0.10.0",
-    "jquery-mask-plugin": "^1.14.10",
+    "jquery-mask-plugin": "^1.14.11",
     "js-cookie": "^2.1.4",
     "lodash": "^3.10.1",
     "moment": "^2.18.1",

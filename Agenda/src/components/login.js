@@ -42,7 +42,7 @@ class Login extends Component{
   }
 
   render(){
-    const { error, handleSubmit, pristine, resetForm, submitting,
+    const { handleSubmit, pristine, resetForm, submitting,
        fields: { username, password }} = this.props;
     return(
       <div>

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -12,14 +12,13 @@ class Configuracoes extends Component{
   }
 
   static contextTypes = {
-    router: PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
   };
 
   static propTypes = {
-      fields: PropTypes.object.isRequired,
-      handleSubmit: PropTypes.func.isRequired,
-      resetForm: PropTypes.func.isRequired,
-      submitting: PropTypes.bool.isRequired
+      fields: React.PropTypes.object.isRequired,
+      handleSubmit: React.PropTypes.func.isRequired,
+      submitting: React.PropTypes.bool.isRequired
   };
 
   componentWillMount() {

@@ -36,8 +36,7 @@ class EsqueciSenha extends Component{
   }
 
   render(){
-    const { error, handleSubmit, submitting,
-       fields: { email }} = this.props;
+    const { handleSubmit, submitting, fields: { email }} = this.props;
     return(
       <div>
       <div>
