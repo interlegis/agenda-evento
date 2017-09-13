@@ -175,49 +175,20 @@ class editarPedido extends Component{
         );
       break;
       case TELEFONE:
-        if ( field.indexOf("_responsavel") == -1) {
-          return(
-            <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
-              ? "form-group has-error has-feedback" : "form-group"}
-               key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-              <label className="control-label">{fieldConfig.titulo}</label>
-              <input className="form-control" {...fieldHelper}
-              type={fieldConfig.type} name="telefone"
-              placeholder={`Coloque ${fieldConfig.label}`}/>
-              {fieldHelper.touched && fieldHelper.error &&
-                <div className="help-block">{fieldHelper.error}</div>}
-            </fieldset>
-          );
-        }else{
-          return(
-            <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
-              ? "form-group has-error has-feedback" : "form-group"}
-               key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-              <label className="control-label">{fieldConfig.titulo}</label>
-              <input className="form-control" {...fieldHelper}
-              type={fieldConfig.type} name="telefone"
-              placeholder={`Coloque ${fieldConfig.label}`}/>
-              {fieldHelper.touched && fieldHelper.error &&
-                <div className="help-block">{fieldHelper.error}</div>}
-            </fieldset>
-          );
-        }
+        return(
+          <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
+            ? "form-group has-error has-feedback" : "form-group"}
+             key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+            <label className="control-label">{fieldConfig.titulo}</label>
+            <input className="form-control" {...fieldHelper}
+            type={fieldConfig.type} name="telefone"
+            placeholder={`Coloque ${fieldConfig.label}`}/>
+            {fieldHelper.touched && fieldHelper.error &&
+              <div className="help-block">{fieldHelper.error}</div>}
+          </fieldset>
+        );
       break;
       default:
-        if ( field.indexOf("_responsavel") == -1) {
-          return(
-            <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
-              ? "form-group has-error has-feedback" : "form-group"}
-               key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-              <label className="control-label">{fieldConfig.titulo}</label>
-              <input className="form-control" {...fieldHelper}
-              type={fieldConfig.type}
-              placeholder={`Coloque ${fieldConfig.label}`}/>
-              {fieldHelper.touched && fieldHelper.error &&
-                <div className="help-block">{fieldHelper.error}</div>}
-            </fieldset>
-          );
-      }else{
         return(
           <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
             ? "form-group has-error has-feedback" : "form-group"}
@@ -225,13 +196,11 @@ class editarPedido extends Component{
             <label className="control-label">{fieldConfig.titulo}</label>
             <input className="form-control" {...fieldHelper}
             type={fieldConfig.type}
-            placeholder={`Coloque ${fieldConfig.label}`}
-            />
+            placeholder={`Coloque ${fieldConfig.label}`}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
         );
-      }
     }
   }
 
