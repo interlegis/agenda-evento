@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: __dirname,
     publicPath: '/',
-    filename: 'main.js'
+    filename: 'bundle.js'
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),
@@ -43,10 +43,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
-  },
-  devServer: {
-    headers: {
-        'Access-Control-Allow-Origin': '*'
-    }
   }
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -19,7 +20,7 @@ class Agenda extends Component {
   }
 
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   }
 
   componentWillMount(){

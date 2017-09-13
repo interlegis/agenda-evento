@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -8,17 +9,10 @@ import { FIELD_USUARIO_CADASTRO, FIELD_USUARIO_UPDATE } from './forms/fields_typ
 class Configuracoes extends Component{
   constructor(props) {
         super(props);
-        this.state = { initialValues: this.props.user };
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
-  static propTypes = {
-      fields: React.PropTypes.object.isRequired,
-      handleSubmit: React.PropTypes.func.isRequired,
-      submitting: React.PropTypes.bool.isRequired
+    router: PropTypes.object.isRequired
   };
 
   componentWillMount() {
@@ -42,15 +36,14 @@ class Configuracoes extends Component{
 
   renderField(fieldConfig, field){
     const fieldHelper = this.props.fields[field];
+
     return(
       <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
         ? "form-group has-error has-feedback" : "form-group"}
         key={`${fieldConfig.type}\_${fieldConfig.label}`}>
         <label className="control-label">{fieldConfig.titulo}</label>
         <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Coloque ${fieldConfig.label}`} value={this.props.user[field]}
-        onChange={(event) => {this.props.user[field] = event.target.value;
-          this.forceUpdate();}}/>
+        placeholder={`Coloque ${fieldConfig.label}`} />
         {fieldHelper.touched && fieldHelper.error &&
            <div className="help-block">{fieldHelper.error}</div>}
       </fieldset>
@@ -59,14 +52,14 @@ class Configuracoes extends Component{
 
   render(){
     if (this.props.user) {
-      const { handleSubmit, pristine, submitting,
+      const { handleSubmit, pristine, resetForm, submitting,
         fields: { first_name ,last_name ,username ,email, password }} = this.props;
       return(
         <form onSubmit={handleSubmit(this.handleSubmitForm.bind(this))}
           className="div-pedido">
           {_.map(FIELD_USUARIO_CADASTRO, this.renderField.bind(this))}
           {this.renderAlert()}
-          <div className="btn-pedido" role="group" align>
+          <div className="btn-pedido" role="group">
               <button type="submit" disabled={submitting}
                 className={((first_name.touched && first_name.invalid) ||
                   (last_name.touched && last_name.invalid) ||
@@ -78,8 +71,7 @@ class Configuracoes extends Component{
               </button>
               <button type="button" className="btn btn-default btn-md space"
                 disabled={pristine || submitting}
-                onClick={() => {
-                  this.setState({initialValues: FIELD_USUARIO_UPDATE});}}>
+                onClick={resetForm}>
                 Limpar
               </button>
               <Link to="/" className="btn btn-danger btn-md space" role="button">

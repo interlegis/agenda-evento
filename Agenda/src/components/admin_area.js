@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUsuario, getPedidoEvento,formalizarPedido,
         reservarPedido, cancelarPedido }
@@ -32,7 +33,7 @@ class Admin_Area extends AuthorizedComponent {
   }
 
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   }
 
   componentWillMount() {
@@ -111,7 +112,7 @@ class Admin_Area extends AuthorizedComponent {
            confirmButtonColor: "#001B5B",
          }, () => {
            // Redirect the user
-           window.location.href = `/admin/${id}`;
+           window.location.href = `/#/admin/${id}`;
          });
         })
         .catch((err) => {

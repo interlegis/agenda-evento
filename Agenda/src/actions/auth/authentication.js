@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, ROOT_URL, UPDATE_USUARIO,
   ROOT_URL_AGENDA, ROLES, RECAPTCHA, URL_CAPTCHA }
 from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
+import swal from 'sweetalert';
 
 const config = {
   headers: {
@@ -44,7 +44,7 @@ export function signinUser({ username, password }) {
               dispatch(signoutUser());
               dispatch(ErrorMessage('Usuario não esta autenticado'));
           })
-        browserHistory.push('/main');
+          window.location.href = '/#/main';
       })
       .catch(() => {
         dispatch(
@@ -71,7 +71,7 @@ export function cadastroUsuario({ first_name ,last_name ,username ,email, passwo
             confirmButtonColor: "#001B5B",
           }, () => {
           // Redirect the user
-          browserHistory.push('/login');
+          window.location.href = '/#/login';
           }
         );
       })
@@ -155,7 +155,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             confirmButtonColor: "#001B5B",
           }, () => {
           // Redirect the user
-          browserHistory.push('/main');
+          window.location.href = '/#/main';
           }
         );
       })
@@ -173,7 +173,7 @@ export function updateUsuario({ first_name ,last_name ,username ,email, password
             confirmButtonColor: "#001B5B",
           }, () => {
           // Redirect the user
-          browserHistory.push('/main');
+          window.location.href = '/#/main';
           });
           throw err;
       });
@@ -199,7 +199,7 @@ export function recuperarSenha({ email }){
         timer: 2000,
       }, () => {
       // Redirect the user
-      browserHistory.push('/login');
+      window.location.href = '/#/login';
       });
     })
     .catch(() => {
@@ -228,7 +228,7 @@ export function atualizarSenha({password, token}){
           timer: 2000,
         }, () => {
         // Redirect the user
-        browserHistory.push('/login');
+        window.location.href = '/#/login';
         });
       })
       .catch(() => {
@@ -257,7 +257,7 @@ export function cadastroAutenticado({ token }){
           timer: 2000,
         }, () => {
         // Redirect the user
-        browserHistory.push('/login');
+        window.location.href = '/#/login';
         });
       })
       .catch(() => {

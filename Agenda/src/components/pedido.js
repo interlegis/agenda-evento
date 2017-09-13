@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -61,7 +62,7 @@ class NovoPedido extends Component{
           showConfirmButton: false
         }, () => {
           // Redirect the user
-          window.location.href = "/main";
+          window.location.href = "/#/main";
         }
       );
     }

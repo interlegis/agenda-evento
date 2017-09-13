@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: __dirname,
     publicPath: '/',
-    filename: 'main.js'
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -31,21 +31,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.js', '.jsx']
-  },
-  devServer: {
-    historyApiFallback: true,
-    contentBase: './',
-    headers: {
-        'Access-Control-Allow-Origin': '*'
-    }
-  },
-  node: {
-    console: true,
-    __filename: true,
-    __dirname: true,
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    crypto: 'empty'
   }
 };

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUsuario } from '../../actions';
 import { RoleAwareComponent } from 'react-router-role-authorization';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 
 class TramitacaoAprovado extends RoleAwareComponent {
   constructor(props) {
@@ -19,7 +20,7 @@ class TramitacaoAprovado extends RoleAwareComponent {
   }
 
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   }
 
   componentWillMount() {

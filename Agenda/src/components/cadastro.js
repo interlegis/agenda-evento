@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import Recaptcha from 'react-google-recaptcha';
 import _ from 'lodash';
@@ -16,7 +17,8 @@ class Cadastro extends Component{
         super(props);
         this.state = {
                        captcha: false,
-                       key: '6LfxDykUAAAAALESJ0piReefePClRZ6xtdTPI_wy'
+                       key: '6LfxDykUAAAAALESJ0piReefePClRZ6xtdTPI_wy',
+                       psw: ''
                      };
         this.props.ErrorMessage('');
   }
@@ -70,20 +72,39 @@ class Cadastro extends Component{
 
   renderField(fieldConfig, field){
     const fieldHelper = this.props.fields[field];
+    console.log(fieldHelper);
 
-    return(
-      <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
-        ? "form-group has-error has-feedback" : "form-group"}
-        key={`${fieldConfig.type}\_${fieldConfig.label}`}>
-        <label className="control-label center-div-flex">{
-          fieldConfig.titulo}
-        </label>
-        <input className="form-control" {...fieldHelper} type={fieldConfig.type}
-        placeholder={`Por favor, insira ${fieldConfig.label}`} />
-        {fieldHelper.touched && fieldHelper.error &&
-           <div className="help-block">{fieldHelper.error}</div>}
-      </fieldset>
-    );
+    if (fieldConfig.type == 'password') {
+      return(
+        <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+          ? "form-group has-error has-feedback" : "form-group"}
+          key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+          <label className="control-label center-div-flex">{
+            fieldConfig.titulo}
+          </label>
+          <input className="form-control" {...fieldHelper} type={fieldConfig.type}
+          placeholder={`Por favor, insira ${fieldConfig.label}`}
+          value={this.state.psw}
+          onChange={(e) => {this.setState({ psw: e.target.value })}}/>
+          {fieldHelper.touched && fieldHelper.error &&
+             <div className="help-block">{fieldHelper.error}</div>}
+        </fieldset>
+      );
+    } else {
+      return(
+        <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
+          ? "form-group has-error has-feedback" : "form-group"}
+          key={`${fieldConfig.type}\_${fieldConfig.label}`}>
+          <label className="control-label center-div-flex">{
+            fieldConfig.titulo}
+          </label>
+          <input className="form-control" {...fieldHelper} type={fieldConfig.type}
+          placeholder={`Por favor, insira ${fieldConfig.label}`} />
+          {fieldHelper.touched && fieldHelper.error &&
+             <div className="help-block">{fieldHelper.error}</div>}
+        </fieldset>
+      );
+    }
   }
 
   render(){
@@ -124,7 +145,9 @@ class Cadastro extends Component{
                       Cadastre-se
                   </button>
                   <button type="button" className="btn btn-default btn-md"
-                    disabled={pristine || submitting} onClick={resetForm}>
+                    disabled={pristine || submitting} onClick={() => {
+                      resetForm(); this.setState({ psw: '' });
+                    }}>
                     Limpar
                   </button>
                 </div>

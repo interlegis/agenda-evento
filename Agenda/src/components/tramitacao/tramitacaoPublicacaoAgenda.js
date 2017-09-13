@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUsuario } from '../../actions';
 import { RoleAwareComponent } from 'react-router-role-authorization';
@@ -20,7 +21,7 @@ class tramitacaoPublicacaoAgenda extends RoleAwareComponent {
   }
 
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   }
 
   componentWillMount() {

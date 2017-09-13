@@ -5,6 +5,7 @@ import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         GET_TODOS_PEDIDOS, GET_LOG_PEDIDO } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
+import swal from 'sweetalert';
 
 function addZero(i) {
     if (i < 10) {
@@ -68,7 +69,7 @@ export function cadastroPedido(props) {
             confirmButtonColor: "#001B5B",
           }, () => {
             // Redirect the user
-            window.location.href = "/pedidos";
+            window.location.href = "/#/pedidos";
           }
         );
       })
@@ -271,7 +272,7 @@ export function updatePedido(props, id){
             confirmButtonColor: "#001B5B"
           }, () => {
             // Redirect the user
-            window.location.href = `/evento/${id}`;
+            window.location.href = `/#/evento/${id}`;
           }
         );
       })
@@ -308,7 +309,7 @@ export function formalizarPedido({ id, data }) {
          confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.href = `/admin/${id}`;
+         window.location.href = `/#/admin/${id}`;
        });
       })
       .catch((err) => {
@@ -344,7 +345,7 @@ export function reservarPedido(id) {
          confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.href = `/admin/${id}`;
+         window.location.href = `/#/admin/${id}`;
        });
       })
       .catch((err) => {
@@ -390,7 +391,7 @@ export function cancelarPedido(id, causa_cancelamento){
          confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.href = `/admin/${id}`;
+         window.location.href = `/#/admin/${id}`;
        });
       })
       .catch((err) => {

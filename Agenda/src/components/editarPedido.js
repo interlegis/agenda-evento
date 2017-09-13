@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -18,6 +19,10 @@ $('.form-group').find('[name="hora_inicio"]').mask('99:99:99');
 $('.form-group').find('[name="hora_fim"]').mask('99:99:99');
 
 class editarPedido extends Component{
+  constructor(props) {
+        super(props);
+  }
+
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
@@ -48,7 +53,7 @@ class editarPedido extends Component{
           showConfirmButton: false
         }, () => {
           // Redirect the user
-          window.location.href = "/main";
+          window.location.href = "/#/main";
         }
       );
     }
@@ -69,13 +74,7 @@ class editarPedido extends Component{
           <fieldset className="form-group"
           key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
-            <select {...fieldHelper} className="form-control"
-            value={this.props.pedido[field]}
-            onChange={
-              (event) => {
-                this.props.pedido[field] = event.target.value;
-              this.forceUpdate();}
-            }>
+            <select {...fieldHelper} className="form-control">
               <option disabled>Selecione um local</option>
               <option value={fieldConfig.option.AI}>Auditório Interlegis</option>
               <option value={fieldConfig.option.SR}>Sala de Reuniões</option>
@@ -89,7 +88,7 @@ class editarPedido extends Component{
           key={`${fieldConfig.type}\_${fieldConfig.label}`}>
             <label className="control-label">{fieldConfig.titulo}</label>
             <input name={fieldConfig.name} id={fieldConfig.name}
-            value={this.props.pedido[field]} className="form-control"
+            className="form-control"
             {...fieldHelper}
                 type={fieldConfig.type} />
           </fieldset>
@@ -108,12 +107,6 @@ class editarPedido extends Component{
              {...fieldHelper}
              className="form-control"
              rows="8"
-             onChange={
-               (event) => {
-                 this.props.pedido[field] = event.target.value;
-               this.forceUpdate();}
-             }
-             value={this.props.pedido[field] || ''}
            />
            {fieldHelper.touched && fieldHelper.invalid
              && fieldHelper.error &&
@@ -137,12 +130,6 @@ class editarPedido extends Component{
               'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
               'Novembro', 'Dezembro']}
               dayLabels={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
-              onChange={
-                (value, formattedValue) => {
-                  this.props.pedido[field] = value;
-                  this.forceUpdate();
-                }
-              }
             />
             {fieldHelper.touched && fieldHelper.invalid
               && fieldHelper.error &&
@@ -166,12 +153,6 @@ class editarPedido extends Component{
               'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
               'Novembro', 'Dezembro']}
               dayLabels={['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']}
-              onChange={
-                (value, formattedValue) => {
-                  this.props.pedido[field] = value;
-                  this.forceUpdate();
-                }
-              }
             />
             {fieldHelper.touched && fieldHelper.invalid
               && fieldHelper.error &&
@@ -187,13 +168,7 @@ class editarPedido extends Component{
             <label className="control-label">{fieldConfig.titulo}</label>
             <input className="form-control" {...fieldHelper}
             type={fieldConfig.type}
-            placeholder={`Coloque ${fieldConfig.label}`}
-            onChange={
-              (event) => {
-                this.props.pedido[field] = event.target.value;
-              this.forceUpdate();}
-            }
-            value={this.props.pedido[field]}/>
+            placeholder={`Coloque ${fieldConfig.label}`}/>
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
@@ -208,13 +183,7 @@ class editarPedido extends Component{
               <label className="control-label">{fieldConfig.titulo}</label>
               <input className="form-control" {...fieldHelper}
               type={fieldConfig.type} name="telefone"
-              placeholder={`Coloque ${fieldConfig.label}`}
-              onChange={
-                (event) => {
-                  this.props.pedido[field] = event.target.value;
-                this.forceUpdate();}
-              }
-              value={this.props.pedido[field]}/>
+              placeholder={`Coloque ${fieldConfig.label}`}/>
               {fieldHelper.touched && fieldHelper.error &&
                 <div className="help-block">{fieldHelper.error}</div>}
             </fieldset>
@@ -228,13 +197,7 @@ class editarPedido extends Component{
               <label className="control-label">{fieldConfig.titulo}</label>
               <input className="form-control" {...fieldHelper}
               type={fieldConfig.type} name="telefone"
-              placeholder={`Coloque ${fieldConfig.label}`}
-              onChange={
-                (event) => {
-                  this.props.pedido.responsavel[novo_field] = event.target.value;
-                this.forceUpdate();}
-              }
-              value={this.props.pedido.responsavel[novo_field]}/>
+              placeholder={`Coloque ${fieldConfig.label}`}/>
               {fieldHelper.touched && fieldHelper.error &&
                 <div className="help-block">{fieldHelper.error}</div>}
             </fieldset>
@@ -250,13 +213,7 @@ class editarPedido extends Component{
               <label className="control-label">{fieldConfig.titulo}</label>
               <input className="form-control" {...fieldHelper}
               type={fieldConfig.type}
-              placeholder={`Coloque ${fieldConfig.label}`}
-              onChange={
-                (event) => {
-                  this.props.pedido[field] = event.target.value;
-                this.forceUpdate();}
-              }
-              value={this.props.pedido[field]}/>
+              placeholder={`Coloque ${fieldConfig.label}`}/>
               {fieldHelper.touched && fieldHelper.error &&
                 <div className="help-block">{fieldHelper.error}</div>}
             </fieldset>
@@ -271,12 +228,7 @@ class editarPedido extends Component{
             <input className="form-control" {...fieldHelper}
             type={fieldConfig.type}
             placeholder={`Coloque ${fieldConfig.label}`}
-            onChange={
-              (event) => {
-                this.props.pedido.responsavel[novo_field] = event.target.value;
-              this.forceUpdate();}
-            }
-            value={this.props.pedido.responsavel[novo_field]}/>
+            />
             {fieldHelper.touched && fieldHelper.error &&
               <div className="help-block">{fieldHelper.error}</div>}
           </fieldset>
@@ -315,7 +267,8 @@ class editarPedido extends Component{
                 Enviar Pedido
               </button>
               <button type="button" className="btn btn-default btn-md space"
-                disabled={pristine || submitting} onClick={resetForm}>
+                disabled={pristine || submitting}
+                onClick={resetForm}>
                 Limpar
               </button>
               <Link to="/" className="btn btn-danger btn-md space" role="button">

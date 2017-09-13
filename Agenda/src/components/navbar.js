@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { signoutUser } from '../actions';
 import { Link } from 'react-router';
@@ -7,7 +8,7 @@ import { ROOT_URL } from '../actions/types';
 
 class Navbar extends RoleAwareComponent {
   static contextTypes = {
-    router: React.PropTypes.object
+    router: PropTypes.object
   }
 
   logout(){
