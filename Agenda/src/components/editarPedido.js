@@ -189,7 +189,6 @@ class editarPedido extends Component{
             </fieldset>
           );
         }else{
-          const novo_field = field.slice(0, field.indexOf("_"));
           return(
             <fieldset id="maskTelForm" className={(fieldHelper.touched && fieldHelper.invalid)
               ? "form-group has-error has-feedback" : "form-group"}
@@ -219,7 +218,6 @@ class editarPedido extends Component{
             </fieldset>
           );
       }else{
-        const novo_field = field.slice(0, field.indexOf("_"));
         return(
           <fieldset className={(fieldHelper.touched && fieldHelper.invalid)
             ? "form-group has-error has-feedback" : "form-group"}

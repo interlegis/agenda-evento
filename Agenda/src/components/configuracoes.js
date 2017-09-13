@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import { getUsuario, updateUsuario, signinUser } from '../actions';
-import { FIELD_USUARIO_CADASTRO, FIELD_USUARIO_UPDATE } from './forms/fields_types';
+import { FIELD_USUARIO_CADASTRO } from './forms/fields_types';
 
 class Configuracoes extends Component{
   constructor(props) {
