@@ -112,7 +112,7 @@ class Admin_Area extends AuthorizedComponent {
            confirmButtonColor: "#001B5B",
          }, () => {
            // Redirect the user
-           window.location.href = `/#/admin/${id}`;
+           window.location.reload();
          });
         })
         .catch((err) => {
