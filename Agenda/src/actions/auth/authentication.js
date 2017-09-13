@@ -4,7 +4,6 @@ import { AUTH_USUARIO, UNAUTH_USUARIO, USUARIO, ROOT_URL, UPDATE_USUARIO,
 from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
-import swal from 'sweetalert';
 
 const config = {
   headers: {

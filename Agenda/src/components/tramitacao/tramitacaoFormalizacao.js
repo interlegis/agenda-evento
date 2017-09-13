@@ -4,7 +4,6 @@ import { getUsuario, checkDatasEvento } from '../../actions';
 import { RoleAwareComponent } from 'react-router-role-authorization';
 import TabelaPedidosConcorrentes from './tabelaPedidosConcorrentes'
 import Cookies from 'js-cookie';
-import swal from 'sweetalert';
 
 class TramitacaoFormalizacao extends RoleAwareComponent {
   constructor(props) {

@@ -5,7 +5,6 @@ import { CRIA_PEDIDO, GET_PEDIDOS_USER,
         GET_TODOS_PEDIDOS, GET_LOG_PEDIDO } from '../types';
 import { ErrorMessage } from '../error/error';
 import Cookies from 'js-cookie';
-import swal from 'sweetalert';
 
 function addZero(i) {
     if (i < 10) {
