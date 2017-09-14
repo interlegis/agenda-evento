@@ -308,7 +308,7 @@ export function formalizarPedido({ id, data }) {
          confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.reload();
+         window.location.reload(true);
        });
       })
       .catch((err) => {
@@ -344,7 +344,7 @@ export function reservarPedido(id) {
          confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.reload();
+         window.location.reload(true);
        });
       })
       .catch((err) => {
@@ -390,7 +390,7 @@ export function cancelarPedido(id, causa_cancelamento){
          confirmButtonColor: "#001B5B",
        }, () => {
          // Redirect the user
-         window.location.reload();
+         window.location.reload(true);
        });
       })
       .catch((err) => {
