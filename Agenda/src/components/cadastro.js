@@ -72,7 +72,6 @@ class Cadastro extends Component{
 
   renderField(fieldConfig, field){
     const fieldHelper = this.props.fields[field];
-    console.log(fieldHelper);
 
     if (fieldConfig.type == 'password') {
       return(
