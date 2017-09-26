@@ -3,10 +3,11 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
+from django.utils.timezone import now
 from agenda import settings
 
 class CronLog(models.Model):
-    date = models.DateTimeField(default=timezone.localtime(timezone.now()),
+    date = models.DateTimeField(default=timezone.localtime(now()),
                                 blank=True)
 
     class Meta:
@@ -73,7 +74,7 @@ class Reserva(models.Model):
     )
     data_criacao = models.DateTimeField(
         blank=False,
-        default=timezone.localtime(timezone.now()),
+        default=timezone.localtime(now()),
         null=False
     )
     evento = models.ForeignKey(Evento, verbose_name=u'Evento',
@@ -108,7 +109,7 @@ class Reserva(models.Model):
 class Arquivo(models.Model):
     nome = models.CharField(blank=True, max_length=100)
     uploaded_at = models.DateTimeField(blank=True,
-                                       default=timezone.localtime(timezone.now()))
+                                       default=timezone.localtime(now()))
     pdf = models.FileField(blank=False, upload_to='pdf', max_length=None)
 
     class Meta:
@@ -124,7 +125,7 @@ class EventoTramitacaoLog(models.Model):
     arquivo = models.ForeignKey(Arquivo, verbose_name=u'Arquivo', null=True,
                                 on_delete=models.CASCADE)
     log = models.CharField(blank=True, max_length=100)
-    data_modificacao = models.DateTimeField(default=timezone.localtime(timezone.now()),
+    data_modificacao = models.DateTimeField(default=timezone.localtime(now()),
                                             blank=True)
 
     class Meta:

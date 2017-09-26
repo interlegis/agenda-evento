@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for agenda project.
 
@@ -124,6 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
+LANGUAGES = (
+    ('pt-br', 'Português'),
+)
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -137,6 +141,12 @@ DATE_FORMAT = 'd/m/Y'
 SHORT_DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'd/m/Y H:i:s'
 TIME_FORMAT = '%H:%M'
+SHORT_DATETIME_FORMAT = 'd/m/Y H:i'
+DATE_INPUT_FORMATS = ('%d/%m/%Y', '%m-%d-%Y', '%Y-%m-%d')
+
+LOCALE_PATHS = (
+    'locale',
+)
 
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
