@@ -210,7 +210,8 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
             reserva = Reserva.objects.get(pk=pk)
             if not reserva.evento.publicado_agenda and (reserva.evento.data_inicio \
             - datetime.datetime.now().date()).days > 3 :
-                serializer = EventoSerializer(reserva.evento, data=request.data)
+                serializer = EventoSerializer(reserva.evento,
+                                              data=request.data['evento'])
                 if serializer.is_valid():
                     serializer.save()
                     return Response(serializer.data, status=status.HTTP_200_OK)

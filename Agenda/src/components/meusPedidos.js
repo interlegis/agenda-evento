@@ -172,7 +172,7 @@ class MeusPedidos extends RoleAwareComponent {
         const dia = d.getUTCDate();
         const mes = d.getUTCMonth() + 1;
         const ano = d.getFullYear();
-        const data = dia + '/' + mes + '/' + ano;
+        const data = mes + '/' + dia + '/' + ano;
         const scale = d.getTimezoneOffset() / 60;
         const hora = this.addZero(d.getUTCHours() - scale);
         const minutos = this.addZero(d.getUTCMinutes()) ;
@@ -197,7 +197,7 @@ class MeusPedidos extends RoleAwareComponent {
              columns={tableColumns}
              initialData={data}
              initialPageLength={5}
-             initialSortBy={{ prop: 'data', order: 'descending' }}
+             initialSortBy={{ prop: 'nome', order: 'ascending' }}
              pageLengthOptions={[ 5, 10, 15 ]}
              />
          </div>

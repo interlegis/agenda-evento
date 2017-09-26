@@ -215,7 +215,7 @@ class editarPedido extends Component{
           className="div-pedido">
           {_.map(FIELD_PEDIDO, this.renderField.bind(this))}
           {this.renderAlert()}
-          <div className="btn-pedido" role="group" aling>
+          <div className="btn-pedido" role="group">
               <button
                 type="submit"
                 disabled={submitting}
@@ -256,7 +256,7 @@ function validate(values) {
   const errors = {};
   var re_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   var re_tel = /^\([0-9]{3}\)[0-9]{4,5}-[0-9]{4}$/;
-  var re_time = /^([01]?[0-9]|2[0-3]):[0-5][0-9]?:?[0]?[0]$/;
+  var re_time = /^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/;
 
   _.each(FIELD_PEDIDO, (fieldConfig, field) => {
     if (!values[field] && fieldConfig.type != 'select' &&
