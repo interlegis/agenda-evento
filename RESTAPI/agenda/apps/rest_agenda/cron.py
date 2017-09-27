@@ -12,16 +12,16 @@ def my_scheduled_job():
         reservas = Reserva.objects.select_related().filter(status=u'R',
                                                            recebido=True,
                                                            evento__publicado_agenda=False)
-
         for i in range(len(reservas)):
             reservas[i].evento.publicado_agenda = True
             reservas[i].evento.save()
             reservas[i].save()
-            enviar_email_tramitacao(reserva,"Publicado na Agenda")
+            enviar_email_tramitacao(reservas[i],"Publicado na Agenda")
 
         CronLog.objects.create()
         enviar_notificacao_agenda()
-        print('Enviado email!')
-        return Response(status=status.HTTP_200_OK)
+        return Response({"message": "Enviado email!"},
+                        status=status.HTTP_200_OK)
     except:
-        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({"message": "Email não enviado!"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)

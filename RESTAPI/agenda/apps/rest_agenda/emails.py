@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 
 def enviar_email_tramitacao(reserva,status):
+    import ipdb; ipdb.set_trace()
     msg_plain = render_to_string('rest_agenda/email_tramitacao.txt',
                                 {'nr_referencia': reserva.nr_referencia,
                                  'status': status})
@@ -69,7 +70,7 @@ def enviar_email_formalizacao(reserva, status):
     msg_html = render_to_string('rest_agenda/enviar_email_formalizacao.html',
                                 {'nr_referencia': reserva.nr_referencia,
                                  'status': status})
-                                 
+
     send_mail(
     u'Tramitação do Pedido -' + reserva.nr_referencia,
     msg_plain,
