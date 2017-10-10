@@ -48,7 +48,7 @@
     "react": "^15.6.1",
     "react-addons-update": "^15.6.0",
     "react-async-script": "^0.9.1",
-    "react-big-calendar": "^0.15.0",
+    "react-big-calendar": "^0.16.1",
     "react-bootstrap": "^0.31.3",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-data-components": "^1.1.1",
