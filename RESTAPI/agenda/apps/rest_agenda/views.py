@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from django.contrib.auth.models import User
 from rest_framework import status, generics, viewsets
 from rest_framework.views import APIView
@@ -94,6 +95,16 @@ class ReservaDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
+            tramitlogs = EventoTramitacaoLog.objects.filter(reserva=reserva)
+
+            if len(tramitlogs) > 0 :
+                path = tramitlogs.first().arquivo.pdf.path
+
+                for log in tramitlogs:
+                    log.delete()
+
+                os.unlink(path)
+
             reserva.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
