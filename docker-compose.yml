@@ -1,5 +1,5 @@
 agendadb:
-  image: postgres
+  image: postgres:9.6.5
   environment:
     POSTGRES_PASSWORD: agenda
     POSTGRES_USER: agenda
