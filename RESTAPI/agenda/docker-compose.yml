@@ -24,3 +24,7 @@ agenda:
     - agendadb
   ports:
     - "8000:8000"
+agenda_frontend:
+  image: swallville/agenda-evento
+  ports:
+    - "80:80"

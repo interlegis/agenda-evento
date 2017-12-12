@@ -3,6 +3,8 @@ from django.db.models.signals import pre_save, post_save, post_init
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from decouple import config
+from agenda.settings import ADMIN_PASSWORD, SECRETARY_PASSWORD
 
 @receiver(pre_save, sender=User)
 def set_new_user_inactive(sender, instance=None, **kwargs):
@@ -28,18 +30,20 @@ def populate_models(sender, instance=None, **kwargs):
             print("Grupo %s criado com sucesso." % group)
 
     usuarios = ['admin','operador_primeira_secretaria']
+    import ipdb; ipdb.set_trace()
     for usuario in usuarios:
         if not User.objects.filter(username=usuario).exists():
             if usuario == 'admin':
                 novo_usuario = User.objects.create_superuser(username=usuario,
-                                                             password='interlegis',
+                                                             password=ADMIN_PASSWORD,
                                                              email='',
                                                              first_name='Administrador')
                 novo_usuario.groups.add(Group.objects.get(name=groups[0]))
             else:
                 novo_usuario = User.objects.create(username=usuario,
+                                                   password=SECRETARY_PASSWORD,
                                                    first_name='Primeira Secretaria')
-                novo_usuario.set_password('interlegis')
+                #novo_usuario.set_password('interlegis')
                 if usuario == 'operador_primeira_secretaria':
                     novo_usuario.groups.add(Group.objects.get(name=groups[1]))
 

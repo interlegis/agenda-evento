@@ -24,6 +24,8 @@ create_env() {
     # explicitly use '>' to erase any previous content
     echo "SECRET_KEY="$KEY > $FILENAME
     # now only appends
+    echo "ADMIN_PASSWORD = ""${ADMIN_PASSWORD-'12345'}" >> $FILENAME
+    echo "SECRETARY_PASSWORD = ""${SECRETARY_PASSWORD-'12345'}" >> $FILENAME
     echo "DATABASE_URL = ""$DATABASE_URL" >> $FILENAME
     echo "DEBUG = ""${DEBUG-False}" >> $FILENAME
     echo "EMAIL_USE_TLS = ""${USE_TLS-True}" >> $FILENAME
@@ -44,13 +46,13 @@ create_env
 
 /bin/sh busy-wait.sh $DATABASE_URL
 
-htpasswd -cb /var/interlegis/agenda/.htpasswd admin interlegis
+htpasswd -cb /var/interlegis/agenda/.htpasswd admin $ADMIN_PASSWORD
 
 pwd
 python manage.py migrate --noinput
-echo "Adding Cronjobs..."
-python manage.py crontab add
-echo "Cronjobs added."
+#echo "Adding Cronjobs..."
+#python manage.py crontab add
+#echo "Cronjobs added."
 
 /bin/sh gunicorn_start.sh no-venv &
 /usr/sbin/nginx -g "daemon off;"
