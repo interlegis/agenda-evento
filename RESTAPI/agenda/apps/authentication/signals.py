@@ -30,7 +30,6 @@ def populate_models(sender, instance=None, **kwargs):
             print("Grupo %s criado com sucesso." % group)
 
     usuarios = ['admin','operador_primeira_secretaria']
-    import ipdb; ipdb.set_trace()
     for usuario in usuarios:
         if not User.objects.filter(username=usuario).exists():
             if usuario == 'admin':
@@ -40,10 +39,9 @@ def populate_models(sender, instance=None, **kwargs):
                                                              first_name='Administrador')
                 novo_usuario.groups.add(Group.objects.get(name=groups[0]))
             else:
-                novo_usuario = User.objects.create(username=usuario,
-                                                   password=SECRETARY_PASSWORD,
+                novo_usuario = User.objects.create(username=usuario,                                                   
                                                    first_name='Primeira Secretaria')
-                #novo_usuario.set_password('interlegis')
+                novo_usuario.set_password(SECRETARY_PASSWORD)
                 if usuario == 'operador_primeira_secretaria':
                     novo_usuario.groups.add(Group.objects.get(name=groups[1]))
 
