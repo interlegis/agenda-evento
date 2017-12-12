@@ -33,11 +33,11 @@ RUN pip install -r /var/interlegis/agenda/requirements/dev-requirements.txt --up
 RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     echo "America/Sao_Paulo" > /etc/timezone
 
-RUN python manage.py collectstatic --noinput
-
 RUN chmod +x /var/interlegis/agenda/start.sh && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
+
+RUN python manage.py collectstatic --noinput
 
 VOLUME ["/var/interlegis/agenda/data", "/var/interlegis/agenda/media/pdf"]
 

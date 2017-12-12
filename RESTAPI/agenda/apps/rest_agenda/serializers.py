@@ -154,7 +154,7 @@ class ArquivoSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         type_file = magic.from_buffer(attrs['pdf'].read(), mime=True)
-        print type_file
+
         if type_file != 'application/pdf':
             raise serializers.ValidationError('O campo deve ser no formato pdf')
         return attrs
