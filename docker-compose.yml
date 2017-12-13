@@ -10,7 +10,7 @@ agendadb:
   ports:
     - "5532:5432"
 agenda_backend:
-  build: ./RESTAPI/agenda/
+  image: swallville/agenda-evento-back_end
   volumes:
     - ./agenda_data:/var/interlegis/agenda/data
     - ./agenda_media/pdf:/var/interlegis/agenda/media/pdf
@@ -19,6 +19,6 @@ agenda_backend:
   ports:
     - "8000:8000"
 agenda_frontend:
-  build: ./Agenda/
+  image: swallville/agenda-evento
   ports:
     - "80:80"

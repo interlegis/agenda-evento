@@ -1,4 +1,4 @@
 agenda_frontend:
-  build: .
+  image: swallville/agenda-evento
   ports:
     - "80:80"
