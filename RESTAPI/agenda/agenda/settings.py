@@ -25,6 +25,10 @@ PROJECT_DIR = Path(__file__).ancestor(2)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='')
 
+ADMIN_PASSWORD = config('ADMIN_PASSWORD', default='')
+
+SECRETARY_PASSWORD = config('SECRETARY_PASSWORD', default='')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 

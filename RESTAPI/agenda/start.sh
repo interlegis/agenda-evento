@@ -19,21 +19,23 @@ create_env() {
     # ALWAYS replace the content of .env variable
     # If want to conditionally create only if absent then use IF below
     #    if [ ! -f $FILENAME ]; then
-
+    
     touch $FILENAME
     # explicitly use '>' to erase any previous content
     echo "SECRET_KEY="$KEY > $FILENAME
     # now only appends
+    echo "ADMIN_PASSWORD = ""${ADMIN_PASSWORD?}" >> $FILENAME
+    echo "SECRETARY_PASSWORD = ""${SECRETARY_PASSWORD?}" >> $FILENAME
     echo "DATABASE_URL = ""$DATABASE_URL" >> $FILENAME
     echo "DEBUG = ""${DEBUG-False}" >> $FILENAME
     echo "EMAIL_USE_TLS = ""${USE_TLS-True}" >> $FILENAME
     echo "EMAIL_PORT = ""${EMAIL_PORT-587}" >> $FILENAME
-    echo "EMAIL_HOST = ""${EMAIL_HOST-'smtp.interlegis.leg.br'}" >> $FILENAME
-    echo "EMAIL_HOST_USER = ""${EMAIL_HOST_USER-'sapl-test@interlegis.leg.br'}" >> $FILENAME
-    echo "EMAIL_HOST_PASSWORD = ""${EMAIL_HOST_PASSWORD-'cV6mkAFQjT'}" >> $FILENAME
-    echo "EMAIL_SEND_USER = ""${EMAIL_SEND_USER-'sapl-test@interlegis.leg.br'}" >> $FILENAME
-    echo "DEFAULT_FROM_EMAIL = ""${DEFAULT_FROM_EMAIL-'sapl-test@interlegis.leg.br'}" >> $FILENAME
-    echo "SERVER_EMAIL = ""${SERVER_EMAIL-'sapl-test@interlegis.leg.br'}" >> $FILENAME
+    echo "EMAIL_HOST = ""${EMAIL_HOST-'smtp.dominio.net'}" >> $FILENAME
+    echo "EMAIL_HOST_USER = ""${EMAIL_HOST_USER-'usuariosmtp'}" >> $FILENAME
+    echo "EMAIL_HOST_PASSWORD = ""${EMAIL_HOST_PASSWORD-'senhasmtp'}" >> $FILENAME
+    echo "EMAIL_SEND_USER = ""${EMAIL_SEND_USER-'admin@dominio.net'}" >> $FILENAME
+    echo "DEFAULT_FROM_EMAIL = ""${DEFAULT_FROM_EMAIL-'admin@dominio.net'}" >> $FILENAME
+    echo "SERVER_EMAIL = ""${SERVER_EMAIL-'admin@dominio.net'}" >> $FILENAME
 
     echo "[ENV FILE] done."
 }
@@ -44,13 +46,13 @@ create_env
 
 /bin/sh busy-wait.sh $DATABASE_URL
 
-htpasswd -cb /var/interlegis/agenda/.htpasswd admin interlegis
+htpasswd -cb /var/interlegis/agenda/.htpasswd admin $ADMIN_PASSWORD
 
 pwd
 python manage.py migrate --noinput
-echo "Adding Cronjobs..."
-python manage.py crontab add
-echo "Cronjobs added."
+#echo "Adding Cronjobs..."
+#python manage.py crontab add
+#echo "Cronjobs added."
 
 /bin/sh gunicorn_start.sh no-venv &
 /usr/sbin/nginx -g "daemon off;"
