@@ -39,7 +39,7 @@ def populate_models(sender, instance=None, **kwargs):
                                                              first_name='Administrador')
                 novo_usuario.groups.add(Group.objects.get(name=groups[0]))
             else:
-                novo_usuario = User.objects.create(username=usuario,                                                   
+                novo_usuario = User.objects.create(username=usuario,
                                                    first_name='Primeira Secretaria')
                 novo_usuario.set_password(SECRETARY_PASSWORD)
                 if usuario == 'operador_primeira_secretaria':
