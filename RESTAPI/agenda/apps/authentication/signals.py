@@ -34,9 +34,9 @@ def populate_models(sender, instance=None, **kwargs):
         if not User.objects.filter(username=usuario).exists():
             if usuario == 'admin':
                 novo_usuario = User.objects.create_superuser(username=usuario,
-                                                             password=ADMIN_PASSWORD,
                                                              email='',
                                                              first_name='Administrador')
+                novo_usuario.set_password(ADMIN_PASSWORD)
                 novo_usuario.groups.add(Group.objects.get(name=groups[0]))
             else:
                 novo_usuario = User.objects.create(username=usuario,
