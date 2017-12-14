@@ -63,7 +63,6 @@ class Admin_Area extends AuthorizedComponent {
   }
 
   cancelarPedidoTramitacao(){
-    const id = this.props.params.id;
     swal({
       title: "Cancelar Pedido",
       text: "Insira o motivo do cancelamento:",
@@ -183,12 +182,7 @@ class Admin_Area extends AuthorizedComponent {
       const hora_inicio = this.props.evento.hora_inicio;
       const data_fim = this.DataFormat(this.props.evento.data_fim);
       const hora_fim = this.props.evento.hora_fim;
-      var recebido;
-      if (this.props.reserva.recebido) {
-        recebido = 'Oficializado';
-      }else{
-        recebido = 'Não oficializado';
-      }
+
       var local;
       if (this.props.evento.local == 'SR') {
         local = 'Sala de Reuniões'
@@ -402,21 +396,6 @@ class Admin_Area extends AuthorizedComponent {
       <h2 className="title">Carregando...</h2>
     );
   }
-}
-
-function addZero(i) {
-    if (i < 10) {
-        i = "0" + i;
-    }
-    return i;
-}
-
-function DataFormat(data_string) {
-  const d = new Date(data_string);
-  const dia = addZero(d.getUTCDate());
-  const mes = addZero(d.getUTCMonth() + 1);
-  const ano = addZero(d.getFullYear());
-  return (ano + '-' + mes + '-' + dia);
 }
 
 function mapStateToProps(state){

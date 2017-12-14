@@ -278,21 +278,6 @@ function validate(values) {
   return errors;
 }
 
-function addZero(i) {
-    if (i < 10) {
-        i = "0" + i;
-    }
-    return i;
-}
-
-function DataFormat(data_string) {
-  const d = new Date(data_string);
-  const dia = addZero(d.getUTCDate());
-  const mes = addZero(d.getUTCMonth() + 1);
-  const ano = addZero(d.getFullYear());
-  return (ano + '-' + mes + '-' + dia);
-}
-
 function mapStateToProps(state) {
   var new_pedido = {};
   if (state.pedido_detail.evento_id) {

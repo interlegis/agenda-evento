@@ -288,13 +288,6 @@ function validate(values) {
   return errors;
 }
 
-function addZero(i) {
-    if (i < 10) {
-        i = "0" + i;
-    }
-    return i;
-}
-
 function mapStateToProps(state) {
   return {
     errorMessage: state.authentication.error
