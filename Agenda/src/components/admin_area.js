@@ -151,9 +151,9 @@ class Admin_Area extends AuthorizedComponent {
 
   DataFormat(data_string) {
     const d = new Date(data_string);
-    const dia = d.getUTCDate();
-    const mes = d.getUTCMonth() + 1;
-    const ano = d.getFullYear();
+    const dia = addZero(d.getUTCDate());
+    const mes = addZero(d.getUTCMonth() + 1);
+    const ano = addZero(d.getFullYear());
     return (dia + '/' + mes + '/' + ano);
   }
 
