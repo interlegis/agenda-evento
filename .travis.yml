@@ -11,6 +11,7 @@ before_install:
  - sudo mv docker-compose /usr/local/bin
 
 before_script:
+  - chmod +x ./test.sh
   - docker-compose up --build -d
 
 script:
