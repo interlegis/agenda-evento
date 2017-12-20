@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .models import CronLog, Reserva
 from .emails import enviar_email_tramitacao, enviar_notificacao_agenda
+from agenda.settings import BASE_URL
 
 def my_scheduled_job():
     """
@@ -16,10 +17,10 @@ def my_scheduled_job():
             reservas[i].evento.publicado_agenda = True
             reservas[i].evento.save()
             reservas[i].save()
-            enviar_email_tramitacao(reservas[i],"Publicado na Agenda")
+            enviar_email_tramitacao(reservas[i],"Publicado na Agenda",BASE_URL)
 
         CronLog.objects.create()
-        enviar_notificacao_agenda()
+        enviar_notificacao_agenda(BASE_URL)
         return Response({"message": "Enviado email!"},
                         status=status.HTTP_200_OK)
     except:
