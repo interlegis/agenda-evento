@@ -1,4 +1,4 @@
 agenda_frontend:
-  image: swallville/agenda-evento
+  image: interlegis/agenda-evento-frontend
   ports:
     - "80:80"
