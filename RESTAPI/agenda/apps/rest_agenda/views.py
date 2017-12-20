@@ -13,6 +13,7 @@ from .utils import check_datas, checkEventoDatas
 import datetime
 from url_filter.integrations.drf import DjangoFilterBackend
 from .emails import enviar_email_tramitacao, enviar_notificacao_video_conferencia,enviar_email_formalizacao
+from agenda.settings import BASE_URL
 
 class ReservaViewSet(generics.ListCreateAPIView):
     queryset = Reserva.objects.all()
@@ -54,7 +55,8 @@ class ReservaViewSet(generics.ListCreateAPIView):
                                                                                data_inicio=request.data['evento']['data_inicio'],
                                                                                data_fim=request.data['evento']['data_fim'],
                                                                                hora_inicio=request.data['evento']['hora_inicio'],
-                                                                               hora_fim=request.data['evento']['hora_fim'])).status
+                                                                               hora_fim=request.data['evento']['hora_fim'])).status,
+                                                 BASE_URL
                                                  )
                     return Response({'Reserva-Evento': serializer.data,
                                     'avisos': aviso},
@@ -179,13 +181,13 @@ class ReservaEdit(APIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             if reserva.evento.video_conferencia is True and comando == u'reservado':
-                enviar_notificacao_video_conferencia(reserva,request.user)
+                enviar_notificacao_video_conferencia(reserva,request.user,BASE_URL)
             if comando == 'cancelado':
                 evento = reserva.evento
                 evento.cancelado = True
                 evento.causa_cancelamento = data['causa_cancelamento']
                 evento.save()
-            enviar_email_tramitacao(reserva,reserva.return_status)
+            enviar_email_tramitacao(reserva,reserva.return_status,BASE_URL)
             return Response(serializer.data,status=status.HTTP_200_OK)
         except:
             return Response({"message": "Registro inexistente"},
@@ -208,7 +210,7 @@ class EventoDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, pk):
         try:
             reserva = Reserva.objects.get(pk=pk)
-            enviar_email_tramitacao(reserva,reserva.return_status)
+            enviar_email_tramitacao(reserva,reserva.return_status,BASE_URL)
             evento = reserva.evento
             reserva.delete()
             evento.delete()

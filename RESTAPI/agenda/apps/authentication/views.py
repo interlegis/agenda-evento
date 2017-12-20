@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .emails import enviar_email_redefinr_senha, enviar_email_autenticar_cadastro
+from agenda.settings import BASE_URL
 
 class UsuarioListCreate(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticatedListCreateUser,)
@@ -15,7 +16,8 @@ class UsuarioListCreate(generics.ListCreateAPIView):
     serializer_class = UsuarioSerializer
 
     def create(self, request):
-        url_agenda = request.data['ROOT_URL_AGENDA']
+        #url_agenda = request.data['ROOT_URL_AGENDA']
+        url_agenda = BASE_URL
         del request.data['ROOT_URL_AGENDA']
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
@@ -124,7 +126,7 @@ class UsuarioRecuperarSenha(generics.CreateAPIView):
             token = urlsafe_base64_encode(force_bytes(
                                           User.objects.get(email=request.data['email']).id))
             enviar_email_redefinr_senha(user,
-                                        request.data['ROOT_URL_AGENDA']+'recuperarsenha/'+token)
+                                        BASE_URL+'recuperarsenha/'+token)
             return Response("Verifique seu email!",status=status.HTTP_200_OK)
         else:
             return Response("Usuário não encontrado.", status=status.HTTP_404_NOT_FOUND)

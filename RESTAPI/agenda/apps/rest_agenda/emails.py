@@ -3,13 +3,15 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 
-def enviar_email_tramitacao(reserva,status):
+def enviar_email_tramitacao(reserva,status,base_url):
     msg_plain = render_to_string('rest_agenda/email_tramitacao.txt',
                                 {'nr_referencia': reserva.nr_referencia,
-                                 'status': status})
+                                 'status': status,
+                                 'link': base_url})
     msg_html = render_to_string('rest_agenda/email_tramitacao.html',
                                 {'nr_referencia': reserva.nr_referencia,
-                                 'status': status})
+                                 'status': status,
+                                 'link': base_url})
 
     send_mail(
     u'Tramitação do Pedido -' + reserva.nr_referencia,
@@ -20,10 +22,15 @@ def enviar_email_tramitacao(reserva,status):
     html_message=msg_html
     )
 
-def enviar_notificacao_agenda():
-    msg_plain = render_to_string('rest_agenda/email_notificacao_agenda.txt')
-    msg_html = render_to_string('rest_agenda/email_notificacao_agenda.html')
-
+def enviar_notificacao_agenda(base_url):
+    msg_plain = render_to_string('rest_agenda/email_notificacao_agenda.txt',
+                                {
+                                'link': base_url
+                                })
+    msg_html = render_to_string('rest_agenda/email_notificacao_agenda.html',
+                                {
+                                'link': base_url
+                                })
     send_mail(
     u'Notificação - Agenda Atualizada',
     msg_plain,
@@ -33,7 +40,7 @@ def enviar_notificacao_agenda():
     html_message=msg_html
     )
 
-def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria):
+def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria,base_url):
     msg_plain = render_to_string('rest_agenda/enviar_notificacao_video_conferencia.txt',
                                  {'nr_referencia': reserva.nr_referencia,
                                   'status': reserva.return_status(),
@@ -41,7 +48,8 @@ def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria):
                                   'hora_inicio': reserva.evento.hora_inicio,
                                   'data_fim': reserva.evento.data_fim,
                                   'hora_fim': reserva.evento.hora_fim,
-                                  'local_evento': reserva.evento.return_local()
+                                  'local_evento': reserva.evento.return_local(),
+                                  'link': base_url
                                   })
     msg_html = render_to_string('rest_agenda/enviar_notificacao_video_conferencia.html',
                                 {'nr_referencia': reserva.nr_referencia,
@@ -50,7 +58,8 @@ def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria):
                                  'hora_inicio': reserva.evento.hora_inicio,
                                  'data_fim': reserva.evento.data_fim,
                                  'hora_fim': reserva.evento.hora_fim,
-                                 'local_evento': reserva.evento.return_local()
+                                 'local_evento': reserva.evento.return_local(),
+                                 'link': base_url
                                  })
 
     send_mail(
@@ -62,13 +71,15 @@ def enviar_notificacao_video_conferencia(reserva,usuario_primeira_secretaria):
     html_message=msg_html
     )
 
-def enviar_email_formalizacao(reserva, status):
+def enviar_email_formalizacao(reserva, status,base_url):
     msg_plain = render_to_string('rest_agenda/enviar_email_formalizacao.txt',
                                 {'nr_referencia': reserva.nr_referencia,
-                                 'status': status})
+                                 'status': status,
+                                 'link': base_url})
     msg_html = render_to_string('rest_agenda/enviar_email_formalizacao.html',
                                 {'nr_referencia': reserva.nr_referencia,
-                                 'status': status})
+                                 'status': status,
+                                 'link': base_url})
 
     send_mail(
     u'Tramitação do Pedido -' + reserva.nr_referencia,

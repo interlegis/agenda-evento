@@ -29,6 +29,8 @@ ADMIN_PASSWORD = config('ADMIN_PASSWORD', default='')
 
 SECRETARY_PASSWORD = config('SECRETARY_PASSWORD', default='')
 
+BASE_URL = config('BASE_URL', default='')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 

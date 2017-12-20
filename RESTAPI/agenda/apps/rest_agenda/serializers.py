@@ -7,6 +7,7 @@ import datetime
 import magic
 from .utils import dias_uteis, checkEventoDatas
 from .emails import enviar_notificacao_video_conferencia
+from agenda.settings import BASE_URL
 
 class ResponsavelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -142,7 +143,7 @@ class ReservaEventoSerializer(serializers.ModelSerializer):
                                          status=status,
                                          validade_pre_reserva=validade)
         if evento_data['video_conferencia'] is True and status == u'R':
-            enviar_notificacao_video_conferencia(reserva,request.user)
+            enviar_notificacao_video_conferencia(reserva,request.user, BASE_URL)
 
         return evento
 
