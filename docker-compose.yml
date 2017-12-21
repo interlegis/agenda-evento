@@ -18,6 +18,7 @@ agenda_backend:
     ADMIN_PASSWORD: 'interlegis'
     SECRETARY_PASSWORD: 'interlegis'
     DEBUG: 'False'
+    BASE_URL: 'http://127.0.0.1:80/#/'
     USE_TLS: 'True'
     EMAIL_PORT: '587'
     EMAIL_HOST: 'smtp.interlegis.leg.br'
