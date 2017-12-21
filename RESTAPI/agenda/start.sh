@@ -19,7 +19,7 @@ create_env() {
     # ALWAYS replace the content of .env variable
     # If want to conditionally create only if absent then use IF below
     #    if [ ! -f $FILENAME ]; then
-    
+
     touch $FILENAME
     # explicitly use '>' to erase any previous content
     echo "SECRET_KEY="$KEY > $FILENAME
@@ -28,6 +28,7 @@ create_env() {
     echo "SECRETARY_PASSWORD = ""${SECRETARY_PASSWORD?}" >> $FILENAME
     echo "DATABASE_URL = ""$DATABASE_URL" >> $FILENAME
     echo "DEBUG = ""${DEBUG-False}" >> $FILENAME
+    echo "BASE_URL = ""${BASE_URL?}" >> $FILENAME
     echo "EMAIL_USE_TLS = ""${USE_TLS-True}" >> $FILENAME
     echo "EMAIL_PORT = ""${EMAIL_PORT-587}" >> $FILENAME
     echo "EMAIL_HOST = ""${EMAIL_HOST-'smtp.dominio.net'}" >> $FILENAME

@@ -25,9 +25,9 @@ PROJECT_DIR = Path(__file__).ancestor(2)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='')
 
-ADMIN_PASSWORD = config('ADMIN_PASSWORD', default='')
+ADMIN_PASSWORD = config('ADMIN_PASSWORD', default='interlegis')
 
-SECRETARY_PASSWORD = config('SECRETARY_PASSWORD', default='')
+SECRETARY_PASSWORD = config('SECRETARY_PASSWORD', default='interlegis')
 
 BASE_URL = config('BASE_URL', default='')
 
