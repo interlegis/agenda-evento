@@ -6,14 +6,14 @@ agendadb:
     POSTGRES_DB: agenda
     PGDATA : /var/lib/postgresql/data/
   volumes:
-    - ./agendadb_data:/var/lib/postgresql/data/
+    - agendadb_data:/var/lib/postgresql/data/
   ports:
     - "5532:5432"
-agenda_backend:
+agendabackend:
   image: interlegis/agenda-evento-back_end
   volumes:
-    - ./agenda_data:/var/interlegis/agenda/data
-    - ./agenda_media/pdf:/var/interlegis/agenda/media/pdf
+    - agenda_data:/var/interlegis/agenda/data
+    - agenda_media:/var/interlegis/agenda/media/pdf
   environment:
     ADMIN_PASSWORD: 'interlegis'
     SECRETARY_PASSWORD: 'interlegis'
@@ -36,7 +36,7 @@ agenda_backend:
     - agendadb
   ports:
     - "8000:8000"
-agenda_frontend:
+agendafrontend:
   image: interlegis/agenda-evento-frontend
   ports:
     - "80:80"
